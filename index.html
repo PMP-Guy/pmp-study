@@ -466,12 +466,45 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   .mets{grid-template-columns:repeat(2,1fr)}
   .g2,.g3,.notes-layout,.sg2{grid-template-columns:1fr}
   .mnav{display:block}
-  .panel{padding:16px 14px 76px}
+  .panel{padding:14px 12px 80px}
+  .nform{position:static;max-height:none}
+  .met-v{font-size:20px}
+  .toolbar{gap:2px;padding:5px 6px}
+  .tbtn2{width:24px;height:24px;font-size:11px}
+  #editor{min-height:100px;max-height:200px}
+  .ref-tabs{overflow-x:auto;flex-wrap:nowrap}
+  .ref-tab{white-space:nowrap;flex-shrink:0}
+  .filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .fc{white-space:nowrap;flex-shrink:0}
+  .qtext{font-size:14px}
+  .pt{font-size:18px}
+  .ntoolbar{flex-wrap:wrap}
+  .topic-name{font-size:12px}
+  .editor-hint{display:none}
+  .notes-layout{gap:10px}
+  .qcard{padding:16px}
+}
+@media(max-width:420px){
+  .mets{grid-template-columns:repeat(2,1fr)}
+  .met{padding:12px}
+  .met-v{font-size:18px}
+  .toolbar{gap:1px;padding:4px 5px}
+  .tbtn2{width:22px;height:22px;font-size:10px}
+  .hl-strip span{display:none}
+  .color-dot{width:12px;height:12px}
+  .panel{padding:10px 10px 80px}
+  .sbar{flex-wrap:wrap;gap:10px}
+  .tb-sep{display:none}
+  .mode-toggle{margin-bottom:8px}
 }
 /* PROGRESS RING for exam pct */
 .ring-svg{transform:rotate(-90deg)}
 .ring-bg{fill:none;stroke:var(--bg4);stroke-width:4}
 .ring-fill{fill:none;stroke:var(--amber);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+
+/* CLOUD SYNC ────────────────── */
+.sync-pulse{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 </style>
 </head>
 <body>
@@ -907,11 +940,55 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <div class="fld"><label class="fl">Topics studied</label><input type="text" id="sl-t" placeholder="e.g. Risk management, EVM, Sprint ceremonies"></div>
     <button class="btn btn-p btn-sm" onclick="logSet()">Log session</button>
   </div>
-  <div class="scard">
-    <div class="stit">Notes backup</div>
-    <div style="background:rgba(34,201,138,.06);border:1px solid rgba(34,201,138,.2);border-radius:var(--r);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6">
-      <span style="color:var(--green);font-weight:600">Your notes are stored independently</span> from the app version. Updating the HTML never erases them. Export below as an extra backup.
+  <div class="scard" id="sync-card">
+    <div class="stit">☁ Cloud sync — notes on every device</div>
+    <!-- STATUS BAR -->
+    <div id="sync-status-bar" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r);margin-bottom:14px;background:var(--bg4);border:1px solid var(--border);font-size:12px">
+      <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:var(--text4);flex-shrink:0;transition:background .3s"></span>
+      <span id="sync-status-text" style="color:var(--text3)">Not configured</span>
+      <span id="sync-last" style="margin-left:auto;font-family:var(--fm);font-size:10px;color:var(--text4)"></span>
     </div>
+    <!-- SETUP (shown when not configured) -->
+    <div id="sync-setup">
+      <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+        Uses <strong style="color:var(--text)">JSONbin.io</strong> — free cloud storage. Your notes sync automatically across all devices when you open the app.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+          <span style="font-size:12px;color:var(--text2)">Go to <a href="https://jsonbin.io" target="_blank" style="color:var(--blue)">jsonbin.io</a> → sign up free (use GitHub login)</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+          <span style="font-size:12px;color:var(--text2)">Dashboard → API Keys → copy your <strong style="color:var(--text)">Master Key</strong></span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
+          <span style="font-size:12px;color:var(--text2)">Paste it below and click <strong style="color:var(--text)">Connect</strong></span>
+        </div>
+      </div>
+      <div class="fld">
+        <label class="fl">JSONbin Master Key</label>
+        <input type="password" id="jb-key" placeholder="$2a$10$..." autocomplete="off" style="font-family:var(--fm);font-size:12px">
+      </div>
+      <button class="btn btn-p btn-sm" style="width:100%" onclick="cloudConnect()">Connect & create storage bin</button>
+    </div>
+    <!-- CONNECTED panel (shown when configured) -->
+    <div id="sync-connected" style="display:none">
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-sm btn-g" onclick="cloudPush()">↑ Push notes to cloud</button>
+        <button class="btn btn-sm" onclick="cloudPull()">↓ Pull notes from cloud</button>
+        <button class="btn btn-sm btn-r" onclick="cloudDisconnect()">Disconnect</button>
+      </div>
+      <p style="font-size:11px;color:var(--text3);line-height:1.6">
+        Notes auto-sync on save and on app open. You can also push/pull manually.<br>
+        Bin ID: <span id="sync-bin-id" style="font-family:var(--fm);color:var(--text4)">—</span>
+      </p>
+    </div>
+  </div>
+  <div class="scard">
+    <div class="stit">Notes backup (local)</div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:10px">Export as a local JSON file backup.</p>
     <div style="display:flex;gap:7px;flex-wrap:wrap">
       <button class="btn btn-sm btn-g" onclick="expNotes()">↓ Export notes</button>
       <button class="btn btn-sm" onclick="document.getElementById('imp-notes').click()">↑ Import notes</button>
@@ -1086,27 +1163,157 @@ const Q=[
 // ── STATE ─────────────────────────────────────────────────────────────────
 let S={examDate:null,sessions:[],notes:[],domains:{people:0,process:0,business:0},curQ:null,sR:0,sT:0,filter:'all',timer:{w:25,s:5,l:20},tState:'idle',tMode:'work',tLeft:25*60,pCount:0,todayPomCount:0,noteTag:'People',activeSession:null};
 let tInterval=null,sabInterval=null;
-// ── SPLIT STORAGE: notes use a PERMANENT key that never changes ──────────
-// When you update the HTML with new features, only pmp_settings_* changes.
-// Your notes live in pmp_notes_v1 FOREVER, independent of any version bump.
-const NOTES_KEY = 'pmp_notes_v1';   // PERMANENT — never rename this
-const SETTINGS_KEY = 'pmp_settings_v1'; // bump only when schema changes
+// ── STORAGE KEYS ─────────────────────────────────────────────────────────
+// NOTES_KEY is permanent — never renamed between versions.
+// Your notes survive any HTML update as long as you use the same browser/device.
+// For cross-device sync, use the Cloud Sync section in Settings.
+const NOTES_KEY    = 'pmp_notes_v1';    // PERMANENT — never rename
+const SETTINGS_KEY = 'pmp_settings_v1'; // app settings
+const CLOUD_KEY    = 'pmp_cloud_v1';    // {apiKey, binId, lastSync}
+
+// Cloud config (loaded separately from notes/settings)
+let cloud = {apiKey:'', binId:'', lastSync:null};
 
 function lsLoad(){
-  // Load settings (exam date, sessions, domains, timer, etc.)
   try{const d=localStorage.getItem(SETTINGS_KEY);if(d){const p=JSON.parse(d);const {notes,...rest}=p;Object.assign(S,rest);}}catch(e){}
-  // Load notes separately — independent of settings version
   try{const d=localStorage.getItem(NOTES_KEY);if(d){S.notes=JSON.parse(d);}}catch(e){}
+  try{const d=localStorage.getItem(CLOUD_KEY);if(d)cloud=JSON.parse(d);}catch(e){}
   S.tState='idle';S.activeSession=null;
 }
 function lsSave(){
-  // Save settings WITHOUT notes
   try{const c={...S};delete c.activeSession;delete c.notes;localStorage.setItem(SETTINGS_KEY,JSON.stringify(c));}catch(e){}
-  // Save notes separately
   try{localStorage.setItem(NOTES_KEY,JSON.stringify(S.notes));}catch(e){}
 }
 function lsSaveNotesOnly(){
   try{localStorage.setItem(NOTES_KEY,JSON.stringify(S.notes));}catch(e){}
+  // Auto-push to cloud on every note save (debounced)
+  if(cloud.apiKey && cloud.binId) cloudAutoPush();
+}
+function lsSaveCloud(){
+  try{localStorage.setItem(CLOUD_KEY,JSON.stringify(cloud));}catch(e){}
+}
+
+// ── CLOUD SYNC (JSONbin.io v3) ────────────────────────────────────────────
+const JB = 'https://api.jsonbin.io/v3/b';
+let cloudPushTimer = null;
+
+function cloudAutoPush(){
+  clearTimeout(cloudPushTimer);
+  cloudPushTimer = setTimeout(()=>cloudPush(true), 2000); // debounce 2s
+}
+
+function setSyncStatus(state, msg, detail=''){
+  const dot=document.getElementById('sync-dot');
+  const txt=document.getElementById('sync-status-text');
+  const last=document.getElementById('sync-last');
+  if(!dot)return;
+  const colors={ok:'var(--green)',err:'var(--red)',busy:'var(--amber)',off:'var(--text4)'};
+  dot.style.background=colors[state]||colors.off;
+  dot.className=state==='busy'?'sync-pulse':'';
+  txt.textContent=msg;
+  if(detail)last.textContent=detail;
+}
+
+async function cloudConnect(){
+  const key=document.getElementById('jb-key').value.trim();
+  if(!key){toast('Paste your Master Key first','err');return;}
+  setSyncStatus('busy','Creating your notes bin…');
+  try{
+    // Create a private bin with current notes
+    const res=await fetch(JB,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Master-Key':key,'X-Bin-Name':'pmp-notes','X-Bin-Private':'true'},
+      body:JSON.stringify({notes:S.notes,v:1})
+    });
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    cloud={apiKey:key, binId:data.metadata.id, lastSync:new Date().toISOString()};
+    lsSaveCloud();
+    renderSyncUI();
+    setSyncStatus('ok','Connected — notes saved to cloud',syncTimeLabel());
+    toast('Cloud sync connected ✓','ok');
+  }catch(e){
+    setSyncStatus('err','Connection failed — check your API key');
+    toast('Connection failed: '+e.message,'err');
+  }
+}
+
+async function cloudPush(silent=false){
+  if(!cloud.apiKey||!cloud.binId)return;
+  if(!silent)setSyncStatus('busy','Pushing notes to cloud…');
+  try{
+    const res=await fetch(JB+'/'+cloud.binId,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':cloud.apiKey},
+      body:JSON.stringify({notes:S.notes,v:1,pushed:new Date().toISOString()})
+    });
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    cloud.lastSync=new Date().toISOString();
+    lsSaveCloud();
+    setSyncStatus('ok','Synced',syncTimeLabel());
+    if(!silent)toast('Notes pushed to cloud ✓','ok');
+  }catch(e){
+    setSyncStatus('err','Push failed');
+    if(!silent)toast('Push failed: '+e.message,'err');
+  }
+}
+
+async function cloudPull(){
+  if(!cloud.apiKey||!cloud.binId)return;
+  setSyncStatus('busy','Pulling notes from cloud…');
+  try{
+    const res=await fetch(JB+'/'+cloud.binId+'/latest',{
+      headers:{'X-Master-Key':cloud.apiKey}
+    });
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    const remoteNotes=data.record.notes||[];
+    // Merge: combine local + remote, deduplicate by id, newest wins
+    const all=[...S.notes,...remoteNotes];
+    const map=new Map();
+    all.forEach(n=>{ if(!map.has(n.id)||n.id>map.get(n.id).id) map.set(n.id,n); });
+    S.notes=[...map.values()].sort((a,b)=>b.id-a.id);
+    lsSaveNotesOnly();
+    renderNotes();
+    cloud.lastSync=new Date().toISOString();
+    lsSaveCloud();
+    setSyncStatus('ok','Synced',syncTimeLabel());
+    toast('Notes pulled from cloud ✓','ok');
+  }catch(e){
+    setSyncStatus('err','Pull failed');
+    toast('Pull failed: '+e.message,'err');
+  }
+}
+
+function cloudDisconnect(){
+  if(!confirm('Disconnect cloud sync?\n\nYour notes stay on this device but will no longer sync.'))return;
+  cloud={apiKey:'',binId:'',lastSync:null};
+  lsSaveCloud();
+  renderSyncUI();
+  toast('Cloud sync disconnected');
+}
+
+function syncTimeLabel(){
+  if(!cloud.lastSync)return '';
+  const d=new Date(cloud.lastSync);
+  return 'synced '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderSyncUI(){
+  const setup=document.getElementById('sync-setup');
+  const connected=document.getElementById('sync-connected');
+  const binIdEl=document.getElementById('sync-bin-id');
+  if(!setup||!connected)return;
+  if(cloud.apiKey&&cloud.binId){
+    setup.style.display='none';
+    connected.style.display='block';
+    if(binIdEl)binIdEl.textContent=cloud.binId;
+    setSyncStatus('ok',cloud.lastSync?'Connected':'Ready',syncTimeLabel());
+  } else {
+    setup.style.display='block';
+    connected.style.display='none';
+    setSyncStatus('off','Not configured');
+  }
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────
@@ -1705,6 +1912,7 @@ function renderSet(){
   // all sessions list
   const rows=[...S.sessions].reverse();
   document.getElementById('all-sessions').innerHTML=rows.length?rows.map(s=>{const cl=s.sc!=null?(s.sc>=75?'sg':s.sc>=60?'sm':'sb2'):'';return`<div class="lr"><span class="lr-dt">${s.date}</span><span class="lr-sc ${cl}">${s.sc!=null?s.sc+'%':'—'}</span><span class="lr-tp">${s.tp||'Study session'}</span><span class="lr-h">${s.h}h</span></div>`;}).join(''):'<div style="font-size:12px;color:var(--text3)">No sessions logged yet.</div>';
+  renderSyncUI();
 }
 function saveDate(){S.examDate=document.getElementById('ex-d').value;lsSave();renderDash();go('dashboard');toast('Exam date saved','ok');}
 function saveDoms(){['people','process','business'].forEach(id=>{S.domains[id]=parseInt(document.getElementById('sl-'+id).value)||0;});lsSave();renderDash();toast('Domain progress saved','ok');}
@@ -1804,4 +2012,9 @@ function clrNotes(){
 lsLoad();
 document.getElementById('tr-main').style.strokeDasharray=CIRC;
 tRender();renderDash();loadQ();renderNotes();
+// Cloud: render UI state + auto-pull if configured
+renderSyncUI();
+if(cloud.apiKey && cloud.binId){
+  cloudPull(); // silently merge latest on every page open
+}
 </script></body></html>
