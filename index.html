@@ -2,516 +2,776 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5f0e8">
 <title>PMP Study Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0e0f13;--bg2:#14151a;--bg3:#1c1d24;--bg4:#24252f;--bg5:#2e303a;
-  --glass:rgba(255,255,255,.04);--glass2:rgba(255,255,255,.07);--glass3:rgba(255,255,255,.11);
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--border3:rgba(255,255,255,.18);
-  --text:#eeeef0;--text2:#9a9ba8;--text3:#5e5f6e;--text4:#3a3b48;
-  --amber:#f5a623;--amber2:#fbbf5a;--amber3:rgba(245,166,35,.15);
-  --green:#22c98a;--green2:rgba(34,201,138,.15);
-  --red:#f25858;--red2:rgba(242,88,88,.15);
-  --blue:#5b9cf6;--blue2:rgba(91,156,246,.15);
-  --purple:#a78bfa;--purple2:rgba(167,139,250,.15);
-  --people:#f25858;--people2:rgba(242,88,88,.12);
-  --process:#22c98a;--process2:rgba(34,201,138,.12);
-  --biz:#5b9cf6;--biz2:rgba(91,156,246,.12);
-  --r:8px;--r2:14px;--r3:20px;--r4:28px;
-  --ff:'Plus Jakarta Sans',sans-serif;--fd:'Lora',serif;--fm:'JetBrains Mono',monospace;
-  --sh:0 0 0 1px var(--border),0 4px 24px rgba(0,0,0,.4);
-  --sh2:0 0 0 1px var(--border2),0 8px 40px rgba(0,0,0,.6);
+:root {
+  /* Warm paper palette */
+  --paper:    #f5f0e8;
+  --paper2:   #ede6d8;
+  --paper3:   #e4dbc8;
+  --paper4:   #d8cdb8;
+  --paper5:   #c8ba9e;
+
+  /* Ink */
+  --ink:      #1e1810;
+  --ink2:     #3d3020;
+  --ink3:     #6b5840;
+  --ink4:     #9c8468;
+  --ink5:     #bda888;
+
+  /* Accent — deep terracotta */
+  --terra:    #c0441a;
+  --terra-l:  #faeee8;
+  --terra-d:  #8a2e10;
+  --terra-m:  rgba(192,68,26,.12);
+
+  /* Second accent — forest green */
+  --forest:   #2d6a4a;
+  --forest-l: #e8f3ed;
+  --forest-d: #1a4230;
+  --forest-m: rgba(45,106,74,.12);
+
+  /* Third accent — slate blue */
+  --slate:    #3a5f8a;
+  --slate-l:  #e8eef6;
+  --slate-d:  #1e3d5c;
+  --slate-m:  rgba(58,95,138,.12);
+
+  /* Fourth — marigold */
+  --marigold:   #c87a00;
+  --marigold-l: #fdf3e0;
+  --marigold-d: #8a5200;
+  --marigold-m: rgba(200,122,0,.12);
+
+  /* Fifth — plum */
+  --plum:     #7a3d8a;
+  --plum-l:   #f3eaf6;
+  --plum-d:   #4a2055;
+  --plum-m:   rgba(122,61,138,.12);
+
+  --r:  7px;
+  --r2: 13px;
+  --r3: 20px;
+
+  --sh:  0 1px 3px rgba(30,24,16,.07), 0 4px 16px rgba(30,24,16,.05);
+  --sh2: 0 2px 8px rgba(30,24,16,.10), 0 12px 40px rgba(30,24,16,.08);
+
+  --ff: 'Manrope', sans-serif;
+  --fd: 'Playfair Display', serif;
+  --fm: 'JetBrains Mono', monospace;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-body{background:var(--bg);color:var(--text);font-family:var(--ff);line-height:1.6;min-height:100vh;overflow-x:hidden}
-/* Background mesh */
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(245,166,35,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(91,156,246,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
-::selection{background:rgba(245,166,35,.3);color:var(--text)}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px}
 
-/* ── SHELL ─────────────────────────────────────────────── */
-.app{display:grid;grid-template-columns:72px 220px 1fr;grid-template-rows:1fr;height:100vh;position:relative;z-index:1}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+body { background: var(--paper); color: var(--ink); font-family: var(--ff); line-height: 1.6; min-height: 100svh; overflow-x: hidden; }
+::selection { background: rgba(192,68,26,.2); color: var(--ink); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--paper2); }
+::-webkit-scrollbar-thumb { background: var(--paper4); border-radius: 2px; }
 
-/* ── ICON RAIL ─────────────────────────────────────────── */
-.rail{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;z-index:10}
-.rail-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--amber),#e8870a);display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0}
-.rail-logo svg{width:18px;height:18px;fill:#000}
-.ri{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;color:var(--text3);flex-shrink:0;position:relative}
-.ri svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
-.ri:hover{background:var(--glass2);color:var(--text2)}
-.ri.on{background:var(--amber3);color:var(--amber)}
-.ri-tip{position:absolute;left:52px;background:var(--bg4);color:var(--text);font-size:11px;padding:4px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid var(--border2);font-family:var(--ff)}
-.ri:hover .ri-tip{opacity:1}
-.rail-div{width:28px;height:1px;background:var(--border);margin:6px 0}
+/* ── LAYOUT ─────────────────────────── */
+.shell { display: grid; grid-template-columns: 56px 210px 1fr; height: 100svh; }
 
-/* ── SIDEBAR ───────────────────────────────────────────── */
-.sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.sb-top{padding:18px 16px 12px;border-bottom:1px solid var(--border)}
-.sb-title{font-family:var(--fd);font-size:15px;font-style:italic;color:var(--text);font-weight:500;line-height:1.2}
-.sb-sub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--fm)}
-
-/* TIMER ───────────────────────────── */
-.timer-section{padding:16px;border-bottom:1px solid var(--border)}
-.timer-ring-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px}
-.timer-ring-wrap svg{transform:rotate(-90deg);filter:drop-shadow(0 0 12px rgba(245,166,35,.3))}
-.tr-bg{fill:none;stroke:var(--bg4);stroke-width:6}
-.tr-main{fill:none;stroke:var(--amber);stroke-width:6;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:0;transition:stroke-dashoffset .95s linear}
-.tr-main.break{stroke:var(--green)}
-.timer-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
-.timer-time{font-family:var(--fm);font-size:20px;font-weight:500;color:var(--text);letter-spacing:.02em;line-height:1}
-.timer-phase{font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
-.timer-mode-strip{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.timer-mode-name{font-size:12px;color:var(--text2);font-weight:500}
-.timer-session-info{font-family:var(--fm);font-size:10px;color:var(--text3)}
-.timer-dots{display:flex;gap:4px;justify-content:center;margin-bottom:10px}
-.td{width:8px;height:8px;border-radius:50%;background:var(--bg4);transition:all .3s}
-.td.done{background:var(--amber)}
-.td.cur{background:var(--amber);box-shadow:0 0 8px var(--amber)}
-.td.brk.done{background:var(--green)}
-.tbns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
-.tbn{padding:6px 0;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:11px;font-family:var(--ff);cursor:pointer;transition:all .16s;text-align:center}
-.tbn:hover{background:var(--glass2);color:var(--text)}
-.tbn.go{background:var(--amber);border-color:var(--amber);color:#000;font-weight:600}
-.tbn.go:hover{background:#d9920a}
-.tbn.go.paused{background:var(--bg4);border-color:var(--border2);color:var(--text)}
-/* Active session banner */
-.session-active-banner{margin-top:10px;background:linear-gradient(135deg,rgba(34,201,138,.12),rgba(34,201,138,.06));border:1px solid rgba(34,201,138,.25);border-radius:var(--r);padding:8px 10px;display:none}
-.sab-title{font-size:11px;font-weight:600;color:var(--green);margin-bottom:3px}
-.sab-elapsed{font-family:var(--fm);font-size:13px;color:var(--text);font-weight:500}
-.sab-since{font-size:10px;color:var(--text3)}
-.sab-btns{display:flex;gap:5px;margin-top:8px}
-
-/* EXAM COUNTDOWN ──────────────────── */
-.exam-box{padding:14px 16px;border-bottom:1px solid var(--border)}
-.ex-days{font-family:var(--fm);font-size:32px;font-weight:500;color:var(--amber);line-height:1}
-.ex-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;font-family:var(--fm)}
-.ex-date{font-size:11px;color:var(--text3);margin-top:4px}
-.ex-progress{margin-top:10px}
-.ex-prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--fm);margin-bottom:4px}
-.ex-prog-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
-.ex-prog-fill{height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:2px;transition:width .6s}
-
-/* QUICK STATS ─────────────────────── */
-.sb-stats{padding:12px 16px;display:flex;flex-direction:column;gap:7px}
-.sb-stat{display:flex;justify-content:space-between;align-items:center}
-.sb-stat-l{font-size:11px;color:var(--text3)}
-.sb-stat-v{font-family:var(--fm);font-size:12px;color:var(--text2);font-weight:500}
-
-/* ── MAIN ──────────────────────────────────────────────── */
-.main{overflow-y:auto;background:var(--bg);position:relative}
-.panel{display:none;padding:28px 32px;min-height:100%;animation:pi .2s ease}
-.panel.on{display:block}
-@keyframes pi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.ph{margin-bottom:24px}
-.pt{font-family:var(--fd);font-size:22px;font-weight:500;color:var(--text);line-height:1.25;letter-spacing:-.01em}
-.pt em{font-style:italic;color:var(--amber)}
-.ps{font-size:12px;color:var(--text3);margin-top:4px}
-
-/* METRICS ────────────────────── */
-.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
-.met{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px;position:relative;overflow:hidden;transition:border-color .2s}
-.met:hover{border-color:var(--border2)}
-.met::after{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;opacity:.08}
-.met.a::after{background:var(--amber)}
-.met.g::after{background:var(--green)}
-.met.r::after{background:var(--red)}
-.met.b::after{background:var(--blue)}
-.met-v{font-family:var(--fm);font-size:26px;font-weight:500;line-height:1;position:relative}
-.met.a .met-v{color:var(--amber)}
-.met.g .met-v{color:var(--green)}
-.met.r .met-v{color:var(--red)}
-.met.b .met-v{color:var(--blue)}
-.met-l{font-size:11px;color:var(--text3);margin-top:6px}
-.met-s{font-family:var(--fm);font-size:10px;color:var(--text4);margin-top:3px}
-
-/* CARDS ─────────────────────── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);transition:border-color .2s}
-.card:hover{border-color:var(--border2)}
-.ch{font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-
-/* SCHEDULE ───────────────────── */
-.sg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px}
-.sd{border-radius:var(--r);padding:9px 3px;text-align:center;background:var(--bg3);border:1px solid transparent;transition:.18s}
-.sd.study{background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.2)}
-.sd.today{border-color:var(--amber)!important;box-shadow:0 0 0 1px var(--amber)}
-.sd.rest{opacity:.4}
-.sd-d{font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.sd-h{font-family:var(--fm);font-size:16px;font-weight:500;color:var(--amber);margin:2px 0;line-height:1}
-.sd.rest .sd-h{color:var(--text4);font-size:11px}
-.sd-t{font-size:9px;color:var(--text3)}
-
-/* LOG ────────────────────────── */
-.lr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.lr:last-child{border-bottom:none}
-.lr-dt{font-family:var(--fm);font-size:10px;color:var(--text3);width:68px;flex-shrink:0}
-.lr-sc{font-family:var(--fm);font-size:11px;font-weight:500;width:36px;flex-shrink:0}
-.lr-tp{font-size:12px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lr-h{font-family:var(--fm);font-size:10px;color:var(--text3)}
-.lr-dur{font-family:var(--fm);font-size:10px;color:var(--text4)}
-.sg{color:var(--green)}.sm{color:var(--amber)}.sb2{color:var(--red)}
-
-/* DOMAIN BARS ───────────────── */
-.dr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.dn{font-size:12px;color:var(--text2);width:185px;flex-shrink:0}
-.dp{font-family:var(--fm);font-size:11px;color:var(--text3);width:32px;text-align:right;flex-shrink:0}
-.pb{background:var(--bg4);border-radius:100px;height:6px;flex:1;overflow:hidden}
-.pf{height:6px;border-radius:100px;transition:width .8s cubic-bezier(.34,1.2,.64,1)}
-
-/* ACTIVITY ───────────────────── */
-.agrid{display:flex;flex-wrap:wrap;gap:3px}
-.dot{width:13px;height:13px;border-radius:3px;background:var(--bg4);transition:.2s}
-.dot.on{background:var(--amber);opacity:.8}
-.dot.tod{background:var(--green);box-shadow:0 0 6px rgba(34,201,138,.4)}
-.dot.wk{background:var(--bg3);border:1px solid var(--bg4)}
-
-/* MOTIVATION CARD ────────────── */
-.motive-card{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.2);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;position:relative;overflow:hidden}
-.motive-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,.12),transparent);pointer-events:none}
-.motive-q{font-family:var(--fd);font-size:14px;font-style:italic;color:var(--text);line-height:1.6;position:relative}
-.motive-src{font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--fm)}
-.motive-tip{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:12px}
-.motive-tip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.motive-tip-icon{font-size:16px}
-.motive-tip-label{font-size:11px;font-family:var(--fm);color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
-.motive-tip-text{font-size:13px;color:var(--text2);line-height:1.6}
-
-/* BUTTONS ────────────────────── */
-.btn{font-family:var(--ff);font-size:12px;font-weight:500;padding:8px 16px;border-radius:var(--r);border:1px solid var(--border2);background:var(--glass);color:var(--text);cursor:pointer;transition:all .16s;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
-.btn:hover{background:var(--glass2);border-color:var(--border3)}
-.btn-p{background:var(--amber);border-color:var(--amber);color:#000;font-weight:600}
-.btn-p:hover{background:#d9920a;border-color:#d9920a}
-.btn-g{background:rgba(34,201,138,.15);border-color:rgba(34,201,138,.35);color:var(--green)}
-.btn-g:hover{background:rgba(34,201,138,.22)}
-.btn-r{border-color:rgba(242,88,88,.4);color:var(--red)}
-.btn-r:hover{background:var(--red2)}
-.btn-sm{padding:5px 11px;font-size:11px}
-.btn-xs{padding:3px 9px;font-size:10px}
-
-/* FORMS ─────────────────────── */
-input,textarea,select{font-family:var(--ff);font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:8px 11px;outline:none;width:100%;transition:border .15s,background .15s}
-input:focus,textarea:focus,select:focus{border-color:var(--amber);background:var(--bg4)}
-textarea{resize:vertical;min-height:85px;line-height:1.65}
-select option{background:var(--bg3)}
-.fl{display:block;font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
-.fld{margin-bottom:11px}
-
-/* FILTER CHIPS ──────────────── */
-.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.fc{font-size:11px;font-family:var(--fm);padding:4px 12px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:.16s}
-.fc:hover{color:var(--text);border-color:var(--border3)}
-.fc.on{font-weight:500}
-.fc.fall.on{background:rgba(255,255,255,.1);border-color:var(--border3);color:var(--text)}
-.fc.fp.on{background:var(--people2);border-color:rgba(242,88,88,.4);color:var(--red)}
-.fc.fr.on{background:var(--process2);border-color:rgba(34,201,138,.35);color:var(--green)}
-.fc.fb.on{background:var(--biz2);border-color:rgba(91,156,246,.35);color:var(--blue)}
-.fc.fa.on{background:var(--purple2);border-color:rgba(167,139,250,.35);color:var(--purple)}
-
-/* SESSION BAR ───────────────── */
-.sbar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;display:flex;align-items:center;gap:16px;margin-bottom:14px}
-.ss-v{font-family:var(--fm);font-size:20px;font-weight:500;line-height:1}
-.ss-l{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-top:2px}
-.ss-pbg{background:var(--bg4);border-radius:100px;height:6px;flex:1;overflow:hidden}
-.ss-pf{height:6px;border-radius:100px;transition:width .4s,background .4s;background:var(--green)}
-
-/* QUESTION ──────────────────── */
-.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:22px;margin-bottom:12px;transition:border-color .2s}
-.qmeta{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.qdb{font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:100px;font-weight:500}
-.qdb-p{background:var(--people2);color:var(--red);border:1px solid rgba(242,88,88,.25)}
-.qdb-r{background:var(--process2);color:var(--green);border:1px solid rgba(34,201,138,.25)}
-.qdb-b{background:var(--biz2);color:var(--blue);border:1px solid rgba(91,156,246,.25)}
-.qsub{font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:100px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
-.qn{font-family:var(--fm);font-size:10px;color:var(--text4);margin-left:auto}
-.qtext{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:18px;font-weight:400}
-.opts{display:flex;flex-direction:column;gap:7px}
-.opt{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;font-size:13px;color:var(--text2);line-height:1.55;transition:.16s;background:var(--bg3)}
-.opt:hover{border-color:var(--border3);background:var(--bg4);color:var(--text)}
-.opt.sel{border-color:var(--amber);background:rgba(245,166,35,.06);color:var(--text)}
-.opt.ok{border-color:rgba(34,201,138,.5);background:rgba(34,201,138,.07);color:var(--green)}
-.opt.bad{border-color:rgba(242,88,88,.5);background:rgba(242,88,88,.07);color:var(--red)}
-.opt.locked{cursor:default}
-.ol{width:21px;height:21px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fm);font-weight:500;flex-shrink:0;margin-top:1px}
-.opt.ok .ol,.opt.bad .ol{color:#fff;border:none}
-.opt.ok .ol{background:var(--green)}
-.opt.bad .ol{background:var(--red)}
-.expl{border-left:3px solid var(--green);background:rgba(34,201,138,.05);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-top:14px;font-size:12px;line-height:1.72;color:var(--text2)}
-.expl strong{color:var(--green);font-weight:600}
-.expl.ex-bad{border-left-color:var(--red);background:rgba(242,88,88,.05)}
-.expl.ex-bad strong{color:var(--red)}
-.qact{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
-
-/* NOTES ─────────────────────── */
-.notes-layout{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
-.nform{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:18px;position:sticky;top:16px;max-height:calc(100vh - 100px);overflow-y:auto}
-.nform-title{font-family:var(--fd);font-size:15px;font-style:italic;color:var(--text);margin-bottom:12px;font-weight:500}
-.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
-.tag-b{font-size:10px;font-family:var(--fm);padding:3px 10px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:.14s}
-.tag-b:hover{color:var(--text);border-color:var(--border3)}
-.tag-b.on{font-weight:500}
-.tag-b[data-t="People"].on{background:var(--people2);border-color:rgba(242,88,88,.35);color:var(--red)}
-.tag-b[data-t="Process"].on{background:var(--process2);border-color:rgba(34,201,138,.35);color:var(--green)}
-.tag-b[data-t="Business"].on{background:var(--biz2);border-color:rgba(91,156,246,.35);color:var(--blue)}
-.tag-b[data-t="Formula"].on{background:var(--amber3);border-color:rgba(245,166,35,.35);color:var(--amber)}
-.tag-b[data-t="Agile"].on{background:var(--purple2);border-color:rgba(167,139,250,.35);color:var(--purple)}
-.tag-b[data-t="Ethics"].on{background:rgba(34,201,138,.1);border-color:rgba(34,201,138,.3);color:var(--green)}
-/* Rich editor toolbar */
-.editor-wrap{border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:10px;background:var(--bg3)}
-.editor-wrap:focus-within{border-color:var(--amber)}
-.toolbar{display:flex;flex-wrap:wrap;gap:1px;padding:6px 8px;background:var(--bg4);border-bottom:1px solid var(--border)}
-.tb-group{display:flex;gap:1px;margin-right:4px}
-.tb-sep{width:1px;background:var(--border2);margin:0 3px;align-self:stretch}
-.tbtn2{width:26px;height:26px;border-radius:5px;border:none;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--ff);transition:all .14s;flex-shrink:0;line-height:1}
-.tbtn2:hover{background:var(--glass2);color:var(--text)}
-.tbtn2.on{background:var(--amber3);color:var(--amber)}
-.tbtn2 svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;pointer-events:none}
-.color-dot{width:14px;height:14px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.14s;flex-shrink:0}
-.color-dot:hover,.color-dot.on{border-color:var(--text);transform:scale(1.15)}
-.hl-strip{display:flex;align-items:center;gap:3px}
-/* contenteditable editor area */
-#editor{min-height:160px;max-height:300px;overflow-y:auto;padding:10px 12px;font-size:13px;color:var(--text2);line-height:1.75;outline:none;font-family:var(--ff);word-break:break-word}
-#editor:empty::before{content:attr(data-placeholder);color:var(--text4);pointer-events:none}
-#editor h1{font-family:var(--fd);font-size:17px;font-weight:600;color:var(--text);margin:8px 0 4px;line-height:1.3}
-#editor h2{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--text);margin:7px 0 3px;line-height:1.3}
-#editor h3{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;text-transform:uppercase;letter-spacing:.05em}
-#editor b,#editor strong{font-weight:700;color:var(--text)}
-#editor i,#editor em{font-style:italic;color:var(--text)}
-#editor u{text-decoration:underline}
-#editor s{text-decoration:line-through;color:var(--text3)}
-#editor code{font-family:var(--fm);font-size:11.5px;background:var(--bg4);color:var(--amber);padding:1px 5px;border-radius:4px;border:1px solid var(--border)}
-#editor pre{font-family:var(--fm);font-size:11.5px;background:var(--bg4);color:var(--green);padding:10px 12px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:8px 0;line-height:1.6}
-#editor blockquote{border-left:3px solid var(--amber);padding-left:12px;color:var(--text3);font-style:italic;margin:8px 0}
-#editor ul{padding-left:20px;margin:6px 0}
-#editor ol{padding-left:20px;margin:6px 0}
-#editor li{margin:2px 0;color:var(--text2)}
-#editor a{color:var(--blue);text-decoration:underline}
-#editor hr{border:none;border-top:1px solid var(--border2);margin:10px 0}
-#editor mark{border-radius:3px;padding:1px 2px}
-#editor .hl-red{background:rgba(242,88,88,.25);color:var(--red)}
-#editor .hl-amber{background:rgba(245,166,35,.22);color:var(--amber)}
-#editor .hl-green{background:rgba(34,201,138,.2);color:var(--green)}
-#editor .hl-blue{background:rgba(91,156,246,.2);color:var(--blue)}
-#editor .hl-purple{background:rgba(167,139,250,.2);color:var(--purple)}
-.editor-footer{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-top:1px solid var(--border);background:var(--bg4)}
-.editor-count{font-family:var(--fm);font-size:10px;color:var(--text4)}
-.editor-hint{font-size:10px;color:var(--text4)}
-/* Markdown mode toggle */
-.mode-toggle{display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px;margin-bottom:10px}
-.mode-btn{flex:1;padding:4px 8px;border-radius:4px;font-size:10px;font-family:var(--fm);border:none;background:transparent;color:var(--text3);cursor:pointer;transition:.14s;text-align:center}
-.mode-btn.on{background:var(--bg5);color:var(--text);font-weight:500}
-/* Note card list */
-.ncount{font-family:var(--fm);font-size:10px;color:var(--text4);margin-top:4px}
-.ntoolbar{display:flex;gap:7px;margin-bottom:12px;align-items:center}
-.sw{position:relative;flex:1}
-.sw input{padding-left:30px}
-.sw-ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;pointer-events:none}
-.view-toggle{display:flex;gap:2px}
-.vtb{width:26px;height:26px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:.14s}
-.vtb.on,.vtb:hover{background:var(--glass2);color:var(--text)}
-.ncard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:8px;transition:border-color .2s,transform .2s}
-.ncard:hover{border-color:var(--border2);transform:translateY(-1px)}
-.ncard.expanded .nbody-md{max-height:none}
-.nhead{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px}
-.ntag{font-family:var(--fm);font-size:9px;padding:2px 7px;border-radius:100px;flex-shrink:0;font-weight:500;margin-top:2px}
-.nt-People{background:var(--people2);color:var(--red);border:1px solid rgba(242,88,88,.2)}
-.nt-Process{background:var(--process2);color:var(--green);border:1px solid rgba(34,201,138,.2)}
-.nt-Business{background:var(--biz2);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
-.nt-Formula{background:var(--amber3);color:var(--amber);border:1px solid rgba(245,166,35,.2)}
-.nt-Agile{background:var(--purple2);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
-.nt-Ethics{background:rgba(34,201,138,.1);color:var(--green);border:1px solid rgba(34,201,138,.2)}
-.ntit{font-size:13px;font-weight:500;color:var(--text);flex:1;line-height:1.3}
-.ndate{font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0;margin-top:1px}
-/* Rendered markdown in cards */
-.nbody-md{font-size:12.5px;color:var(--text2);line-height:1.75;max-height:180px;overflow:hidden;position:relative;transition:max-height .3s ease}
-.nbody-md.expanded{max-height:none}
-.nbody-md::after{content:'';position:absolute;bottom:0;left:0;right:0;height:32px;background:linear-gradient(transparent,var(--bg2));pointer-events:none;transition:opacity .2s}
-.nbody-md.expanded::after{opacity:0}
-.nbody-md h1{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--text);margin:6px 0 3px}
-.nbody-md h2{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;border-bottom:1px solid var(--border);padding-bottom:3px}
-.nbody-md h3{font-size:12px;font-weight:600;color:var(--text2);margin:4px 0 2px;text-transform:uppercase;letter-spacing:.04em}
-.nbody-md strong{font-weight:700;color:var(--text)}
-.nbody-md em{font-style:italic;color:var(--text)}
-.nbody-md code{font-family:var(--fm);font-size:11px;background:var(--bg4);color:var(--amber);padding:1px 4px;border-radius:3px;border:1px solid var(--border)}
-.nbody-md pre{font-family:var(--fm);font-size:11px;background:var(--bg4);color:var(--green);padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:5px 0;line-height:1.5}
-.nbody-md blockquote{border-left:3px solid var(--amber);padding-left:10px;color:var(--text3);font-style:italic;margin:5px 0}
-.nbody-md ul{padding-left:16px;margin:4px 0}
-.nbody-md ol{padding-left:16px;margin:4px 0}
-.nbody-md li{margin:2px 0}
-.nbody-md a{color:var(--blue);text-decoration:underline}
-.nbody-md hr{border:none;border-top:1px solid var(--border);margin:7px 0}
-.nbody-md .hl-red{background:rgba(242,88,88,.25);color:var(--red);border-radius:3px;padding:1px 2px}
-.nbody-md .hl-amber{background:rgba(245,166,35,.22);color:var(--amber);border-radius:3px;padding:1px 2px}
-.nbody-md .hl-green{background:rgba(34,201,138,.2);color:var(--green);border-radius:3px;padding:1px 2px}
-.nbody-md .hl-blue{background:rgba(91,156,246,.2);color:var(--blue);border-radius:3px;padding:1px 2px}
-.nbody-md .hl-purple{background:rgba(167,139,250,.2);color:var(--purple);border-radius:3px;padding:1px 2px}
-.nbody-raw{font-size:11.5px;color:var(--text3);line-height:1.65;white-space:pre-wrap;font-family:var(--fm);max-height:120px;overflow:hidden;display:none}
-.nact{display:flex;gap:5px;margin-top:10px;opacity:0;transition:.16s;flex-wrap:wrap;align-items:center}
-.ncard:hover .nact{opacity:1}
-.expand-btn{font-size:10px;font-family:var(--fm);color:var(--text4);background:transparent;border:none;cursor:pointer;padding:0;margin-left:auto}
-.expand-btn:hover{color:var(--text2)}
-.empty{text-align:center;padding:48px 20px;color:var(--text3)}
-.empty-i{font-size:32px;margin-bottom:10px;opacity:.3}
-/* Accordion topic groups */
-.topic-group{margin-bottom:8px;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--bg2)}
-.topic-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background .15s;user-select:none}
-.topic-header:hover{background:var(--bg3)}
-.topic-header.open{background:var(--bg3)}
-.topic-chevron{font-size:10px;color:var(--text3);transition:transform .2s;flex-shrink:0;font-family:var(--fm)}
-.topic-header.open .topic-chevron{transform:rotate(90deg)}
-.topic-tag{font-family:var(--fm);font-size:10px;padding:2px 8px;border-radius:100px;font-weight:500;flex-shrink:0}
-.topic-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
-.topic-count{font-family:var(--fm);font-size:10px;color:var(--text3);background:var(--bg4);padding:2px 7px;border-radius:100px}
-.topic-body{display:none;border-top:1px solid var(--border)}
-.topic-body.open{display:block}
-/* Individual note rows inside accordion */
-.note-row{border-bottom:1px solid var(--border);cursor:pointer;transition:background .14s}
-.note-row:last-child{border-bottom:none}
-.note-row:hover{background:var(--bg3)}
-.note-row-header{display:flex;align-items:center;gap:10px;padding:10px 14px}
-.note-row-chevron{font-size:9px;color:var(--text3);transition:transform .2s;font-family:var(--fm);flex-shrink:0}
-.note-row-header.open .note-row-chevron{transform:rotate(90deg)}
-.note-row-title{font-size:13px;color:var(--text2);flex:1;line-height:1.3}
-.note-row-header.open .note-row-title{color:var(--text);font-weight:500}
-.note-row-date{font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0}
-.note-row-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
-.note-row-body.open{display:block}
-.note-row-content{padding:10px;background:var(--bg4);border-radius:var(--r);font-size:12.5px;color:var(--text2);line-height:1.75}
-.note-row-content h1{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--text);margin:6px 0 3px}
-.note-row-content h2{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;border-bottom:1px solid var(--border);padding-bottom:3px}
-.note-row-content h3{font-size:12px;font-weight:600;color:var(--text2);margin:4px 0 2px;text-transform:uppercase;letter-spacing:.04em}
-.note-row-content strong{font-weight:700;color:var(--text)}
-.note-row-content em{font-style:italic}
-.note-row-content code{font-family:var(--fm);font-size:11px;background:var(--bg2);color:var(--amber);padding:1px 4px;border-radius:3px;border:1px solid var(--border)}
-.note-row-content pre{font-family:var(--fm);font-size:11px;background:var(--bg2);color:var(--green);padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:5px 0}
-.note-row-content blockquote{border-left:3px solid var(--amber);padding-left:10px;color:var(--text3);font-style:italic;margin:5px 0}
-.note-row-content ul,.note-row-content ol{padding-left:16px;margin:4px 0}
-.note-row-content li{margin:2px 0}
-.note-row-content hr{border:none;border-top:1px solid var(--border);margin:7px 0}
-.note-row-content .hl-red{background:rgba(242,88,88,.25);color:var(--red);border-radius:3px;padding:1px 2px}
-.note-row-content .hl-amber{background:rgba(245,166,35,.22);color:var(--amber);border-radius:3px;padding:1px 2px}
-.note-row-content .hl-green{background:rgba(34,201,138,.2);color:var(--green);border-radius:3px;padding:1px 2px}
-.note-row-content .hl-blue{background:rgba(91,156,246,.2);color:var(--blue);border-radius:3px;padding:1px 2px}
-.note-row-content .hl-purple{background:rgba(167,139,250,.2);color:var(--purple);border-radius:3px;padding:1px 2px}
-.note-row-actions{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
-
-/* REFS ─────────────────────── */
-.ref-tabs{display:flex;gap:2px;margin-bottom:18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:4px}
-.ref-tab{flex:1;padding:7px 10px;border-radius:var(--r);font-size:11px;font-family:var(--fm);color:var(--text3);cursor:pointer;text-align:center;transition:.16s;border:none;background:transparent}
-.ref-tab:hover{color:var(--text);background:var(--glass)}
-.ref-tab.on{background:var(--glass3);color:var(--text);font-weight:500}
-.ref-panel{display:none}.ref-panel.on{display:block}
-.rsect{margin-bottom:22px}
-.rtitle{font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:12px}
-.ri-card{display:flex;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:8px;transition:all .18s;text-decoration:none;cursor:pointer}
-.ri-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-1px)}
-.ri-card a,.ri-card{color:inherit}
-.ric{width:34px;height:34px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.rtit{font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.rbdg{font-family:var(--fm);font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(34,201,138,.12);color:var(--green);border:1px solid rgba(34,201,138,.25)}
-.rbdg-f{background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.25)}
-.rbdg-p{background:var(--purple2);color:var(--purple);border:1px solid rgba(167,139,250,.25)}
-.rdsc{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.6}
-.rlink{font-family:var(--fm);font-size:10px;color:var(--blue);margin-top:4px;display:flex;align-items:center;gap:4px;text-decoration:none}
-.rlink:hover{text-decoration:underline}
-.rlink::after{content:'↗';font-size:9px}
-.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
-.fcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;transition:.15s}
-.fcard:hover{background:var(--bg4);border-color:var(--border2)}
-.fn{font-size:10px;color:var(--text3);margin-bottom:4px;font-family:var(--fm)}
-.fv{font-family:var(--fm);font-size:12px;color:var(--blue);font-weight:500}
-
-/* SETTINGS ─────────────────── */
-.sg2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:14px;transition:border-color .2s}
-.scard:hover{border-color:var(--border2)}
-.stit{font-family:var(--fd);font-size:15px;font-weight:500;font-style:italic;color:var(--text);margin-bottom:14px}
-.slf{margin-bottom:14px}
-.slh{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
-.slv{font-family:var(--fm);font-size:11px;font-weight:500;color:var(--amber)}
-input[type=range]{-webkit-appearance:none;height:4px;background:var(--bg4);border-radius:2px;outline:none;border:none;padding:0;width:100%}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--amber);cursor:pointer;box-shadow:0 0 6px rgba(245,166,35,.4)}
-
-/* MODAL ─────────────────────── */
-.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center}
-.mov.open{display:flex}
-.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r3);padding:24px;width:420px;max-width:93vw;box-shadow:var(--sh2);animation:mi .22s ease}
-@keyframes mi{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-.mtit{font-family:var(--fd);font-size:17px;font-weight:500;font-style:italic;color:var(--text);margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
-.mx{background:transparent;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px}
-.mx:hover{background:var(--glass2);color:var(--text)}
-.mact{display:flex;gap:7px;margin-top:16px}
-
-/* TOAST ─────────────────────── */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);font-size:12px;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--sh2);z-index:2000;transform:translateY(18px);opacity:0;transition:all .28s cubic-bezier(.34,1.3,.64,1);pointer-events:none;display:flex;align-items:center;gap:8px;font-family:var(--ff)}
-.toast.show{transform:translateY(0);opacity:1}
-.toast.ok{border-color:rgba(34,201,138,.4);background:rgba(34,201,138,.1)}
-.toast.err{border-color:rgba(242,88,88,.4);background:rgba(242,88,88,.1)}
-.toast-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
-.toast.ok .toast-dot{background:var(--green)}.toast.err .toast-dot{background:var(--red)}
-
-/* MOBILE ─────────────────────── */
-.mnav{display:none;background:var(--bg2);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;z-index:100;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
-.mni-r{display:flex;justify-content:space-around}
-.mni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;cursor:pointer;color:var(--text4);font-family:var(--fm);font-size:9px;letter-spacing:.04em}
-.mni.on{color:var(--amber)}
-.mni svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none}
-@media(max-width:900px){
-  .app{grid-template-columns:1fr}
-  .rail,.sidebar{display:none}
-  .mets{grid-template-columns:repeat(2,1fr)}
-  .g2,.g3,.notes-layout,.sg2{grid-template-columns:1fr}
-  .mnav{display:block}
-  .panel{padding:14px 12px 80px}
-  .nform{position:static;max-height:none}
-  .met-v{font-size:20px}
-  .toolbar{gap:2px;padding:5px 6px}
-  .tbtn2{width:24px;height:24px;font-size:11px}
-  #editor{min-height:100px;max-height:200px}
-  .ref-tabs{overflow-x:auto;flex-wrap:nowrap}
-  .ref-tab{white-space:nowrap;flex-shrink:0}
-  .filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
-  .fc{white-space:nowrap;flex-shrink:0}
-  .qtext{font-size:14px}
-  .pt{font-size:18px}
-  .ntoolbar{flex-wrap:wrap}
-  .topic-name{font-size:12px}
-  .editor-hint{display:none}
-  .notes-layout{gap:10px}
-  .qcard{padding:16px}
+/* ── ICON RAIL ───────────────────────── */
+.rail {
+  background: var(--ink);
+  border-right: none;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 0; gap: 3px; z-index: 20;
 }
-@media(max-width:420px){
-  .mets{grid-template-columns:repeat(2,1fr)}
-  .met{padding:12px}
-  .met-v{font-size:18px}
-  .toolbar{gap:1px;padding:4px 5px}
-  .tbtn2{width:22px;height:22px;font-size:10px}
-  .hl-strip span{display:none}
-  .color-dot{width:12px;height:12px}
-  .panel{padding:10px 10px 80px}
-  .sbar{flex-wrap:wrap;gap:10px}
-  .tb-sep{display:none}
-  .mode-toggle{margin-bottom:8px}
+.rail-mark {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--terra);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; flex-shrink: 0;
+  font-family: var(--fd); font-size: 14px; font-weight: 700;
+  color: #fff; letter-spacing: -.02em;
 }
-/* PROGRESS RING for exam pct */
-.ring-svg{transform:rotate(-90deg)}
-.ring-bg{fill:none;stroke:var(--bg4);stroke-width:4}
-.ring-fill{fill:none;stroke:var(--amber);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.ri {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .16s;
+  color: rgba(245,240,232,.35); position: relative; flex-shrink: 0;
+}
+.ri svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.7; fill: none; }
+.ri:hover { background: rgba(245,240,232,.08); color: rgba(245,240,232,.7); }
+.ri.on { background: rgba(192,68,26,.25); color: var(--terra); }
+.ri.on svg { stroke: var(--terra); }
+.ri-tip {
+  position: absolute; left: 46px; background: var(--ink2); color: var(--paper);
+  font-size: 11px; padding: 4px 9px; border-radius: 6px;
+  white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity .14s; z-index: 100; border: 1px solid rgba(245,240,232,.1);
+}
+.ri:hover .ri-tip { opacity: 1; }
+.rail-div { width: 22px; height: 1px; background: rgba(245,240,232,.08); margin: 5px 0; }
 
-/* CLOUD SYNC ────────────────── */
-.sync-pulse{animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* ── SIDEBAR ─────────────────────────── */
+.sidebar {
+  background: var(--paper2);
+  border-right: 1px solid var(--paper4);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sb-head {
+  padding: 16px 14px 12px;
+  border-bottom: 1px solid var(--paper4);
+}
+.sb-wordmark {
+  font-family: var(--fd); font-size: 15px; font-style: italic;
+  color: var(--ink); font-weight: 600; letter-spacing: -.01em;
+}
+.sb-sub { font-family: var(--fm); font-size: 9px; color: var(--ink4); margin-top: 2px; letter-spacing: .04em; }
+.sb-scroll { flex: 1; overflow-y: auto; padding-bottom: 12px; }
+
+/* ── TIMER ───────────────────────────── */
+.tmr-outer { margin: 12px 10px 0; }
+.tmr-card {
+  border-radius: var(--r2); overflow: hidden;
+  border: 1px solid var(--paper4); background: var(--paper);
+  box-shadow: var(--sh);
+}
+.tmr-inner-top {
+  background: var(--ink);
+  padding: 13px 14px 11px;
+}
+.tmr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.tmr-mode-lbl { font-size: 11px; font-weight: 500; color: rgba(245,240,232,.6); }
+.tmr-count-lbl { font-family: var(--fm); font-size: 10px; color: rgba(245,240,232,.3); }
+.tmr-ring-wrap { position: relative; width: 84px; height: 84px; margin: 0 auto 10px; }
+.tmr-ring-wrap svg { transform: rotate(-90deg); }
+.tr-bg  { fill: none; stroke: rgba(245,240,232,.07); stroke-width: 5.5; }
+.tr-fill { fill: none; stroke: var(--terra); stroke-width: 5.5; stroke-linecap: round;
+           stroke-dasharray: 240; stroke-dashoffset: 0; transition: stroke-dashoffset .95s linear; }
+.tr-fill.brk { stroke: var(--forest); }
+.tmr-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.tmr-digits { font-family: var(--fm); font-size: 18px; font-weight: 500; color: var(--paper); line-height: 1; }
+.tmr-phase-lbl { font-family: var(--fm); font-size: 9px; color: rgba(245,240,232,.35); margin-top: 2px; letter-spacing: .1em; text-transform: uppercase; }
+.tmr-dots { display: flex; gap: 4px; justify-content: center; margin-bottom: 8px; }
+.td { width: 7px; height: 7px; border-radius: 50%; background: rgba(245,240,232,.1); transition: all .3s; }
+.td.done { background: var(--terra); }
+.td.cur  { background: var(--terra); box-shadow: 0 0 7px rgba(192,68,26,.7); }
+.td.brk.done { background: var(--forest); }
+.tmr-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; padding: 9px 10px; background: var(--paper2); }
+.tbn {
+  padding: 6px 0; border-radius: 6px;
+  border: 1px solid var(--paper4); background: transparent;
+  color: var(--ink3); font-size: 11px; font-family: var(--ff);
+  cursor: pointer; transition: all .14s; text-align: center;
+}
+.tbn:hover { background: var(--paper3); color: var(--ink); }
+.tbn.go { background: var(--terra); border-color: var(--terra-d); color: #fff; font-weight: 600; }
+.tbn.go:hover { background: var(--terra-d); }
+
+/* Active session */
+.sab {
+  margin: 8px 10px 0; display: none;
+  background: var(--forest-l); border: 1px solid rgba(45,106,74,.25);
+  border-radius: var(--r); padding: 9px 11px;
+}
+.sab-lbl { font-size: 10px; font-weight: 600; color: var(--forest-d); font-family: var(--fm); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+.sab-elapsed { font-family: var(--fm); font-size: 15px; font-weight: 500; color: var(--ink); }
+.sab-since { font-size: 10px; color: var(--ink4); margin-top: 1px; }
+.sab-btns { display: flex; gap: 5px; margin-top: 7px; }
+
+/* Exam box */
+.exam-box {
+  margin: 10px 10px 0; background: var(--paper);
+  border: 1px solid var(--paper4); border-radius: var(--r2);
+  padding: 12px 14px; box-shadow: var(--sh);
+}
+.ex-big { font-family: var(--fd); font-size: 36px; font-weight: 700; color: var(--terra); line-height: 1; }
+.ex-lbl { font-family: var(--fm); font-size: 9px; color: var(--ink4); text-transform: uppercase; letter-spacing: .08em; margin-top: 1px; }
+.ex-date { font-size: 11px; color: var(--ink4); margin-top: 4px; }
+.ex-prog-row { display: flex; justify-content: space-between; font-family: var(--fm); font-size: 9px; color: var(--ink4); margin: 8px 0 3px; }
+.prog-bar { background: var(--paper3); border-radius: 100px; height: 4px; overflow: hidden; }
+.prog-fill { height: 4px; border-radius: 100px; background: linear-gradient(90deg, var(--terra), var(--marigold)); transition: width .7s ease; }
+
+/* Alert */
+.deadline-pill {
+  margin: 8px 10px 0; background: var(--marigold-l);
+  border: 1px solid rgba(200,122,0,.25); border-radius: var(--r);
+  padding: 8px 11px;
+}
+.dp-head { font-size: 10px; font-weight: 600; color: var(--marigold-d); font-family: var(--fm); margin-bottom: 2px; }
+.dp-body { font-size: 11px; color: var(--ink3); line-height: 1.5; }
+
+/* Sidebar stats */
+.sb-stats { padding: 10px 14px 0; }
+.sb-stat { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--paper3); }
+.sb-stat:last-child { border-bottom: none; }
+.sb-stat-l { font-size: 11px; color: var(--ink3); }
+.sb-stat-v { font-family: var(--fm); font-size: 11px; color: var(--ink2); font-weight: 500; }
+
+/* ── MAIN ────────────────────────────── */
+.main { overflow-y: auto; background: var(--paper); }
+.panel { display: none; padding: 26px 30px; min-height: 100%; animation: fade .2s ease; }
+.panel.on { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Page header */
+.ph { margin-bottom: 22px; }
+.pt { font-family: var(--fd); font-size: 24px; font-weight: 700; color: var(--ink); line-height: 1.2; letter-spacing: -.02em; }
+.pt em { font-style: italic; color: var(--terra); }
+.ps { font-size: 12px; color: var(--ink4); margin-top: 4px; }
+
+/* ── METRICS ────────────────────────── */
+.mets { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 16px; }
+.met {
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r2); padding: 14px 16px;
+  box-shadow: var(--sh); position: relative; overflow: hidden;
+  transition: border-color .18s, transform .18s;
+}
+.met:hover { border-color: var(--paper5); transform: translateY(-1px); }
+.met::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: var(--r2) var(--r2) 0 0; }
+.met.terra::before { background: var(--terra); }
+.met.forest::before { background: var(--forest); }
+.met.slate::before { background: var(--slate); }
+.met.marigold::before { background: var(--marigold); }
+.met-v { font-family: var(--fd); font-size: 28px; font-weight: 700; line-height: 1; color: var(--ink); position: relative; margin-top: 4px; }
+.met.terra .met-v { color: var(--terra-d); }
+.met.forest .met-v { color: var(--forest-d); }
+.met.slate .met-v { color: var(--slate-d); }
+.met.marigold .met-v { color: var(--marigold-d); }
+.met-l { font-size: 11px; color: var(--ink3); margin-top: 5px; }
+.met-s { font-family: var(--fm); font-size: 10px; color: var(--ink5); margin-top: 2px; }
+
+/* ── CARDS ──────────────────────────── */
+.card { background: #fff; border: 1px solid var(--paper4); border-radius: var(--r2); box-shadow: var(--sh); transition: border-color .18s; }
+.card:hover { border-color: var(--paper5); }
+.ch { font-family: var(--fm); font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
+/* Schedule */
+.sg { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 8px; }
+.sd { border-radius: 6px; padding: 8px 3px; text-align: center; background: var(--paper2); border: 1.5px solid transparent; transition: .16s; }
+.sd.study { background: var(--terra-l); border-color: rgba(192,68,26,.2); }
+.sd.today { border-color: var(--terra) !important; box-shadow: 0 0 0 2px rgba(192,68,26,.15); }
+.sd.rest { opacity: .38; }
+.sd-d { font-family: var(--fm); font-size: 9px; color: var(--ink4); text-transform: uppercase; letter-spacing: .05em; }
+.sd-h { font-family: var(--fd); font-size: 16px; font-weight: 700; color: var(--terra-d); margin: 2px 0; line-height: 1; }
+.sd.rest .sd-h { color: var(--ink5); font-family: var(--fm); font-size: 11px; }
+.sd-t { font-size: 9px; color: var(--ink4); }
+
+/* Log rows */
+.lr { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-bottom: 1px solid var(--paper3); }
+.lr:last-child { border-bottom: none; }
+.lr-dt { font-family: var(--fm); font-size: 10px; color: var(--ink4); width: 65px; flex-shrink: 0; }
+.lr-sc { font-family: var(--fm); font-size: 11px; font-weight: 500; width: 35px; flex-shrink: 0; }
+.lr-tp { font-size: 12px; color: var(--ink2); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lr-h  { font-family: var(--fm); font-size: 10px; color: var(--ink4); }
+.sg { color: var(--forest-d); } .sm { color: var(--marigold-d); } .sb2 { color: var(--terra-d); }
+
+/* Domain bars */
+.dr { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.dn { font-size: 12px; color: var(--ink); width: 182px; flex-shrink: 0; }
+.dp { font-family: var(--fm); font-size: 11px; color: var(--ink4); width: 30px; text-align: right; flex-shrink: 0; }
+.pb { background: var(--paper3); border-radius: 100px; height: 6px; flex: 1; overflow: hidden; }
+.pf { height: 6px; border-radius: 100px; transition: width .8s cubic-bezier(.34,1.2,.64,1); }
+
+/* Activity dots */
+.agrid { display: flex; flex-wrap: wrap; gap: 3px; }
+.dot { width: 12px; height: 12px; border-radius: 3px; background: var(--paper3); transition: .18s; }
+.dot.on  { background: var(--terra); opacity: .7; }
+.dot.tod { background: var(--forest); box-shadow: 0 0 5px rgba(45,106,74,.35); }
+.dot.wk  { background: var(--paper2); border: 1px solid var(--paper3); }
+
+/* Motivation */
+.motive-card {
+  background: linear-gradient(135deg, #fffbf5, var(--terra-l));
+  border: 1px solid rgba(192,68,26,.18); border-radius: var(--r2);
+  padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--sh);
+}
+.motive-q { font-family: var(--fd); font-size: 14px; font-style: italic; color: var(--ink); line-height: 1.65; }
+.motive-src { font-family: var(--fm); font-size: 10px; color: var(--ink5); margin-top: 7px; }
+.tip-card { background: #fff; border: 1px solid var(--paper4); border-radius: var(--r2); padding: 13px 15px; margin-bottom: 10px; box-shadow: var(--sh); }
+.tip-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.tip-icon { font-size: 15px; }
+.tip-lbl { font-family: var(--fm); font-size: 10px; color: var(--ink4); text-transform: uppercase; letter-spacing: .08em; }
+.tip-body { font-size: 13px; color: var(--ink2); line-height: 1.65; }
+.alert-banner { background: var(--marigold-l); border: 1px solid rgba(200,122,0,.25); border-radius: var(--r2); padding: 13px 16px; margin-bottom: 12px; }
+.ab-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.ab-icon { font-size: 15px; }
+.ab-title { font-size: 12px; font-weight: 600; color: var(--marigold-d); }
+.ab-body  { font-size: 12px; color: var(--ink2); line-height: 1.65; }
+
+/* ── BUTTONS ────────────────────────── */
+.btn {
+  font-family: var(--ff); font-size: 12px; font-weight: 500;
+  padding: 8px 16px; border-radius: var(--r);
+  border: 1.5px solid var(--paper4); background: var(--paper2);
+  color: var(--ink); cursor: pointer; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 6px; line-height: 1.2;
+  -webkit-appearance: none;
+}
+.btn:hover { background: var(--paper3); border-color: var(--paper5); }
+.btn-p { background: var(--terra); border-color: var(--terra-d); color: #fff; }
+.btn-p:hover { background: var(--terra-d); }
+.btn-g { background: var(--forest-l); border-color: rgba(45,106,74,.3); color: var(--forest-d); }
+.btn-g:hover { background: rgba(45,106,74,.18); }
+.btn-r { border-color: rgba(192,68,26,.35); color: var(--terra-d); }
+.btn-r:hover { background: var(--terra-l); }
+.btn-ink { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.btn-ink:hover { background: var(--ink2); }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
+.btn-xs { padding: 3px 8px; font-size: 10px; }
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn-ghost:hover { background: var(--paper2); }
+
+/* ── FORMS ──────────────────────────── */
+input, textarea, select {
+  font-family: var(--ff); font-size: 13px;
+  color: var(--ink); background: var(--paper2);
+  border: 1.5px solid var(--paper4); border-radius: var(--r);
+  padding: 9px 12px; outline: none; width: 100%;
+  transition: border .14s, background .14s; -webkit-appearance: none; appearance: none;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--terra); background: #fff; }
+textarea { resize: vertical; min-height: 85px; line-height: 1.65; }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239c8468' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center; padding-right: 30px;
+}
+.fl { display: block; font-family: var(--fm); font-size: 10px; color: var(--ink4); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+.fld { margin-bottom: 11px; }
+
+/* ── TRAIN FILTERS ──────────────────── */
+.filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.fc {
+  font-size: 11px; font-family: var(--fm);
+  padding: 4px 12px; border-radius: 100px;
+  border: 1.5px solid var(--paper4); background: transparent;
+  color: var(--ink4); cursor: pointer; transition: .15s; white-space: nowrap;
+}
+.fc:hover { color: var(--ink); border-color: var(--paper5); }
+.fc.on { font-weight: 600; }
+.fc.fall.on  { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.fc.fp.on    { background: var(--terra-l); border-color: var(--terra); color: var(--terra-d); }
+.fc.fr.on    { background: var(--forest-l); border-color: var(--forest); color: var(--forest-d); }
+.fc.fbi.on   { background: var(--slate-l); border-color: var(--slate); color: var(--slate-d); }
+.fc.fa.on    { background: var(--plum-l); border-color: var(--plum); color: var(--plum-d); }
+
+/* ── SESSION BAR ────────────────────── */
+.sbar {
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r2); padding: 12px 16px;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 12px; box-shadow: var(--sh);
+}
+.ss-v  { font-family: var(--fd); font-size: 22px; font-weight: 700; line-height: 1; color: var(--ink); }
+.ss-l  { font-family: var(--fm); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink4); margin-top: 2px; }
+.ss-pbg { background: var(--paper3); border-radius: 100px; height: 5px; flex: 1; overflow: hidden; }
+.ss-pf  { height: 5px; border-radius: 100px; transition: width .4s, background .4s; background: var(--forest); }
+
+/* ── QUESTION CARD ──────────────────── */
+.qcard {
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r2); padding: 22px;
+  margin-bottom: 10px; box-shadow: var(--sh);
+  transition: border-color .18s;
+}
+.qmeta { display: flex; align-items: center; gap: 6px; margin-bottom: 13px; flex-wrap: wrap; }
+.qdb { font-family: var(--fm); font-size: 10px; padding: 3px 9px; border-radius: 100px; font-weight: 500; }
+.qdb-p { background: var(--terra-l); color: var(--terra-d); border: 1px solid rgba(192,68,26,.2); }
+.qdb-r { background: var(--forest-l); color: var(--forest-d); border: 1px solid rgba(45,106,74,.2); }
+.qdb-b { background: var(--slate-l); color: var(--slate-d); border: 1px solid rgba(58,95,138,.2); }
+.qsub  { font-family: var(--fm); font-size: 10px; padding: 3px 9px; border-radius: 100px; background: var(--paper2); color: var(--ink3); border: 1px solid var(--paper4); }
+.qn { font-family: var(--fm); font-size: 10px; color: var(--ink5); margin-left: auto; }
+.qtext { font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: 18px; }
+.opts { display: flex; flex-direction: column; gap: 7px; }
+.opt {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 11px 14px; border: 1.5px solid var(--paper4);
+  border-radius: var(--r); cursor: pointer;
+  font-size: 13.5px; color: var(--ink3); line-height: 1.55;
+  transition: .15s; background: var(--paper2);
+}
+.opt:hover { border-color: var(--paper5); background: var(--paper3); color: var(--ink); }
+.opt.sel { border-color: var(--terra); background: var(--terra-l); color: var(--ink); }
+.opt.ok  { border-color: var(--forest); background: var(--forest-l); color: var(--forest-d); }
+.opt.bad { border-color: var(--terra); background: var(--terra-l); color: var(--terra-d); }
+.opt.locked { cursor: default; }
+.ol {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--fm); font-weight: 500;
+  flex-shrink: 0; margin-top: 1px;
+}
+.opt.ok  .ol { background: var(--forest); border-color: var(--forest); color: #fff; }
+.opt.bad .ol { background: var(--terra);  border-color: var(--terra);  color: #fff; }
+.expl {
+  border-left: 4px solid var(--forest); background: var(--forest-l);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 13px 16px; margin-top: 13px;
+  font-size: 13px; line-height: 1.72; color: var(--ink2);
+}
+.expl strong { color: var(--forest-d); font-weight: 600; }
+.expl.ex-bad { border-left-color: var(--terra); background: var(--terra-l); }
+.expl.ex-bad strong { color: var(--terra-d); }
+.qact { display: flex; gap: 8px; align-items: center; margin-top: 11px; flex-wrap: wrap; }
+
+/* ── ADD QUESTION UI ────────────────── */
+.add-q-panel {
+  background: #fff; border: 1.5px dashed var(--paper4);
+  border-radius: var(--r2); padding: 20px;
+  margin-top: 20px; transition: border-color .2s;
+}
+.add-q-panel:hover { border-color: var(--paper5); }
+.add-q-title {
+  font-family: var(--fd); font-size: 15px; font-style: italic;
+  color: var(--ink); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+}
+.add-q-title .toggle-icon { font-size: 12px; color: var(--ink4); transition: transform .2s; }
+.add-q-title.open .toggle-icon { transform: rotate(90deg); }
+.add-q-form { display: none; }
+.add-q-form.open { display: block; }
+.opt-inputs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.opt-input-row { display: flex; align-items: center; gap: 8px; }
+.opt-letter-badge {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--paper4); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--fm); font-weight: 500;
+  color: var(--ink4);
+}
+.opt-letter-badge.selected { background: var(--forest); border-color: var(--forest); color: #fff; }
+.opt-input-row input { flex: 1; }
+.correct-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+.correct-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 100px;
+  border: 1.5px solid var(--paper4); background: transparent;
+  font-family: var(--fm); font-size: 10px; color: var(--ink4);
+  cursor: pointer; transition: .14s;
+}
+.correct-btn:hover { border-color: var(--forest); color: var(--forest-d); }
+.correct-btn.on { background: var(--forest-l); border-color: var(--forest); color: var(--forest-d); font-weight: 600; }
+.custom-q-badge {
+  background: var(--marigold-l); color: var(--marigold-d);
+  border: 1px solid rgba(200,122,0,.2);
+  font-family: var(--fm); font-size: 10px;
+  padding: 2px 8px; border-radius: 100px; font-weight: 500;
+}
+
+/* ── NOTES ──────────────────────────── */
+.notes-shell { display: grid; grid-template-columns: 320px 1fr; gap: 14px; align-items: start; }
+.editor-card {
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r2); overflow: hidden;
+  box-shadow: var(--sh); position: sticky; top: 16px;
+}
+.editor-head {
+  padding: 14px 15px 11px; border-bottom: 1px solid var(--paper3);
+}
+.editor-title { font-family: var(--fd); font-size: 14px; font-style: italic; color: var(--ink); margin-bottom: 10px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.tag-b {
+  font-size: 10px; font-family: var(--fm);
+  padding: 3px 10px; border-radius: 100px;
+  border: 1.5px solid var(--paper4); background: transparent;
+  color: var(--ink4); cursor: pointer; transition: .13s;
+}
+.tag-b:hover { color: var(--ink); border-color: var(--paper5); }
+.tag-b.on { font-weight: 600; }
+.tag-b[data-t="People"].on   { background: var(--terra-l);  border-color: var(--terra);   color: var(--terra-d);    }
+.tag-b[data-t="Process"].on  { background: var(--forest-l); border-color: var(--forest);  color: var(--forest-d);   }
+.tag-b[data-t="Business"].on { background: var(--slate-l);  border-color: var(--slate);   color: var(--slate-d);    }
+.tag-b[data-t="Formula"].on  { background: var(--marigold-l); border-color: var(--marigold); color: var(--marigold-d); }
+.tag-b[data-t="Agile"].on    { background: var(--plum-l);   border-color: var(--plum);    color: var(--plum-d);     }
+.tag-b[data-t="Ethics"].on   { background: var(--forest-l); border-color: var(--forest);  color: var(--forest-d);   }
+
+/* Toolbar */
+.toolbar {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 1px; padding: 5px 8px;
+  background: var(--paper2); border-bottom: 1px solid var(--paper3);
+}
+.tbg { display: flex; gap: 1px; }
+.tbsep { width: 1px; background: var(--paper4); margin: 0 3px; align-self: stretch; }
+.tbtn {
+  width: 26px; height: 26px; border-radius: 5px;
+  border: none; background: transparent; color: var(--ink3);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; font-family: var(--ff);
+  transition: .13s; flex-shrink: 0; line-height: 1;
+}
+.tbtn:hover { background: var(--paper3); color: var(--ink); }
+.tbtn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; pointer-events: none; }
+.hl-strip { display: flex; align-items: center; gap: 3px; }
+.hl-lbl { font-size: 9px; color: var(--ink4); font-family: var(--fm); margin-right: 2px; }
+.cdot {
+  width: 13px; height: 13px; border-radius: 50%;
+  cursor: pointer; border: 2px solid transparent; transition: .13s; flex-shrink: 0;
+}
+.cdot:hover, .cdot.on { border-color: var(--ink); transform: scale(1.15); }
+/* Mode toggle */
+.mode-row {
+  display: flex; gap: 2px;
+  background: var(--paper2); border-bottom: 1px solid var(--paper3); padding: 4px 8px;
+}
+.mdbtn {
+  flex: 1; padding: 4px; border-radius: 5px;
+  font-size: 10px; font-family: var(--fm); border: none;
+  background: transparent; color: var(--ink4); cursor: pointer; transition: .13s; text-align: center;
+}
+.mdbtn.on { background: var(--paper3); color: var(--ink); font-weight: 600; }
+/* Editor content */
+#editor {
+  min-height: 140px; max-height: 260px; overflow-y: auto;
+  padding: 10px 13px; font-size: 13px; color: var(--ink2);
+  line-height: 1.75; outline: none; font-family: var(--ff); word-break: break-word;
+}
+#editor:empty::before { content: attr(data-placeholder); color: var(--ink5); pointer-events: none; font-style: italic; }
+#editor h1 { font-family: var(--fd); font-size: 17px; color: var(--ink); margin: 7px 0 3px; }
+#editor h2 { font-size: 14px; font-weight: 600; color: var(--ink); margin: 6px 0 3px; border-bottom: 1px solid var(--paper3); padding-bottom: 3px; }
+#editor h3 { font-size: 13px; font-weight: 600; color: var(--ink2); margin: 4px 0 2px; text-transform: uppercase; letter-spacing: .05em; }
+#editor b, #editor strong { font-weight: 700; color: var(--ink); }
+#editor i, #editor em { font-style: italic; }
+#editor code { font-family: var(--fm); font-size: 11.5px; background: var(--paper2); color: var(--terra-d); padding: 1px 4px; border-radius: 4px; border: 1px solid var(--paper3); }
+#editor pre { font-family: var(--fm); font-size: 11.5px; background: var(--paper2); color: var(--forest-d); padding: 9px 11px; border-radius: var(--r); border: 1px solid var(--paper3); overflow-x: auto; margin: 7px 0; }
+#editor blockquote { border-left: 3px solid var(--marigold); padding-left: 11px; color: var(--ink4); font-style: italic; margin: 7px 0; }
+#editor ul, #editor ol { padding-left: 18px; margin: 5px 0; }
+#editor li { margin: 2px 0; }
+#editor hr { border: none; border-top: 1px solid var(--paper3); margin: 9px 0; }
+#editor .hl-rose    { background: rgba(192,68,26,.18);  color: var(--terra-d);   border-radius: 3px; padding: 0 2px; }
+#editor .hl-gold    { background: rgba(200,122,0,.18);  color: var(--marigold-d); border-radius: 3px; padding: 0 2px; }
+#editor .hl-mint    { background: rgba(45,106,74,.15);  color: var(--forest-d);  border-radius: 3px; padding: 0 2px; }
+#editor .hl-sky     { background: rgba(58,95,138,.15);  color: var(--slate-d);   border-radius: 3px; padding: 0 2px; }
+#editor .hl-violet  { background: rgba(122,61,138,.15); color: var(--plum-d);    border-radius: 3px; padding: 0 2px; }
+.editor-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 10px; background: var(--paper2); border-top: 1px solid var(--paper3);
+}
+.editor-count { font-family: var(--fm); font-size: 9px; color: var(--ink5); }
+.editor-hint  { font-size: 9px; color: var(--ink5); }
+.editor-save-row { padding: 9px 10px; background: var(--paper2); border-top: 1px solid var(--paper3); }
+#editor-md {
+  font-family: var(--fm); font-size: 12px; line-height: 1.7;
+  border: none; border-radius: 0; border-top: 1px solid var(--paper3);
+  background: var(--paper); min-height: 150px; max-height: 260px;
+}
+
+/* NOTES LIST */
+.notes-list-head { display: flex; gap: 7px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+.notes-sw { position: relative; flex: 1; min-width: 100px; }
+.notes-sw input { padding-left: 30px; font-size: 12px; }
+.nsw-ic { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--ink4); font-size: 12px; pointer-events: none; }
+.vtb { width: 28px; height: 28px; border-radius: 6px; border: 1.5px solid var(--paper4); background: transparent; color: var(--ink4); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: .13s; }
+.vtb.on, .vtb:hover { background: var(--paper3); color: var(--ink); border-color: var(--paper5); }
+.nc-lbl { font-family: var(--fm); font-size: 10px; color: var(--ink5); }
+
+/* Topic accordion */
+.topic-group { border: 1px solid var(--paper4); border-radius: var(--r2); margin-bottom: 8px; overflow: hidden; background: #fff; box-shadow: var(--sh); }
+.topic-hdr { display: flex; align-items: center; gap: 9px; padding: 12px 14px; cursor: pointer; transition: background .14s; user-select: none; }
+.topic-hdr:hover, .topic-hdr.open { background: var(--paper2); }
+.topic-chev { font-size: 9px; color: var(--ink4); transition: transform .18s; flex-shrink: 0; font-family: var(--fm); }
+.topic-hdr.open .topic-chev { transform: rotate(90deg); }
+.topic-pill { font-family: var(--fm); font-size: 9px; padding: 2px 7px; border-radius: 100px; font-weight: 600; flex-shrink: 0; }
+.topic-lbl { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; }
+.topic-cnt { font-family: var(--fm); font-size: 10px; color: var(--ink4); background: var(--paper3); padding: 2px 7px; border-radius: 100px; }
+.topic-body { display: none; border-top: 1px solid var(--paper3); }
+.topic-body.open { display: block; }
+/* Note rows */
+.nrow { border-bottom: 1px solid var(--paper3); }
+.nrow:last-child { border-bottom: none; }
+.nrow-hdr { display: flex; align-items: center; gap: 9px; padding: 10px 14px; cursor: pointer; transition: background .13s; user-select: none; }
+.nrow-hdr:hover, .nrow-hdr.open { background: var(--paper2); }
+.nrow-chev { font-size: 9px; color: var(--ink4); transition: transform .18s; flex-shrink: 0; font-family: var(--fm); }
+.nrow-hdr.open .nrow-chev { transform: rotate(90deg); }
+.nrow-title { font-size: 13px; color: var(--ink3); flex: 1; line-height: 1.3; }
+.nrow-hdr.open .nrow-title { color: var(--ink); font-weight: 500; }
+.nrow-date { font-family: var(--fm); font-size: 9px; color: var(--ink5); flex-shrink: 0; }
+.nrow-body { display: none; border-top: 1px solid var(--paper3); }
+.nrow-body.open { display: block; }
+.nrow-content { padding: 12px 14px; font-size: 13px; color: var(--ink2); line-height: 1.75; }
+/* Markdown in note rows */
+.nrow-content h1 { font-family: var(--fd); font-size: 16px; color: var(--ink); margin: 6px 0 3px; }
+.nrow-content h2 { font-size: 13px; font-weight: 600; color: var(--ink); margin: 5px 0 2px; border-bottom: 1px solid var(--paper3); padding-bottom: 3px; }
+.nrow-content h3 { font-size: 12px; font-weight: 600; color: var(--ink2); margin: 4px 0 2px; text-transform: uppercase; letter-spacing: .04em; }
+.nrow-content strong { font-weight: 700; color: var(--ink); }
+.nrow-content code { font-family: var(--fm); font-size: 11px; background: var(--paper2); color: var(--terra-d); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--paper3); }
+.nrow-content pre { font-family: var(--fm); font-size: 11px; background: var(--paper2); color: var(--forest-d); padding: 8px 10px; border-radius: var(--r); border: 1px solid var(--paper3); overflow-x: auto; margin: 5px 0; }
+.nrow-content blockquote { border-left: 3px solid var(--marigold); padding-left: 10px; color: var(--ink4); font-style: italic; margin: 5px 0; }
+.nrow-content ul, .nrow-content ol { padding-left: 16px; margin: 4px 0; }
+.nrow-content li { margin: 2px 0; }
+.nrow-content hr { border: none; border-top: 1px solid var(--paper3); margin: 6px 0; }
+.nrow-content .hl-rose   { background: rgba(192,68,26,.18); color: var(--terra-d);    border-radius: 3px; padding: 0 2px; }
+.nrow-content .hl-gold   { background: rgba(200,122,0,.18); color: var(--marigold-d); border-radius: 3px; padding: 0 2px; }
+.nrow-content .hl-mint   { background: rgba(45,106,74,.15); color: var(--forest-d);   border-radius: 3px; padding: 0 2px; }
+.nrow-content .hl-sky    { background: rgba(58,95,138,.15); color: var(--slate-d);    border-radius: 3px; padding: 0 2px; }
+.nrow-content .hl-violet { background: rgba(122,61,138,.15); color: var(--plum-d);   border-radius: 3px; padding: 0 2px; }
+.nrow-actions { display: flex; gap: 6px; padding: 8px 14px 10px; border-top: 1px solid var(--paper3); background: var(--paper2); }
+/* Tag pills */
+.nt-People   { background: var(--terra-l);    color: var(--terra-d);    border: 1px solid rgba(192,68,26,.2);   }
+.nt-Process  { background: var(--forest-l);   color: var(--forest-d);   border: 1px solid rgba(45,106,74,.2);   }
+.nt-Business { background: var(--slate-l);    color: var(--slate-d);    border: 1px solid rgba(58,95,138,.2);   }
+.nt-Formula  { background: var(--marigold-l); color: var(--marigold-d); border: 1px solid rgba(200,122,0,.2);   }
+.nt-Agile    { background: var(--plum-l);     color: var(--plum-d);     border: 1px solid rgba(122,61,138,.2);  }
+.nt-Ethics   { background: var(--forest-l);   color: var(--forest-d);   border: 1px solid rgba(45,106,74,.2);   }
+.empty { text-align: center; padding: 44px 16px; color: var(--ink4); }
+.empty-i { font-size: 28px; opacity: .3; margin-bottom: 8px; }
+
+/* ── REFS ───────────────────────────── */
+.ref-tabs {
+  display: flex; gap: 2px; background: var(--paper2);
+  border: 1.5px solid var(--paper4); border-radius: var(--r2);
+  padding: 3px; margin-bottom: 16px; overflow-x: auto;
+}
+.ref-tab {
+  flex: 1; min-width: max-content; padding: 6px 10px;
+  border-radius: 9px; font-size: 11px; font-family: var(--fm);
+  color: var(--ink4); cursor: pointer; text-align: center;
+  transition: .15s; border: none; background: transparent; white-space: nowrap;
+}
+.ref-tab:hover { color: var(--ink); background: var(--paper3); }
+.ref-tab.on { background: var(--ink); color: var(--paper); font-weight: 600; }
+.ref-panel { display: none; } .ref-panel.on { display: block; }
+.rsect { margin-bottom: 20px; }
+.rtitle {
+  font-family: var(--fm); font-size: 10px; color: var(--ink4);
+  text-transform: uppercase; letter-spacing: .1em;
+  padding-bottom: 7px; border-bottom: 2px solid var(--paper3);
+  margin-bottom: 11px;
+}
+.rcard {
+  display: flex; gap: 12px; padding: 12px 14px;
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r2); margin-bottom: 8px;
+  transition: all .16s; cursor: pointer; text-decoration: none;
+  box-shadow: var(--sh);
+}
+.rcard:hover { border-color: var(--paper5); transform: translateY(-1px); box-shadow: var(--sh2); }
+.ric { width: 34px; height: 34px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; font-style: normal; }
+.rtit { font-size: 13px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.3; margin-bottom: 2px; }
+.rbdg { font-family: var(--fm); font-size: 9px; padding: 2px 6px; border-radius: 100px; font-weight: 600; }
+.rbdg-g { background: var(--forest-l); color: var(--forest-d); border: 1px solid rgba(45,106,74,.25); }
+.rbdg-f { background: var(--marigold-l); color: var(--marigold-d); border: 1px solid rgba(200,122,0,.25); }
+.rbdg-w { background: var(--terra-l); color: var(--terra-d); border: 1px solid rgba(192,68,26,.25); }
+.rdsc { font-size: 11.5px; color: var(--ink3); line-height: 1.6; }
+.rlink { font-family: var(--fm); font-size: 10px; color: var(--slate-d); margin-top: 3px; display: block; }
+.fg { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 7px; }
+.fcard { background: var(--paper2); border: 1px solid var(--paper4); border-radius: var(--r); padding: 11px 13px; transition: .15s; }
+.fcard:hover { background: var(--paper3); border-color: var(--paper5); }
+.fn { font-size: 10px; color: var(--ink3); margin-bottom: 3px; font-family: var(--fm); }
+.fv { font-family: var(--fm); font-size: 12px; color: var(--slate-d); font-weight: 500; }
+
+/* ── SETTINGS ───────────────────────── */
+.sg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.scard { background: #fff; border: 1px solid var(--paper4); border-radius: var(--r2); padding: 18px; margin-bottom: 12px; box-shadow: var(--sh); transition: border-color .18s; }
+.scard:hover { border-color: var(--paper5); }
+.stit { font-family: var(--fd); font-size: 15px; font-style: italic; color: var(--ink); margin-bottom: 13px; }
+.slf { margin-bottom: 13px; }
+.slh { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
+.slv { font-family: var(--fm); font-size: 11px; font-weight: 600; color: var(--terra-d); }
+input[type=range] { -webkit-appearance: none; height: 4px; background: var(--paper3); border-radius: 2px; outline: none; border: none; padding: 0; width: 100%; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%; background: var(--terra); cursor: pointer; box-shadow: 0 1px 4px rgba(192,68,26,.3); }
+
+/* ── CLOUD SYNC ─────────────────────── */
+.sync-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: background .3s; }
+.sync-pulse { animation: spulse 1.4s infinite; }
+@keyframes spulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── MODAL ──────────────────────────── */
+.mov {
+  display: none; position: fixed; inset: 0;
+  background: rgba(30,24,16,.55); backdrop-filter: blur(6px);
+  z-index: 1000; align-items: center; justify-content: center; padding: 16px;
+}
+.mov.open { display: flex; }
+.modal {
+  background: #fff; border: 1px solid var(--paper4);
+  border-radius: var(--r3); padding: 24px;
+  width: 420px; max-width: 100%; box-shadow: var(--sh2);
+  animation: mi .2s ease;
+}
+@keyframes mi { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+.mtit {
+  font-family: var(--fd); font-size: 18px; font-style: italic;
+  color: var(--ink); margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.mx { background: transparent; border: none; color: var(--ink4); font-size: 18px; cursor: pointer; padding: 2px 6px; border-radius: 4px; line-height: 1; }
+.mx:hover { background: var(--paper2); color: var(--ink); }
+.mact { display: flex; gap: 7px; margin-top: 14px; }
+
+/* ── TOAST ──────────────────────────── */
+.toast {
+  position: fixed; bottom: max(20px,env(safe-area-inset-bottom)); right: 20px;
+  background: var(--ink); color: var(--paper);
+  font-size: 12px; padding: 10px 16px; border-radius: var(--r2);
+  box-shadow: var(--sh2); z-index: 2000;
+  transform: translateY(16px); opacity: 0;
+  transition: all .26s cubic-bezier(.34,1.3,.64,1);
+  pointer-events: none; display: flex; align-items: center; gap: 8px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.ok  { background: var(--forest-d); }
+.toast.err { background: var(--terra-d); }
+.tdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.toast.ok  .tdot { background: #a8dfc0; }
+.toast.err .tdot { background: #f0a898; }
+
+/* ── MOBILE NAV ─────────────────────── */
+.mnav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(245,240,232,.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--paper4);
+  padding: 7px 0 max(7px,env(safe-area-inset-bottom));
+}
+.mni-r { display: flex; justify-content: space-around; }
+.mni {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 4px 10px; cursor: pointer;
+  color: var(--ink4); font-family: var(--fm); font-size: 9px;
+  letter-spacing: .04em; transition: color .15s; min-width: 52px;
+}
+.mni.on { color: var(--terra); }
+.mni svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.7; fill: none; }
+
+/* ── RESPONSIVE ─────────────────────── */
+@media(max-width:860px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail, .sidebar { display: none; }
+  .mets { grid-template-columns: repeat(2,1fr); }
+  .g2, .g3, .notes-shell, .sg2 { grid-template-columns: 1fr; }
+  .mnav { display: block; }
+  .panel { padding: 14px 14px 80px; }
+  .editor-card { position: static; }
+  .ref-tabs { padding: 3px; gap: 1px; }
+  .ref-tab { font-size: 10px; padding: 5px 8px; }
+  .qtext { font-size: 14px; }
+  .pt { font-size: 20px; }
+  .filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .toolbar { gap: 1px; }
+  .tbsep { display: none; }
+  .editor-hint { display: none; }
+  .add-q-panel { padding: 14px; }
+}
+@media(max-width:420px) {
+  .mets { grid-template-columns: repeat(2,1fr); }
+  .met { padding: 11px 12px; }
+  .met-v { font-size: 22px; }
+  .tbtn { width: 24px; height: 24px; }
+  .hl-lbl { display: none; }
+  .cdot { width: 12px; height: 12px; }
+  .panel { padding: 12px 12px 80px; }
+}
 </style>
 </head>
 <body>
-<div class="app">
-<!-- ICON RAIL -->
+<div class="shell">
+<!-- RAIL -->
 <nav class="rail">
-  <div class="rail-logo"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+  <div class="rail-mark">P</div>
   <div class="ri on" onclick="go('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="ri-tip">Dashboard</span></div>
   <div class="ri" onclick="go('train')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="ri-tip">Train</span></div>
   <div class="ri" onclick="go('notes')"><svg viewBox="0 0 24 24"><path d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg><span class="ri-tip">Notes</span></div>
@@ -521,29 +781,30 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 </nav>
 <!-- SIDEBAR -->
 <aside class="sidebar">
-  <div class="sb-top">
-    <div class="sb-title">PMP Study Hub</div>
+  <div class="sb-head">
+    <div class="sb-wordmark">PMP Study Hub</div>
     <div class="sb-sub" id="sb-date-lbl">—</div>
   </div>
-  <!-- TIMER -->
-  <div class="timer-section">
-    <div class="timer-mode-strip">
-      <span class="timer-mode-name" id="tm-name">Work session</span>
-      <span class="timer-session-info" id="tm-info">#1 of 8</span>
+  <div class="sb-scroll">
+    <div class="tmr-outer">
+      <div class="tmr-card">
+        <div class="tmr-inner-top">
+          <div class="tmr-row"><span class="tmr-mode-lbl" id="tm-name">Work session</span><span class="tmr-count-lbl" id="tm-info">#1 of 8</span></div>
+          <div class="tmr-ring-wrap">
+            <svg width="84" height="84" viewBox="0 0 84 84"><circle class="tr-bg" cx="42" cy="42" r="38"/><circle class="tr-fill" id="tr-fill" cx="42" cy="42" r="38"/></svg>
+            <div class="tmr-face"><div class="tmr-digits" id="t-disp">25:00</div><div class="tmr-phase-lbl" id="t-phase">FOCUS</div></div>
+          </div>
+          <div class="tmr-dots" id="t-dots"></div>
+        </div>
+        <div class="tmr-btns">
+          <button class="tbn go" id="t-btn" onclick="tToggle()">Start</button>
+          <button class="tbn" onclick="tReset()">Reset</button>
+          <button class="tbn" onclick="tSkip()">Skip</button>
+        </div>
+      </div>
     </div>
-    <div class="timer-ring-wrap">
-      <svg width="100" height="100" viewBox="0 0 100 100"><circle class="tr-bg" cx="50" cy="50" r="45"/><circle class="tr-main" id="tr-main" cx="50" cy="50" r="45"/></svg>
-      <div class="timer-inner"><div class="timer-time" id="t-disp">25:00</div><div class="timer-phase" id="t-phase">FOCUS</div></div>
-    </div>
-    <div class="timer-dots" id="t-dots"></div>
-    <div class="tbns">
-      <button class="tbn go" id="t-btn" onclick="tToggle()">Start</button>
-      <button class="tbn" onclick="tReset()">Reset</button>
-      <button class="tbn" onclick="tSkip()">Skip</button>
-    </div>
-    <!-- Active session tracker -->
-    <div class="session-active-banner" id="sab">
-      <div class="sab-title">Session in progress</div>
+    <div class="sab" id="sab">
+      <div class="sab-lbl">Session in progress</div>
       <div class="sab-elapsed" id="sab-elapsed">0:00</div>
       <div class="sab-since" id="sab-since">started —</div>
       <div class="sab-btns">
@@ -551,526 +812,338 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
         <button class="btn btn-xs" onclick="endSession(false)">Discard</button>
       </div>
     </div>
-  </div>
-  <!-- EXAM COUNTDOWN -->
-  <div class="exam-box">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between">
-      <div>
-        <div class="ex-days" id="ex-days">—</div>
-        <div class="ex-lbl">days to exam</div>
-        <div class="ex-date" id="ex-date-lbl">Set date in Settings</div>
-      </div>
-      <svg width="44" height="44" viewBox="0 0 44 44" class="ring-svg">
-        <circle class="ring-bg" cx="22" cy="22" r="18"/>
-        <circle class="ring-fill" id="exam-ring" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/>
-      </svg>
+    <div class="exam-box">
+      <div class="ex-big" id="ex-days">—</div>
+      <div class="ex-lbl">days to exam</div>
+      <div class="ex-date" id="ex-date-lbl">Set date in Settings</div>
+      <div class="ex-prog-row"><span>Study coverage</span><span id="ex-prog-pct">0%</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="ex-prog-fill" style="width:0%"></div></div>
     </div>
-    <div class="ex-progress">
-      <div class="ex-prog-lbl"><span>Study progress</span><span id="ex-prog-pct">0%</span></div>
-      <div class="ex-prog-bar"><div class="ex-prog-fill" id="ex-prog-fill" style="width:0%"></div></div>
+    <div class="deadline-pill">
+      <div class="dp-head">⚠ Exam changing July 9, 2026</div>
+      <div class="dp-body">Business Environment rises 8%→26%. Book before July 8 to use current format.</div>
     </div>
-  </div>
-  <!-- QUICK STATS -->
-  <div class="sb-stats">
-    <div class="sb-stat"><span class="sb-stat-l">Hours total</span><span class="sb-stat-v" id="sb-h">0.0</span></div>
-    <div class="sb-stat"><span class="sb-stat-l">Questions</span><span class="sb-stat-v" id="sb-q">0</span></div>
-    <div class="sb-stat"><span class="sb-stat-l">Avg score</span><span class="sb-stat-v" id="sb-a">—</span></div>
-    <div class="sb-stat"><span class="sb-stat-l">Streak</span><span class="sb-stat-v" id="sb-s">0 days</span></div>
-    <div class="sb-stat"><span class="sb-stat-l">Pomodoros</span><span class="sb-stat-v" id="sb-p">0 today</span></div>
+    <div class="sb-stats">
+      <div class="sb-stat"><span class="sb-stat-l">Hours studied</span><span class="sb-stat-v" id="sb-h">0.0h</span></div>
+      <div class="sb-stat"><span class="sb-stat-l">Questions done</span><span class="sb-stat-v" id="sb-q">0</span></div>
+      <div class="sb-stat"><span class="sb-stat-l">Avg score</span><span class="sb-stat-v" id="sb-a">—</span></div>
+      <div class="sb-stat"><span class="sb-stat-l">Streak</span><span class="sb-stat-v" id="sb-s">0 days</span></div>
+      <div class="sb-stat"><span class="sb-stat-l">Pomodoros today</span><span class="sb-stat-v" id="sb-p">0</span></div>
+    </div>
   </div>
 </aside>
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <main class="main">
+
 <!-- DASHBOARD -->
 <div id="panel-dashboard" class="panel on">
-<div class="ph"><div class="pt">Bonjour, <em>Heimoud</em></div><div class="ps" id="d-sub">PMP preparation at a glance</div></div>
+<div class="ph"><div class="pt">Bonjour, <em>Heimoud</em></div><div class="ps" id="d-sub">Your PMP preparation at a glance</div></div>
 <div id="motive-wrap"></div>
 <div class="mets">
-  <div class="met a"><div class="met-v" id="m-h">0.0</div><div class="met-l">Hours studied</div><div class="met-s" id="m-hw">this week: 0h</div></div>
-  <div class="met g"><div class="met-v" id="m-q">0</div><div class="met-l">Questions answered</div><div class="met-s">practice sessions</div></div>
-  <div class="met r"><div class="met-v" id="m-a">—</div><div class="met-l">Average score</div><div class="met-s">last 10 sessions</div></div>
-  <div class="met b"><div class="met-v" id="m-st">0</div><div class="met-l">Day streak</div><div class="met-s">days in a row</div></div>
+  <div class="met terra"><div class="met-v" id="m-h">0.0</div><div class="met-l">Hours studied</div><div class="met-s" id="m-hw">this week: 0h</div></div>
+  <div class="met forest"><div class="met-v" id="m-q">0</div><div class="met-l">Questions answered</div><div class="met-s">practice sessions</div></div>
+  <div class="met slate"><div class="met-v" id="m-a">—</div><div class="met-l">Average score</div><div class="met-s">last 10 sessions</div></div>
+  <div class="met marigold"><div class="met-v" id="m-st">0</div><div class="met-l">Day streak</div><div class="met-s">days in a row</div></div>
 </div>
 <div class="g2">
-  <div class="card" style="padding:16px">
-    <div class="ch">Weekly schedule</div>
-    <div class="sg" id="sched"></div>
-    <div style="font-size:11px;color:var(--text3);font-family:var(--fm)">10h/week · <span id="wl">—</span></div>
-  </div>
-  <div class="card" style="padding:16px">
-    <div class="ch">Recent sessions</div>
-    <div id="log-list"></div>
-    <button class="btn btn-p btn-sm" style="margin-top:10px;width:100%" onclick="openLog()">+ Log a session</button>
-  </div>
+  <div class="card" style="padding:16px"><div class="ch">Weekly schedule</div><div class="sg" id="sched"></div><div style="font-size:11px;color:var(--ink4);font-family:var(--fm)">10h/week · <span id="wl">—</span></div></div>
+  <div class="card" style="padding:16px"><div class="ch">Recent sessions</div><div id="log-list"></div><button class="btn btn-p btn-sm" style="margin-top:10px;width:100%" onclick="openLog()">+ Log today's session</button></div>
 </div>
-<div class="card" style="padding:16px;margin-bottom:12px">
-  <div class="ch">Domain coverage</div>
-  <div id="doms"></div>
+<div class="card" style="padding:16px;margin-bottom:12px"><div class="ch">Domain coverage</div><div id="doms"></div></div>
+<div class="card" style="padding:16px"><div class="ch">Study activity — last 28 days</div><div class="agrid" id="agrid"></div><div style="display:flex;gap:14px;margin-top:8px;font-family:var(--fm);font-size:10px;color:var(--ink4)"><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:var(--terra);opacity:.7;display:inline-block"></span>studied</span><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:var(--forest);display:inline-block"></span>today</span></div></div>
 </div>
-<div class="card" style="padding:16px">
-  <div class="ch">Study activity — last 28 days</div>
-  <div class="agrid" id="agrid"></div>
-  <div style="display:flex;gap:14px;margin-top:8px;font-family:var(--fm);font-size:10px;color:var(--text3)">
-    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--amber);opacity:.8;display:inline-block"></span>studied</span>
-    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--green);display:inline-block"></span>today</span>
-  </div>
-</div>
-</div>
+
 <!-- TRAIN -->
 <div id="panel-train" class="panel">
-<div class="ph"><div class="pt">Practice <em>questions</em></div><div class="ps">80 real PMP exam-style questions · PMI ECO 2021 · answer to save as note</div></div>
+<div class="ph"><div class="pt">Practice <em>questions</em></div><div class="ps" id="q-pool-info">Built-in questions + your custom questions · PMI ECO 2021</div></div>
 <div class="filters">
-  <button class="fc fall on" onclick="sf('all',this)">All domains</button>
+  <button class="fc fall on" onclick="sf('all',this)">All</button>
   <button class="fc fp" onclick="sf('people',this)">People 42%</button>
   <button class="fc fr" onclick="sf('process',this)">Process 50%</button>
-  <button class="fc fb" onclick="sf('business',this)">Business 8%</button>
-  <button class="fc fa" onclick="sf('agile',this)">Agile/Hybrid</button>
-  <button class="btn btn-sm" style="margin-left:auto;background:var(--amber3);border-color:rgba(245,166,35,.3);color:var(--amber)" onclick="loadQ()">↺ New</button>
+  <button class="fc fbi" onclick="sf('business',this)">Business 8%</button>
+  <button class="fc fa" onclick="sf('agile',this)">Agile</button>
+  <button class="fc" id="fc-custom" onclick="sf('custom',this)" style="display:none">★ Custom</button>
+  <button class="btn btn-sm" style="margin-left:auto;background:var(--terra-l);border-color:var(--terra);color:var(--terra-d)" onclick="loadQ()">↺ New</button>
 </div>
 <div class="sbar">
-  <div style="min-width:36px;text-align:center"><div class="ss-v" id="ss-r" style="color:var(--green)">0</div><div class="ss-l">Correct</div></div>
-  <div style="min-width:36px;text-align:center"><div class="ss-v" id="ss-t" style="color:var(--text2)">0</div><div class="ss-l">Total</div></div>
+  <div style="text-align:center"><div class="ss-v" id="ss-r" style="color:var(--forest-d)">0</div><div class="ss-l">Correct</div></div>
+  <div style="text-align:center"><div class="ss-v" id="ss-t" style="color:var(--ink2)">0</div><div class="ss-l">Total</div></div>
   <div style="flex:1">
-    <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;color:var(--text3)"><span>Session score</span><span style="font-family:var(--fm);font-weight:500" id="ss-p">—</span></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;color:var(--ink4)"><span>Session score</span><span style="font-family:var(--fm);font-weight:600" id="ss-p">—</span></div>
     <div class="ss-pbg"><div class="ss-pf" id="ss-b" style="width:0%"></div></div>
   </div>
-  <button class="btn btn-sm" onclick="logQSess()" style="flex-shrink:0">Log session</button>
+  <button class="btn btn-sm" onclick="logQSess()">Log session</button>
 </div>
 <div id="qa"></div>
-<div id="qact" style="display:none" class="qact">
-  <button class="btn btn-p" onclick="loadQ()">Next →</button>
-  <button class="btn btn-sm" onclick="saveQNote()">⊕ Save as note</button>
+<div id="qact" style="display:none" class="qact"><button class="btn btn-ink" onclick="loadQ()">Next →</button><button class="btn btn-sm" onclick="saveQNote()">⊕ Save as note</button></div>
+
+<!-- ADD CUSTOM QUESTION -->
+<div class="add-q-panel" id="add-q-panel">
+  <div class="add-q-title" onclick="toggleAddQ(this)">
+    <span>+ Add your own question</span>
+    <span class="toggle-icon">▶</span>
+  </div>
+  <div class="add-q-form" id="add-q-form">
+    <div class="fld"><label class="fl">Domain</label>
+      <select id="aq-domain"><option value="people">People</option><option value="process">Process</option><option value="business">Business</option></select>
+    </div>
+    <div class="fld"><label class="fl">Sub-topic (e.g. risk, agile, stakeholder)</label><input type="text" id="aq-sub" placeholder="e.g. risk, agile, EVM"></div>
+    <div class="fld"><label class="fl">Question</label><textarea id="aq-q" rows="3" placeholder="Type your question here…"></textarea></div>
+    <div class="fld"><label class="fl">Answer options — click the letter to mark correct answer</label>
+      <div class="opt-inputs" id="opt-inputs">
+        <div class="opt-input-row"><div class="opt-letter-badge" onclick="setCorrect(0)">A</div><input type="text" placeholder="Option A" id="aq-o0"></div>
+        <div class="opt-input-row"><div class="opt-letter-badge" onclick="setCorrect(1)">B</div><input type="text" placeholder="Option B" id="aq-o1"></div>
+        <div class="opt-input-row"><div class="opt-letter-badge" onclick="setCorrect(2)">C</div><input type="text" placeholder="Option C" id="aq-o2"></div>
+        <div class="opt-input-row"><div class="opt-letter-badge" onclick="setCorrect(3)">D</div><input type="text" placeholder="Option D" id="aq-o3"></div>
+      </div>
+      <div style="font-size:11px;color:var(--ink4);margin-top:4px">Click a letter above to mark it as the correct answer</div>
+    </div>
+    <div class="fld"><label class="fl">Explanation (why this answer is correct)</label><textarea id="aq-exp" rows="2" placeholder="Explain the PMI reasoning…"></textarea></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-p btn-sm" onclick="saveCustomQ()">Save question</button>
+      <button class="btn btn-sm" onclick="clearCustomQForm()">Clear form</button>
+    </div>
+    <div style="margin-top:12px" id="custom-q-list"></div>
+  </div>
 </div>
 </div>
+
 <!-- NOTES -->
 <div id="panel-notes" class="panel">
-<div class="ph"><div class="pt">Your <em>notes</em></div><div class="ps">Rich editor with markdown, highlighting, bold, code blocks — rendered on save</div></div>
-<div class="notes-layout">
-  <!-- LEFT: EDITOR -->
-  <div class="nform">
-    <div class="nform-title">New note</div>
-    <!-- Tag selector -->
-    <div class="tag-row" id="tag-row">
-      <button class="tag-b on" data-t="People" onclick="selTag(this)">People</button>
-      <button class="tag-b" data-t="Process" onclick="selTag(this)">Process</button>
-      <button class="tag-b" data-t="Business" onclick="selTag(this)">Business</button>
-      <button class="tag-b" data-t="Formula" onclick="selTag(this)">Formula</button>
-      <button class="tag-b" data-t="Agile" onclick="selTag(this)">Agile</button>
-      <button class="tag-b" data-t="Ethics" onclick="selTag(this)">Ethics</button>
-    </div>
-    <!-- Title -->
-    <div class="fld"><label class="fl">Title (optional)</label><input type="text" id="nt" placeholder="e.g. EVM formulas, Risk response" autocomplete="off"></div>
-    <!-- Mode toggle -->
-    <div class="mode-toggle">
-      <button class="mode-btn on" id="mode-rich" onclick="setEditorMode('rich')">✦ Rich</button>
-      <button class="mode-btn" id="mode-md" onclick="setEditorMode('md')">⌨ Markdown</button>
-      <button class="mode-btn" id="mode-preview" onclick="setEditorMode('preview')">👁 Preview</button>
-    </div>
-    <!-- Rich editor -->
-    <div class="editor-wrap" id="editor-rich-wrap">
-      <div class="toolbar">
-        <!-- Text style -->
-        <div class="tb-group">
-          <button class="tbtn2" title="Bold (Ctrl+B)" onmousedown="e=>{e.preventDefault()}" onclick="fmt('bold')"><b>B</b></button>
-          <button class="tbtn2" title="Italic (Ctrl+I)" onclick="fmt('italic')"><i>I</i></button>
-          <button class="tbtn2" title="Underline (Ctrl+U)" onclick="fmt('underline')"><u>U</u></button>
-          <button class="tbtn2" title="Strikethrough" onclick="fmt('strikeThrough')"><s>S</s></button>
-        </div>
-        <div class="tb-sep"></div>
-        <!-- Headings -->
-        <div class="tb-group">
-          <button class="tbtn2" title="Heading 1" onclick="fmtBlock('h1')" style="font-size:11px;font-weight:700">H1</button>
-          <button class="tbtn2" title="Heading 2" onclick="fmtBlock('h2')" style="font-size:11px;font-weight:600">H2</button>
-          <button class="tbtn2" title="Heading 3" onclick="fmtBlock('h3')" style="font-size:10px;font-weight:600">H3</button>
-        </div>
-        <div class="tb-sep"></div>
-        <!-- Lists -->
-        <div class="tb-group">
-          <button class="tbtn2" title="Bullet list" onclick="fmt('insertUnorderedList')">
-            <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
-          </button>
-          <button class="tbtn2" title="Numbered list" onclick="fmt('insertOrderedList')">
-            <svg viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4" stroke-linecap="round"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" stroke-linecap="round"/></svg>
-          </button>
-          <button class="tbtn2" title="Blockquote" onclick="fmtBlock('blockquote')">
-            <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
-          </button>
-        </div>
-        <div class="tb-sep"></div>
-        <!-- Code -->
-        <div class="tb-group">
-          <button class="tbtn2" title="Inline code" onclick="insertCode()" style="font-family:var(--fm);font-size:10px">&lt;/&gt;</button>
-          <button class="tbtn2" title="Code block" onclick="insertCodeBlock()" style="font-family:var(--fm);font-size:9px">⌨</button>
-          <button class="tbtn2" title="Horizontal rule" onclick="fmt('insertHorizontalRule')">—</button>
-        </div>
-        <div class="tb-sep"></div>
-        <!-- Highlight colors -->
-        <div class="hl-strip">
-          <span style="font-size:9px;color:var(--text3);font-family:var(--fm);margin-right:3px">HL</span>
-          <div class="color-dot" style="background:#f25858" title="Red highlight" onclick="highlight('red')"></div>
-          <div class="color-dot" style="background:#f5a623" title="Amber highlight" onclick="highlight('amber')"></div>
-          <div class="color-dot" style="background:#22c98a" title="Green highlight" onclick="highlight('green')"></div>
-          <div class="color-dot" style="background:#5b9cf6" title="Blue highlight" onclick="highlight('blue')"></div>
-          <div class="color-dot" style="background:#a78bfa" title="Purple highlight" onclick="highlight('purple')"></div>
-          <div class="color-dot" style="background:transparent;border:1px solid var(--border2)" title="Clear highlight" onclick="clearHighlight()">✕</div>
-        </div>
-        <div class="tb-sep"></div>
-        <!-- Undo/redo -->
-        <div class="tb-group">
-          <button class="tbtn2" title="Undo (Ctrl+Z)" onclick="fmt('undo')">↩</button>
-          <button class="tbtn2" title="Redo (Ctrl+Y)" onclick="fmt('redo')">↪</button>
-        </div>
+<div class="ph"><div class="pt">Your <em>notes</em></div><div class="ps">Rich editor · organised by topic · click any note to expand</div></div>
+<div class="notes-shell">
+  <div class="editor-card">
+    <div class="editor-head">
+      <div class="editor-title">New note</div>
+      <div class="tag-row" id="tag-row">
+        <button class="tag-b on" data-t="People" onclick="selTag(this)">People</button>
+        <button class="tag-b" data-t="Process" onclick="selTag(this)">Process</button>
+        <button class="tag-b" data-t="Business" onclick="selTag(this)">Business</button>
+        <button class="tag-b" data-t="Formula" onclick="selTag(this)">Formula</button>
+        <button class="tag-b" data-t="Agile" onclick="selTag(this)">Agile</button>
+        <button class="tag-b" data-t="Ethics" onclick="selTag(this)">Ethics</button>
       </div>
-      <div id="editor" contenteditable="true" data-placeholder="Start writing… use the toolbar or type markdown shortcuts: **bold**, _italic_, # Heading, - list, `code`" oninput="onEditorInput()" onkeydown="editorKeydown(event)"></div>
-      <div class="editor-footer">
-        <span class="editor-count" id="editor-count">0 words</span>
-        <span class="editor-hint">Ctrl+S to save · Ctrl+B bold · Ctrl+I italic</span>
+      <div class="fld" style="margin-bottom:0"><label class="fl">Title (optional)</label><input type="text" id="nt" placeholder="e.g. EVM formulas, Conflict resolution" autocomplete="off"></div>
+    </div>
+    <div class="mode-row">
+      <button class="mdbtn on" id="mode-rich" onclick="setEditorMode('rich')">✦ Rich</button>
+      <button class="mdbtn" id="mode-md" onclick="setEditorMode('md')">⌨ Markdown</button>
+      <button class="mdbtn" id="mode-preview" onclick="setEditorMode('preview')">👁 Preview</button>
+    </div>
+    <div class="toolbar" id="editor-rich-toolbar">
+      <div class="tbg">
+        <button class="tbtn" title="Bold" onclick="fmt('bold')"><b>B</b></button>
+        <button class="tbtn" title="Italic" onclick="fmt('italic')"><i style="font-family:serif">I</i></button>
+        <button class="tbtn" title="Underline" onclick="fmt('underline')"><u>U</u></button>
+        <button class="tbtn" title="Strike" onclick="fmt('strikeThrough')"><s>S</s></button>
       </div>
+      <div class="tbsep"></div>
+      <div class="tbg">
+        <button class="tbtn" onclick="fmtBlock('h1')" style="font-size:11px;font-weight:700">H1</button>
+        <button class="tbtn" onclick="fmtBlock('h2')" style="font-size:10px;font-weight:600">H2</button>
+        <button class="tbtn" onclick="fmtBlock('h3')" style="font-size:9px;font-weight:600">H3</button>
+      </div>
+      <div class="tbsep"></div>
+      <div class="tbg">
+        <button class="tbtn" onclick="fmt('insertUnorderedList')"><svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+        <button class="tbtn" onclick="fmt('insertOrderedList')"><svg viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" stroke-linecap="round"/></svg></button>
+        <button class="tbtn" onclick="fmtBlock('blockquote')" style="font-size:14px">"</button>
+        <button class="tbtn" onclick="insertCode()" style="font-family:var(--fm);font-size:10px">&lt;/&gt;</button>
+        <button class="tbtn" onclick="insertCodeBlock()" style="font-size:13px">⌨</button>
+        <button class="tbtn" onclick="fmt('insertHorizontalRule')">—</button>
+      </div>
+      <div class="tbsep"></div>
+      <div class="hl-strip">
+        <span class="hl-lbl">HL</span>
+        <div class="cdot" style="background:#c0441a" onclick="highlight('rose')"></div>
+        <div class="cdot" style="background:#c87a00" onclick="highlight('gold')"></div>
+        <div class="cdot" style="background:#2d6a4a" onclick="highlight('mint')"></div>
+        <div class="cdot" style="background:#3a5f8a" onclick="highlight('sky')"></div>
+        <div class="cdot" style="background:#7a3d8a" onclick="highlight('violet')"></div>
+        <div class="cdot" style="background:transparent;border:1.5px solid var(--paper4);font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--ink4)" onclick="clearHighlight()">✕</div>
+      </div>
+      <div class="tbsep"></div>
+      <div class="tbg"><button class="tbtn" onclick="fmt('undo')">↩</button><button class="tbtn" onclick="fmt('redo')">↪</button></div>
     </div>
-    <!-- Markdown textarea (mode: md) -->
-    <div id="editor-md-wrap" style="display:none">
-      <textarea id="editor-md" placeholder="Write markdown here…&#10;&#10;**bold** _italic_ `code`&#10;# Heading 1&#10;## Heading 2&#10;- bullet&#10;1. numbered&#10;&gt; blockquote&#10;---" rows="12" style="font-family:var(--fm);font-size:12px;line-height:1.7;border-radius:0 0 var(--r) var(--r)" oninput="syncMdPreview()"></textarea>
+    <div id="editor-rich-wrap">
+      <div id="editor" contenteditable="true" data-placeholder="Start writing… **bold**, # Heading, - list, `code`" oninput="onEditorInput()" onkeydown="editorKeydown(event)"></div>
+      <div class="editor-footer"><span class="editor-count" id="editor-count">0 words</span><span class="editor-hint">Ctrl+S save · Ctrl+B bold · Ctrl+I italic</span></div>
     </div>
-    <!-- Preview (mode: preview) -->
-    <div id="editor-preview-wrap" style="display:none">
-      <div id="editor-preview" style="padding:10px 12px;min-height:120px;font-size:13px;line-height:1.75;color:var(--text2)"></div>
-    </div>
-    <button class="btn btn-p" style="width:100%;margin-top:8px" onclick="saveNote()">Save note</button>
-    <div class="ncount" id="nprev"></div>
+    <div id="editor-md-wrap" style="display:none"><textarea id="editor-md" rows="10" style="border-radius:0;border:none;border-top:1px solid var(--paper3)" placeholder="**bold** _italic_ # H1 - bullet `code` &gt; quote"></textarea></div>
+    <div id="editor-preview-wrap" style="display:none"><div id="editor-preview" style="padding:12px;font-size:13px;color:var(--ink2);line-height:1.75;min-height:100px"></div></div>
+    <div class="editor-save-row"><button class="btn btn-p" style="width:100%" onclick="saveNote()">Save note</button><div style="font-family:var(--fm);font-size:10px;color:var(--ink5);margin-top:5px;text-align:center" id="nprev"></div></div>
   </div>
-
-  <!-- RIGHT: LIST by topic -->
   <div>
-    <div class="ntoolbar">
-      <div class="sw"><span class="sw-ic">⌕</span><input type="text" id="ns" placeholder="Search notes…" oninput="renderNotes()"></div>
-      <select id="nf" onchange="renderNotes()" style="width:115px">
-        <option value="all">All topics</option>
-        <option>People</option><option>Process</option><option>Business</option>
-        <option>Formula</option><option>Agile</option><option>Ethics</option>
-      </select>
-      <div class="view-toggle">
-        <button class="vtb on" id="vt-topic" onclick="setNoteView('topic',this)" title="Group by topic">⊞</button>
-        <button class="vtb" id="vt-list" onclick="setNoteView('list',this)" title="Flat list">☰</button>
+    <div class="notes-list-head">
+      <div class="notes-sw"><span class="nsw-ic">⌕</span><input type="text" id="ns" placeholder="Search notes…" oninput="renderNotes()"></div>
+      <select id="nf" onchange="renderNotes()" style="width:108px;font-size:12px"><option value="all">All topics</option><option>People</option><option>Process</option><option>Business</option><option>Formula</option><option>Agile</option><option>Ethics</option></select>
+      <div style="display:flex;gap:3px">
+        <button class="vtb on" id="vt-topic" onclick="setNoteView('topic',this)" title="By topic">⊞</button>
+        <button class="vtb" id="vt-list" onclick="setNoteView('list',this)" title="Flat">☰</button>
       </div>
-      <span style="font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0" id="nc">0 notes</span>
+      <span class="nc-lbl" id="nc">0 notes</span>
     </div>
     <div id="nl"></div>
   </div>
 </div>
 </div>
-<!-- REFS -->
+
+<!-- REFS (same content as v8, reusing) -->
 <div id="panel-refs" class="panel">
-<div class="ph"><div class="pt">Study <em>references</em></div><div class="ps">Curated and verified resources — updated May 2026</div></div>
+<div class="ph"><div class="pt">Study <em>references</em></div><div class="ps">Curated resources — including PMBOK 8 & July 2026 exam changes</div></div>
 <div class="ref-tabs">
-  <button class="ref-tab on" onclick="refTab('books',this)">📚 Books</button>
-  <button class="ref-tab" onclick="refTab('courses',this)">🎓 Courses</button>
-  <button class="ref-tab" onclick="refTab('simulators',this)">💻 Simulators</button>
-  <button class="ref-tab" onclick="refTab('community',this)">💬 Community</button>
-  <button class="ref-tab" onclick="refTab('formulas',this)">📐 Formulas</button>
-  <button class="ref-tab" onclick="refTab('tips',this)">💡 Tips</button>
+  <button class="ref-tab on" onclick="rTab('books',this)">📚 Books</button>
+  <button class="ref-tab" onclick="rTab('courses',this)">🎓 Courses</button>
+  <button class="ref-tab" onclick="rTab('simulators',this)">💻 Simulators</button>
+  <button class="ref-tab" onclick="rTab('community',this)">💬 Community</button>
+  <button class="ref-tab" onclick="rTab('formulas',this)">📐 Formulas</button>
+  <button class="ref-tab" onclick="rTab('tips',this)">💡 Tips</button>
+  <button class="ref-tab" onclick="rTab('2026',this)">⚠ 2026</button>
 </div>
-<!-- BOOKS -->
-<div id="ref-books" class="ref-panel on">
-<div class="rsect"><div class="rtitle">Essential books</div>
-  <div class="ri-card" onclick="window.open('https://www.pmi.org/pmbok-guide-standards/foundational/pmbok','_blank')">
-    <div class="ric" style="background:rgba(245,166,35,.12)">📖</div>
-    <div><div class="rtit">PMBOK® Guide — 7th Edition <span class="rbdg">you own this</span></div><div class="rdsc">12 project management principles + 8 performance domains. Foundation since Jan 2021. Focus on outcomes over process groups. Free digital copy with PMI membership.</div><a class="rlink" href="https://www.pmi.org/pmbok-guide-standards/foundational/pmbok" target="_blank">pmi.org/pmbok-guide-standards</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.pmi.org/pmbok-guide-standards/practice-guides/agile','_blank')">
-    <div class="ric" style="background:rgba(34,201,138,.12)">📗</div>
-    <div><div class="rtit">Agile Practice Guide (PMI) <span class="rbdg">free with membership</span></div><div class="rdsc">~50% of exam questions use agile/hybrid thinking. Covers Scrum, Kanban, XP, and hybrid. Free with PMI membership ($139/yr saves $150 on exam fee too).</div><a class="rlink" href="https://www.pmi.org/pmbok-guide-standards/practice-guides/agile" target="_blank">pmi.org/agile-practice-guide</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.pmi.org/certifications/project-management-pmp/exam-prep','_blank')">
-    <div class="ric" style="background:rgba(91,156,246,.12)">📄</div>
-    <div><div class="rtit">Examination Content Outline (ECO) 2021 <span class="rbdg">free PDF</span></div><div class="rdsc">The official blueprint — 35 tasks across 3 domains with enabling knowledge areas. Read this before anything else. It is the exam.</div><a class="rlink" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep" target="_blank">pmi.org/pmp-exam-prep</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.amazon.com/PMP-Exam-Prep-Streamlined-Approach/dp/1932735658','_blank')">
-    <div class="ric" style="background:rgba(242,88,88,.12)">📕</div>
-    <div><div class="rtit">Rita Mulcahy — PMP Exam Prep (11th Ed.)</div><div class="rdsc">The classic PMP prep book. Excellent structured review of all process groups with practice questions and scoring. High alignment with PMI thinking. Widely recommended.</div><a class="rlink" href="https://www.amazon.com/s?k=Rita+Mulcahy+PMP+Exam+Prep+11th" target="_blank">Find on Amazon</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.velociteach.com/study-materials/the-pmp-exam/','_blank')">
-    <div class="ric" style="background:rgba(167,139,250,.12)">📘</div>
-    <div><div class="rtit">Andy Crowe — The PMP Exam: How to Pass on Your First Try</div><div class="rdsc">Comprehensive, very readable. Includes 475 practice questions + links to 60 explanation videos + simulated final exam. Strong reviews for first-time candidates.</div><a class="rlink" href="https://www.velociteach.com/study-materials/the-pmp-exam/" target="_blank">velociteach.com</a></div>
-  </div>
-</div>
-</div>
-<!-- COURSES -->
-<div id="ref-courses" class="ref-panel">
-<div class="rsect"><div class="rtitle">Best courses (35 contact hours)</div>
-  <div class="ri-card" onclick="window.open('https://www.udemy.com/course/pmp-certification-exam-prep-course-pmbok-6th-edition/','_blank')">
-    <div class="ric" style="background:rgba(245,166,35,.12)">▶</div>
-    <div><div class="rtit">Andrew Ramdayal — TIA PMP Prep (Udemy) <span class="rbdg">top rated</span></div><div class="rdsc">Best-rated course for the current exam. Focuses on PMI thinking and agile mindset, not rote memorization. 500K+ students. Counts for all 35 contact hours. Often on sale at ~$15.</div><a class="rlink" href="https://www.udemy.com/course/pmp-certification-exam-prep-course-pmbok-6th-edition/" target="_blank">udemy.com — Ramdayal TIA</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.udemy.com/course/pmp-certification-exam-prep/','_blank')">
-    <div class="ric" style="background:rgba(167,139,250,.12)">▶</div>
-    <div><div class="rtit">Joseph Phillips — PMP Certification (Udemy)</div><div class="rdsc">Thorough and methodical. Great for engineers — deep coverage of EVM, procurement, and risk calculations. 400K+ students. Pair with Ramdayal for full predictive + agile coverage.</div><a class="rlink" href="https://www.udemy.com/course/pmp-certification-exam-prep/" target="_blank">udemy.com — Joseph Phillips</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://masterofproject.com/p/pmp-how-to-apply-for-pmp','_blank')">
-    <div class="ric" style="background:rgba(34,201,138,.12)">▶</div>
-    <div><div class="rtit">Master of Project Academy — Free PMP Training <span class="rbdg">free</span></div><div class="rdsc">Free intro training covering all three domains. Good orientation before investing in a paid course. 300,000+ professionals trained across 180 countries.</div><a class="rlink" href="https://masterofproject.com/p/pmp-how-to-apply-for-pmp" target="_blank">masterofproject.com</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.youtube.com/c/AndrewRamdayal','_blank')">
-    <div class="ric" style="background:rgba(242,88,88,.12)">📺</div>
-    <div><div class="rtit">Andrew Ramdayal — YouTube Channel <span class="rbdg">free</span></div><div class="rdsc">Hundreds of free PMP lessons, question walkthroughs, and agile mindset training. The closest thing to a free full course. Invaluable for the PMI way of thinking.</div><a class="rlink" href="https://www.youtube.com/c/AndrewRamdayal" target="_blank">youtube.com/c/AndrewRamdayal</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.youtube.com/@DavidMcLachlan1','_blank')">
-    <div class="ric" style="background:rgba(91,156,246,.12)">📺</div>
-    <div><div class="rtit">David McLachlan — PMP YouTube <span class="rbdg">free</span></div><div class="rdsc">Clear concept explanations, scenario-based question walkthroughs, and PMBOK 7 breakdowns. Excellent complement to any course. Highly praised on r/pmp.</div><a class="rlink" href="https://www.youtube.com/@DavidMcLachlan1" target="_blank">youtube.com/@DavidMcLachlan1</a></div>
-  </div>
-</div>
-</div>
-<!-- SIMULATORS -->
-<div id="ref-simulators" class="ref-panel">
-<div class="rsect"><div class="rtitle">Practice exam simulators — target 75%+ before booking</div>
-  <div class="ri-card" onclick="window.open('https://www.pmi.org/certifications/project-management-pmp/exam-prep/practice-exam','_blank')">
-    <div class="ric" style="background:rgba(245,166,35,.12)">🏆</div>
-    <div><div class="rtit">PMI Official Practice Exam <span class="rbdg">free with membership</span></div><div class="rdsc">40 questions. Closest to real exam style and difficulty. Your final benchmark. If you score 75%+ consistently here, you are ready.</div><a class="rlink" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep/practice-exam" target="_blank">pmi.org/practice-exam</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.pm-exam-simulator.com/','_blank')">
-    <div class="ric" style="background:rgba(34,201,138,.12)">💻</div>
-    <div><div class="rtit">PM PrepCast Simulator (Cornelius Fichtner) <span class="rbdg-p rbdg">~$89</span></div><div class="rdsc">2,000+ questions with detailed analytics by domain and knowledge area. Most popular third-party simulator. Granular performance tracking. Strong r/pmp endorsements.</div><a class="rlink" href="https://www.pm-exam-simulator.com/" target="_blank">pm-exam-simulator.com</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.whizlabs.com/pmp-certification/','_blank')">
-    <div class="ric" style="background:rgba(91,156,246,.12)">💻</div>
-    <div><div class="rtit">Whizlabs PMP Practice Tests</div><div class="rdsc">Adaptive learning dashboard, performance tracking, timed simulations. Good value with frequent discounts. Cited in multiple 2025 prep guides alongside PrepCast.</div><a class="rlink" href="https://www.whizlabs.com/pmp-certification/" target="_blank">whizlabs.com/pmp</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://prepsaret.com/pmp','_blank')">
-    <div class="ric" style="background:rgba(167,139,250,.12)">💻</div>
-    <div><div class="rtit">Prepsaret PMP Practice Tests <span class="rbdg">free tier available</span></div><div class="rdsc">Free sample questions matching real exam format. Scenario-based questions across all domains. Instant feedback and unlimited attempts on the free tier.</div><a class="rlink" href="https://prepsaret.com/pmp" target="_blank">prepsaret.com/pmp</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://pmaspirant.com/pmp-resources','_blank')">
-    <div class="ric" style="background:rgba(242,88,88,.12)">🔗</div>
-    <div><div class="rtit">PMAspirant — Free PMP Resources Hub <span class="rbdg">free</span></div><div class="rdsc">All-in-one collection: free exam simulator, ITTO game, process game, study guide. Excellent supplement for process-heavy areas. Actively maintained.</div><a class="rlink" href="https://pmaspirant.com/pmp-resources" target="_blank">pmaspirant.com/pmp-resources</a></div>
-  </div>
-</div>
-</div>
-<!-- COMMUNITY -->
-<div id="ref-community" class="ref-panel">
-<div class="rsect"><div class="rtitle">Communities & podcasts</div>
-  <div class="ri-card" onclick="window.open('https://www.reddit.com/r/pmp/','_blank')">
-    <div class="ric" style="background:rgba(242,88,88,.12)">💬</div>
-    <div><div class="rtit">r/pmp — Reddit Community <span class="rbdg">free</span></div><div class="rdsc">330K+ members. Hundreds of "I passed!" posts with detailed study strategies. Search by score level to find approaches matching your background. Invaluable for motivation and tips.</div><a class="rlink" href="https://www.reddit.com/r/pmp/" target="_blank">reddit.com/r/pmp</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.pmi.org/membership/chapters','_blank')">
-    <div class="ric" style="background:rgba(245,166,35,.12)">🏛</div>
-    <div><div class="rtit">Local PMI Chapters</div><div class="rdsc">Free or low-cost study groups, workshops, and networking. Local chapters often host exam prep events. Connect with PMs who can mentor you through the process.</div><a class="rlink" href="https://www.pmi.org/membership/chapters" target="_blank">pmi.org/membership/chapters</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.linkedin.com/groups/105469/','_blank')">
-    <div class="ric" style="background:rgba(91,156,246,.12)">💼</div>
-    <div><div class="rtit">PMI LinkedIn Group (300K+ members)</div><div class="rdsc">Active discussion of exam prep, project management trends, and career advice. Follow PMI's official account and connect with PMP holders in your region.</div><a class="rlink" href="https://www.linkedin.com/groups/105469/" target="_blank">LinkedIn PMI Group</a></div>
-  </div>
-  <div class="ri-card" onclick="window.open('https://www.project-management-podcast.com/','_blank')">
-    <div class="ric" style="background:rgba(167,139,250,.12)">🎙</div>
-    <div><div class="rtit">The Project Management Podcast (Cornelius Fichtner)</div><div class="rdsc">Hundreds of episodes on PMP exam prep, project management concepts, and interviews with PMPs. Free. Great for commute study during your Mon/Wed sessions.</div><a class="rlink" href="https://www.project-management-podcast.com/" target="_blank">project-management-podcast.com</a></div>
-  </div>
-</div>
-</div>
-<!-- FORMULAS -->
+<div id="ref-books" class="ref-panel on"><div class="rsect"><div class="rtitle">Essential books</div>
+  <a class="rcard" href="https://www.pmi.org/pmbok-guide-standards/foundational/pmbok" target="_blank"><div class="ric" style="background:var(--marigold-l)">📖</div><div><div class="rtit">PMBOK® Guide — 7th Edition <span class="rbdg rbdg-g">you own this</span></div><div class="rdsc">12 principles + 8 performance domains. Current exam standard until July 8, 2026. Focus on outcomes over process groups. Free PDF for PMI members.</div><span class="rlink">pmi.org/pmbok-guide-standards</span></div></a>
+  <a class="rcard" href="https://www.pmi.org/pmbok-guide-standards/foundational/pmbok" target="_blank"><div class="ric" style="background:var(--forest-l)">📗</div><div><div class="rtit">PMBOK® Guide — 8th Edition <span class="rbdg rbdg-w">exam July 2026</span></div><div class="rdsc">Released November 2025. 6 principles + 7 domains + 5 Focus Areas with 40 processes. Adds AI integration and sustainability. Free for PMI members.</div><span class="rlink">pmi.org — free for PMI members</span></div></a>
+  <a class="rcard" href="https://www.pmi.org/pmbok-guide-standards/practice-guides/agile" target="_blank"><div class="ric" style="background:var(--slate-l)">📘</div><div><div class="rtit">Agile Practice Guide <span class="rbdg rbdg-g">free with membership</span></div><div class="rdsc">~50% of exam uses agile/hybrid thinking. Covers Scrum, Kanban, XP, hybrid. Read before exam day.</div><span class="rlink">pmi.org/agile-practice-guide</span></div></a>
+  <a class="rcard" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep" target="_blank"><div class="ric" style="background:var(--plum-l)">📄</div><div><div class="rtit">ECO 2021 — official exam blueprint <span class="rbdg rbdg-g">free</span></div><div class="rdsc">35 tasks, 3 domains, enabling knowledge. Read this first — it IS the exam. ECO 2026 available from April 2026.</div><span class="rlink">pmi.org/certifications/pmp/exam-prep</span></div></a>
+  <a class="rcard" href="https://www.velociteach.com/study-materials/the-pmp-exam/" target="_blank"><div class="ric" style="background:var(--terra-l)">📕</div><div><div class="rtit">Andy Crowe — How to Pass on Your First Try</div><div class="rdsc">475 practice questions + 60 explanation videos + simulated exam. Consistently top-rated for first-time candidates.</div><span class="rlink">velociteach.com</span></div></a>
+</div></div>
+<div id="ref-courses" class="ref-panel"><div class="rsect"><div class="rtitle">Best courses (35 contact hours)</div>
+  <a class="rcard" href="https://www.udemy.com/course/pmp-certification-exam-prep-course-pmbok-6th-edition/" target="_blank"><div class="ric" style="background:var(--marigold-l)">▶</div><div><div class="rtit">Andrew Ramdayal — TIA PMP Prep (Udemy) <span class="rbdg rbdg-g">top rated</span></div><div class="rdsc">Best course for the current exam. Teaches PMI thinking not memorisation. 500K+ students. Often on sale ~$15.</div><span class="rlink">udemy.com — search "Andrew Ramdayal PMP"</span></div></a>
+  <a class="rcard" href="https://www.udemy.com/course/pmp-certification-exam-prep/" target="_blank"><div class="ric" style="background:var(--plum-l)">▶</div><div><div class="rtit">Joseph Phillips — PMP Certification (Udemy)</div><div class="rdsc">Deep coverage of EVM, risk, procurement. Great for engineers. Pair with Ramdayal for full coverage.</div><span class="rlink">udemy.com — search "Joseph Phillips PMP"</span></div></a>
+  <a class="rcard" href="https://www.youtube.com/@AndrewRamdayal" target="_blank"><div class="ric" style="background:var(--terra-l)">📺</div><div><div class="rtit">Andrew Ramdayal — YouTube <span class="rbdg rbdg-g">free</span></div><div class="rdsc">Hundreds of free lessons, question walkthroughs, agile mindset training. Invaluable for commute study.</div><span class="rlink">youtube.com/@AndrewRamdayal</span></div></a>
+  <a class="rcard" href="https://www.youtube.com/@DavidMcLachlan1" target="_blank"><div class="ric" style="background:var(--slate-l)">📺</div><div><div class="rtit">David McLachlan — YouTube <span class="rbdg rbdg-g">free</span></div><div class="rdsc">Clear concept breakdowns, scenario-based walkthroughs. Excellent for PMBOK 7 domain deep dives.</div><span class="rlink">youtube.com/@DavidMcLachlan1</span></div></a>
+</div></div>
+<div id="ref-simulators" class="ref-panel"><div class="rsect"><div class="rtitle">Practice exam simulators — target 75%+ before booking</div>
+  <a class="rcard" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep/practice-exam" target="_blank"><div class="ric" style="background:var(--marigold-l)">🏆</div><div><div class="rtit">PMI Official Practice Exam <span class="rbdg rbdg-g">free with membership</span></div><div class="rdsc">40 questions. Closest to real exam style. Take this last as your final benchmark. Aim for 75%+.</div><span class="rlink">pmi.org/practice-exam</span></div></a>
+  <a class="rcard" href="https://www.pm-exam-simulator.com/" target="_blank"><div class="ric" style="background:var(--forest-l)">💻</div><div><div class="rtit">PM PrepCast Simulator <span class="rbdg rbdg-f">~$89</span></div><div class="rdsc">2,000+ questions, detailed analytics by domain. Most popular simulator. Take 3 full mocks before booking.</div><span class="rlink">pm-exam-simulator.com</span></div></a>
+  <a class="rcard" href="https://pmaspirant.com/pmp-resources" target="_blank"><div class="ric" style="background:var(--terra-l)">🔗</div><div><div class="rtit">PMAspirant — Free Hub <span class="rbdg rbdg-g">free</span></div><div class="rdsc">Free simulator, ITTO game, process game, study guide. Excellent for process-heavy areas.</div><span class="rlink">pmaspirant.com/pmp-resources</span></div></a>
+  <a class="rcard" href="https://prepsaret.com/pmp" target="_blank"><div class="ric" style="background:var(--plum-l)">💻</div><div><div class="rtit">Prepsaret PMP Tests <span class="rbdg rbdg-g">free tier</span></div><div class="rdsc">Free scenario-based questions across all domains. Instant feedback. Unlimited attempts on free tier.</div><span class="rlink">prepsaret.com/pmp</span></div></a>
+</div></div>
+<div id="ref-community" class="ref-panel"><div class="rsect"><div class="rtitle">Communities & podcasts</div>
+  <a class="rcard" href="https://www.reddit.com/r/pmp/" target="_blank"><div class="ric" style="background:var(--terra-l)">💬</div><div><div class="rtit">r/pmp — Reddit <span class="rbdg rbdg-g">330K+ members</span></div><div class="rdsc">Best community for real exam experiences. Search "I passed" for detailed breakdowns from people just like you.</div><span class="rlink">reddit.com/r/pmp</span></div></a>
+  <a class="rcard" href="https://www.project-management-podcast.com/" target="_blank"><div class="ric" style="background:var(--plum-l)">🎙</div><div><div class="rtit">The Project Management Podcast</div><div class="rdsc">Hundreds of episodes by Cornelius Fichtner. Free. Perfect for Mon/Wed commute sessions.</div><span class="rlink">project-management-podcast.com</span></div></a>
+  <a class="rcard" href="https://pmstudycircle.com/" target="_blank"><div class="ric" style="background:var(--slate-l)">📝</div><div><div class="rtit">PM Study Circle</div><div class="rdsc">In-depth articles, lessons learned from successful candidates, regularly updated exam guidance.</div><span class="rlink">pmstudycircle.com</span></div></a>
+  <a class="rcard" href="https://www.pmi.org/membership/chapters" target="_blank"><div class="ric" style="background:var(--forest-l)">🏛</div><div><div class="rtit">Local PMI Chapters</div><div class="rdsc">Free study groups, workshops, peer sessions, and mentors who have already passed.</div><span class="rlink">pmi.org/membership/chapters</span></div></a>
+</div></div>
 <div id="ref-formulas" class="ref-panel">
-<div class="rsect"><div class="rtitle">EVM formulas — master all 16</div>
-  <div class="fg">
-    <div class="fcard"><div class="fn">Earned Value (EV)</div><div class="fv">% complete × BAC</div></div>
-    <div class="fcard"><div class="fn">CPI (cost efficiency)</div><div class="fv">EV / AC</div></div>
-    <div class="fcard"><div class="fn">SPI (schedule efficiency)</div><div class="fv">EV / PV</div></div>
-    <div class="fcard"><div class="fn">CV (cost variance)</div><div class="fv">EV − AC</div></div>
-    <div class="fcard"><div class="fn">SV (schedule variance)</div><div class="fv">EV − PV</div></div>
-    <div class="fcard"><div class="fn">EAC (at current CPI)</div><div class="fv">BAC / CPI</div></div>
+  <div class="rsect"><div class="rtitle">EVM — most tested on the exam</div><div class="fg">
+    <div class="fcard"><div class="fn">Earned Value (EV)</div><div class="fv">% done × BAC</div></div>
+    <div class="fcard"><div class="fn">CPI</div><div class="fv">EV / AC</div></div>
+    <div class="fcard"><div class="fn">SPI</div><div class="fv">EV / PV</div></div>
+    <div class="fcard"><div class="fn">CV</div><div class="fv">EV − AC</div></div>
+    <div class="fcard"><div class="fn">SV</div><div class="fv">EV − PV</div></div>
+    <div class="fcard"><div class="fn">EAC (at CPI)</div><div class="fv">BAC / CPI</div></div>
     <div class="fcard"><div class="fn">EAC (optimistic)</div><div class="fv">AC + (BAC−EV)</div></div>
-    <div class="fcard"><div class="fn">EAC (new estimate)</div><div class="fv">AC + ETC</div></div>
-    <div class="fcard"><div class="fn">ETC (remaining work)</div><div class="fv">EAC − AC</div></div>
-    <div class="fcard"><div class="fn">VAC (variance at completion)</div><div class="fv">BAC − EAC</div></div>
-    <div class="fcard"><div class="fn">TCPI (required efficiency)</div><div class="fv">(BAC−EV) / (BAC−AC)</div></div>
-    <div class="fcard"><div class="fn">PERT estimate</div><div class="fv">(O + 4M + P) / 6</div></div>
-    <div class="fcard"><div class="fn">Std deviation (PERT)</div><div class="fv">(P − O) / 6</div></div>
-    <div class="fcard"><div class="fn">Communication channels</div><div class="fv">n(n−1) / 2</div></div>
-    <div class="fcard"><div class="fn">Total Float</div><div class="fv">LF−EF or LS−ES</div></div>
-    <div class="fcard"><div class="fn">BCR</div><div class="fv">Benefits / Costs</div></div>
-  </div>
-  <div style="margin-top:14px;font-size:12px;color:var(--text3);line-height:1.7">
-    <strong style="color:var(--text2)">Key rules to memorise:</strong><br>
-    CPI &gt; 1.0 = under budget · CPI &lt; 1.0 = over budget · SPI &gt; 1.0 = ahead of schedule · SPI &lt; 1.0 = behind schedule<br>
-    TCPI &gt; 1.10 is generally considered unachievable without scope reduction<br>
-    Negative CV = cost overrun · Negative SV = behind schedule
-  </div>
-</div>
-</div>
-<!-- TIPS -->
-<div id="ref-tips" class="ref-panel">
-<div class="rsect"><div class="rtitle">Proven strategies from r/pmp and PMP holders</div>
-  <div style="display:flex;flex-direction:column;gap:10px">
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🧠</span><span class="motive-tip-label">Think like PMI, not like yourself</span></div><div class="motive-tip-text">The #1 insight from PMP holders: the exam tests what PMI wants you to do, not what you actually do at work. Always ask "what would PMI's ideal PM do?" — proactive, communicative, process-following, and stakeholder-centric. Your field experience can mislead you.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📊</span><span class="motive-tip-label">Score at 75% before booking</span></div><div class="motive-tip-text">Community consensus: do NOT book your exam until you are scoring 75%+ consistently across multiple full simulators (PrepCast, PMI official). One good day is not enough — three consecutive 75%+ sessions is the real green light.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">⚡</span><span class="motive-tip-label">Active recall beats re-reading</span></div><div class="motive-tip-text">Don't reread PMBOK passively. Instead: do a question, get it wrong, look it up, write a note, revisit the topic. Active recall with spaced repetition (Anki-style) is 2–3x more effective than reading. Use this app's notes tab for this.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🎯</span><span class="motive-tip-label">Agile mindset is the differentiator</span></div><div class="motive-tip-text">~50% of questions test agile/hybrid thinking. Most candidates over-prepare the predictive side (they know PMBOK) and under-prepare agile. Spend proportional time: 2 weeks on agile practice guide + Ramdayal's agile videos before your exam month.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📅</span><span class="motive-tip-label">Your schedule (10h/week) is realistic</span></div><div class="motive-tip-text">With 10h/week and focused study, most candidates with engineering/PM backgrounds need 10–14 weeks. You have Mon/Wed evenings (2h each) and Sat/Sun (3h each). That's disciplined — follow the pomodoro blocks and log every session to track momentum.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📝</span><span class="motive-tip-label">The exam logistics</span></div><div class="motive-tip-text">180 questions · 230 minutes · two optional 10-min breaks. Question types: multiple choice, multiple responses, matching, hotspot, fill-in. Pace: ~1.3 min/question. Don't spend more than 2 min on any single question — flag and return. Budget time for breaks.</div></div>
-    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🏅</span><span class="motive-tip-label">Application requirements</span></div><div class="motive-tip-text">You need 35 contact hours (Udemy courses qualify) + 36 months leading projects (with a 4-year degree) OR 60 months (without). Your systems engineering background at Alstom/Continental/Stellantis almost certainly qualifies. Apply early — audit takes 2–4 weeks.</div></div>
+    <div class="fcard"><div class="fn">ETC</div><div class="fv">EAC − AC</div></div>
+    <div class="fcard"><div class="fn">VAC</div><div class="fv">BAC − EAC</div></div>
+    <div class="fcard"><div class="fn">TCPI</div><div class="fv">(BAC−EV)/(BAC−AC)</div></div>
+  </div></div>
+  <div class="rsect"><div class="rtitle">Schedule & other</div><div class="fg">
+    <div class="fcard"><div class="fn">PERT</div><div class="fv">(O+4M+P)/6</div></div>
+    <div class="fcard"><div class="fn">Std deviation</div><div class="fv">(P−O)/6</div></div>
+    <div class="fcard"><div class="fn">Float (TF)</div><div class="fv">LF−EF or LS−ES</div></div>
+    <div class="fcard"><div class="fn">Comm. channels</div><div class="fv">n(n−1)/2</div></div>
+    <div class="fcard"><div class="fn">BCR</div><div class="fv">Benefits/Costs</div></div>
+    <div class="fcard"><div class="fn">EMV</div><div class="fv">Probability×Impact</div></div>
+  </div></div>
+  <div style="margin-top:12px;background:var(--paper2);border:1px solid var(--paper4);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--ink2);line-height:1.8">
+    <strong style="color:var(--ink)">Interpretation:</strong> CPI&gt;1 under budget · CPI&lt;1 over budget · SPI&gt;1 ahead · SPI&lt;1 behind · TCPI&gt;1.10 unachievable · VAC negative = overrun
   </div>
 </div>
+<div id="ref-tips" class="ref-panel"><div class="rsect"><div class="rtitle">Proven strategies from r/pmp and passing candidates</div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">🧠</span><span class="tip-lbl">Think like PMI, not like yourself</span></div><div class="tip-body">The #1 insight from every PMP holder: the exam tests what PMI's ideal PM would do, not what real-world PMs do. Always ask "what would a proactive, stakeholder-centric, process-following PM do?" Your field experience can actively mislead you.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">📊</span><span class="tip-lbl">Score 75%+ before booking</span></div><div class="tip-body">Community consensus: do not book until you're scoring 75%+ consistently across multiple full simulators (PrepCast, PMI official). Three consecutive sessions above 75% is the real green light.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">🔍</span><span class="tip-lbl">The "first thing" pattern</span></div><div class="tip-body">Questions asking "what to do first" follow a consistent PMI pattern: (1) gather info / verify facts, (2) assess impact, (3) communicate to stakeholders, (4) take corrective action, (5) escalate only if truly needed. Never escalate first.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">🎯</span><span class="tip-lbl">Agile = the differentiator</span></div><div class="tip-body">~50% of questions test agile/hybrid. Most candidates over-prepare predictive. Spend proportional time on the Agile Practice Guide. When unsure, the agile/collaborative answer is usually correct.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">⚙</span><span class="tip-lbl">Your engineering background = advantage</span></div><div class="tip-body">Your systems engineering + risk/safety background (ISO 26262, FMEA) is a genuine advantage for the Process domain. The challenge is stakeholder management and servant leadership questions where "control" is not the right answer. Focus there.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">📝</span><span class="tip-lbl">Exam day strategy</span></div><div class="tip-body">180 questions / 230 min = 1.3 min/question. Never spend more than 90 sec on any question — flag and return. Take both 10-min breaks (after Q60 and Q120). Brain dump key formulas on scratch paper in the first 2 minutes.</div></div>
+</div></div>
+<div id="ref-2026" class="ref-panel">
+<div class="alert-banner"><div class="ab-head"><span class="ab-icon">⚠</span><span class="ab-title">PMP exam changes July 9, 2026</span></div><div class="ab-body">The current exam (PMBOK 7 / ECO 2021) remains until July 8, 2026. The new exam launches July 9. Both lead to the same credential.</div></div>
+<div class="rsect"><div class="rtitle">Domain weighting changes</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+  <div style="background:#fff;border:1px solid var(--paper4);border-radius:var(--r2);padding:14px;text-align:center;box-shadow:var(--sh)"><div style="font-family:var(--fm);font-size:10px;color:var(--ink4);margin-bottom:6px;text-transform:uppercase">People</div><div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--terra-d)">42%</div><div style="font-size:12px;color:var(--ink4);margin:4px 0">→</div><div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--terra-d)">33%</div><div style="font-size:10px;color:var(--ink4);margin-top:4px">−9 pts</div></div>
+  <div style="background:#fff;border:1px solid var(--paper4);border-radius:var(--r2);padding:14px;text-align:center;box-shadow:var(--sh)"><div style="font-family:var(--fm);font-size:10px;color:var(--ink4);margin-bottom:6px;text-transform:uppercase">Process</div><div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--forest-d)">50%</div><div style="font-size:12px;color:var(--ink4);margin:4px 0">→</div><div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--forest-d)">41%</div><div style="font-size:10px;color:var(--ink4);margin-top:4px">−9 pts</div></div>
+  <div style="background:var(--marigold-l);border:1px solid rgba(200,122,0,.25);border-radius:var(--r2);padding:14px;text-align:center;box-shadow:var(--sh)"><div style="font-family:var(--fm);font-size:10px;color:var(--marigold-d);margin-bottom:6px;text-transform:uppercase">Business Env.</div><div style="font-family:var(--fd);font-size:20px;font-weight:700;color:var(--marigold-d)">8%</div><div style="font-size:12px;color:var(--marigold-d);margin:4px 0">→</div><div style="font-family:var(--fd);font-size:28px;font-weight:700;color:var(--marigold-d)">26%</div><div style="font-size:10px;font-weight:600;color:var(--marigold-d);margin-top:4px">+18 pts ⚠</div></div>
+</div></div>
+<div class="rsect"><div class="rtitle">PMBOK 8 — what's new (November 2025)</div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">6️⃣</span><span class="tip-lbl">Six core principles (down from 12)</span></div><div class="tip-body">PMI streamlined to 6 actionable principles: (1) Adopt a Holistic View, (2) Focus on Value, (3) Build Quality In, (4) Embrace Adaptability, (5) Lead with Purpose, (6) Engage Stakeholders. More concise and directly testable.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">⚙</span><span class="tip-lbl">40 non-prescriptive processes reintroduced</span></div><div class="tip-body">Bridges the gap between PMBOK 6 (too rigid) and PMBOK 7 (too abstract). Process structure returns in 5 Focus Areas as guidelines, not mandates.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">🤖</span><span class="tip-lbl">AI integration — new testable topic</span></div><div class="tip-body">AI in project management is a new content area. Expect questions on how PMs govern, oversee, and leverage AI tools. Not deeply technical — focused on PM judgment and oversight.</div></div>
+  <div class="tip-card"><div class="tip-head"><span class="tip-icon">🌱</span><span class="tip-lbl">Sustainability — new testable topic</span></div><div class="tip-body">Environmental and social sustainability in project decisions. Falls under the expanded Business Environment domain. Expect trade-off scenarios between cost/schedule and environmental impact.</div></div>
+</div>
+<div style="background:#fff;border:1px solid var(--paper4);border-radius:var(--r2);padding:16px;box-shadow:var(--sh)">
+  <div style="font-weight:600;color:var(--ink);margin-bottom:8px">Should you take it before or after July 9?</div>
+  <div style="font-size:12px;color:var(--ink2);line-height:1.8">
+    <strong>Take before July 8 if:</strong> You're already studying current format · Scoring well on current-format mocks · Can realistically book before June 2026<br><br>
+    <strong>Wait for new exam if:</strong> Just starting + 6+ months ahead · Your background fits expanded Business Environment<br><br>
+    <strong style="color:var(--terra-d)">Given your 10h/week schedule, you can be ready well before July 8, 2026. Start now and book before June.</strong>
+  </div>
 </div>
 </div>
+</div>
+
 <!-- SETTINGS -->
 <div id="panel-settings" class="panel">
-<div class="ph"><div class="pt">Settings & <em>data</em></div><div class="ps">Exam date, study progress, timer, data management</div></div>
+<div class="ph"><div class="pt">Settings & <em>data</em></div><div class="ps">Exam date, progress, timer, cloud sync</div></div>
 <div class="sg2">
 <div>
-  <div class="scard"><div class="stit">Exam target date</div>
-    <div class="fld"><label class="fl">Target date</label><input type="date" id="ex-d"></div>
-    <button class="btn btn-p btn-sm" onclick="saveDate()">Save date</button>
-  </div>
-  <div class="scard"><div class="stit">Domain coverage</div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Update after each study block.</p>
-    <div id="dom-sl"></div>
-    <button class="btn btn-p btn-sm" onclick="saveDoms()">Save progress</button>
-  </div>
-  <div class="scard"><div class="stit">Timer durations</div>
-    <div class="fld"><label class="fl">Work session (min)</label><input type="number" id="tw" value="25" min="5" max="90"></div>
-    <div class="fld"><label class="fl">Short break (min)</label><input type="number" id="tsb" value="5" min="1" max="30"></div>
-    <div class="fld"><label class="fl">Long break (min)</label><input type="number" id="tlb" value="20" min="5" max="60"></div>
-    <button class="btn btn-p btn-sm" onclick="saveTimer()">Save timer</button>
-  </div>
+  <div class="scard"><div class="stit">Exam target date</div><div class="fld"><label class="fl">Target date</label><input type="date" id="ex-d"></div><button class="btn btn-p btn-sm" onclick="saveDate()">Save date</button></div>
+  <div class="scard"><div class="stit">Domain coverage</div><p style="font-size:12px;color:var(--ink4);margin-bottom:12px">Update after each study block.</p><div id="dom-sl"></div><button class="btn btn-p btn-sm" onclick="saveDoms()">Save progress</button></div>
+  <div class="scard"><div class="stit">Timer durations</div><div class="fld"><label class="fl">Work session (min)</label><input type="number" id="tw" min="5" max="90" value="25"></div><div class="fld"><label class="fl">Short break (min)</label><input type="number" id="tsb" min="1" max="30" value="5"></div><div class="fld"><label class="fl">Long break (min)</label><input type="number" id="tlb" min="5" max="60" value="20"></div><button class="btn btn-p btn-sm" onclick="saveTimer()">Save timer</button></div>
 </div>
 <div>
-  <div class="scard"><div class="stit">Manual session log</div>
-    <div class="g3">
-      <div class="fld"><label class="fl">Date</label><input type="date" id="sl-d"></div>
-      <div class="fld"><label class="fl">Hours</label><input type="number" id="sl-h" min="0.5" max="8" step="0.5" value="2"></div>
-      <div class="fld"><label class="fl">Score %</label><input type="number" id="sl-s" min="0" max="100" placeholder="opt."></div>
+  <!-- CLOUD SYNC -->
+  <div class="scard" id="sync-card"><div class="stit">☁ Cloud sync</div>
+    <div id="sync-status-bar" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r);margin-bottom:12px;background:var(--paper2);border:1px solid var(--paper4);font-size:12px">
+      <span id="sync-dot" class="sync-dot" style="background:var(--ink5)"></span>
+      <span id="sync-status-text" style="color:var(--ink4)">Not configured</span>
+      <span id="sync-last" style="margin-left:auto;font-family:var(--fm);font-size:10px;color:var(--ink5)"></span>
     </div>
-    <div class="fld"><label class="fl">Topics studied</label><input type="text" id="sl-t" placeholder="e.g. Risk management, EVM, Sprint ceremonies"></div>
-    <button class="btn btn-p btn-sm" onclick="logSet()">Log session</button>
-  </div>
-  <div class="scard" id="sync-card">
-    <div class="stit">☁ Cloud sync — notes on every device</div>
-    <!-- STATUS BAR -->
-    <div id="sync-status-bar" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r);margin-bottom:14px;background:var(--bg4);border:1px solid var(--border);font-size:12px">
-      <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:var(--text4);flex-shrink:0;transition:background .3s"></span>
-      <span id="sync-status-text" style="color:var(--text3)">Not configured</span>
-      <span id="sync-last" style="margin-left:auto;font-family:var(--fm);font-size:10px;color:var(--text4)"></span>
-    </div>
-    <!-- SETUP (shown when not configured) -->
     <div id="sync-setup">
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px">
-        Uses <strong style="color:var(--text)">JSONbin.io</strong> — free cloud storage. Your notes sync automatically across all devices when you open the app.
-      </p>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-        <div style="display:flex;gap:8px;align-items:center">
-          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
-          <span style="font-size:12px;color:var(--text2)">Go to <a href="https://jsonbin.io" target="_blank" style="color:var(--blue)">jsonbin.io</a> → sign up free (use GitHub login)</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
-          <span style="font-size:12px;color:var(--text2)">Dashboard → API Keys → copy your <strong style="color:var(--text)">Master Key</strong></span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
-          <span style="font-size:12px;color:var(--text2)">Paste it below and click <strong style="color:var(--text)">Connect</strong></span>
-        </div>
-      </div>
-      <div class="fld">
-        <label class="fl">JSONbin Master Key</label>
-        <input type="password" id="jb-key" placeholder="$2a$10$..." autocomplete="off" style="font-family:var(--fm);font-size:12px">
-      </div>
-      <div class="fld" style="margin-top:-4px">
-        <label class="fl">Bin ID <span style="color:var(--text4);text-transform:none;font-family:var(--ff)">(optional — leave blank on first device)</span></label>
-        <input type="text" id="jb-binid" placeholder="paste from your first device" autocomplete="off" style="font-family:var(--fm);font-size:12px">
-      </div>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px">Free cloud storage via <strong style="color:var(--ink)">JSONbin.io</strong>. Notes sync automatically across all devices. <a href="https://jsonbin.io" target="_blank" style="color:var(--slate-d)">Sign up free ↗</a></p>
+      <div class="fld"><label class="fl">JSONbin Master Key</label><input type="password" id="jb-key" placeholder="$2a$10$..." autocomplete="off"></div>
+      <div class="fld"><label class="fl">Bin ID <span style="color:var(--ink5);text-transform:none;font-family:var(--ff)">(optional — leave blank on first device)</span></label><input type="text" id="jb-binid" placeholder="paste from your first device" autocomplete="off"></div>
       <button class="btn btn-p btn-sm" style="width:100%" onclick="cloudConnect()">Connect</button>
     </div>
-    <!-- CONNECTED panel (shown when configured) -->
     <div id="sync-connected" style="display:none">
-      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px">
-        <button class="btn btn-sm btn-g" onclick="cloudPush()">↑ Push</button>
-        <button class="btn btn-sm" onclick="cloudPull()">↓ Pull</button>
-        <button class="btn btn-sm btn-r" onclick="cloudDisconnect()">Disconnect</button>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"><button class="btn btn-sm btn-g" onclick="cloudPush()">↑ Push</button><button class="btn btn-sm" onclick="cloudPull()">↓ Pull</button><button class="btn btn-sm btn-r" onclick="cloudDisconnect()">Disconnect</button></div>
+      <div style="background:var(--paper2);border:1px solid var(--paper4);border-radius:var(--r);padding:9px 11px">
+        <div style="font-family:var(--fm);font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Your Bin ID — copy to connect on a second device</div>
+        <div style="display:flex;align-items:center;gap:8px"><span id="sync-bin-id" style="font-family:var(--fm);font-size:11px;color:var(--terra-d);flex:1;word-break:break-all">—</span><button class="btn btn-xs" onclick="copyBinId()">Copy</button></div>
       </div>
-      <!-- Bin ID box — copy to use on second device -->
-      <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;margin-bottom:8px">
-        <div style="font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Your Bin ID — copy this to connect on a second device</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span id="sync-bin-id" style="font-family:var(--fm);font-size:11px;color:var(--amber);flex:1;word-break:break-all">—</span>
-          <button class="btn btn-xs" onclick="copyBinId()" style="flex-shrink:0">Copy</button>
-        </div>
-      </div>
-      <p style="font-size:11px;color:var(--text3);line-height:1.7">
-        Auto-syncs on every note save and on app open.<br>
-        On a new device: enter your API key + paste the Bin ID above.
-      </p>
+      <p style="font-size:11px;color:var(--ink4);line-height:1.6;margin-top:8px">Auto-syncs on save and on app open. New device: enter API key + Bin ID.</p>
     </div>
   </div>
-  <div class="scard">
-    <div class="stit">Notes backup (local)</div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:10px">Export as a local JSON file backup.</p>
-    <div style="display:flex;gap:7px;flex-wrap:wrap">
-      <button class="btn btn-sm btn-g" onclick="expNotes()">↓ Export notes</button>
-      <button class="btn btn-sm" onclick="document.getElementById('imp-notes').click()">↑ Import notes</button>
-      <input type="file" id="imp-notes" accept=".json" style="display:none" onchange="impNotes(event)">
-      <button class="btn btn-sm btn-r" onclick="clrNotes()">✕ Clear notes</button>
-    </div>
+  <div class="scard"><div class="stit">Manual session log</div>
+    <div class="g3"><div class="fld"><label class="fl">Date</label><input type="date" id="sl-d"></div><div class="fld"><label class="fl">Hours</label><input type="number" id="sl-h" min="0.5" max="8" step="0.5" value="2"></div><div class="fld"><label class="fl">Score %</label><input type="number" id="sl-s" min="0" max="100" placeholder="opt."></div></div>
+    <div class="fld"><label class="fl">Topics studied</label><input type="text" id="sl-t" placeholder="e.g. Risk management, EVM, Agile ceremonies"></div>
+    <button class="btn btn-p btn-sm" onclick="logSet()">Log session</button>
   </div>
-  <div class="scard">
-    <div class="stit">App data</div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Sessions, exam date, domains, timer settings.</p>
-    <div style="display:flex;gap:7px;flex-wrap:wrap">
-      <button class="btn btn-sm" onclick="expD()">↓ Export all</button>
-      <button class="btn btn-sm" onclick="document.getElementById('imp').click()">↑ Import all</button>
-      <input type="file" id="imp" accept=".json" style="display:none" onchange="impD(event)">
-      <button class="btn btn-sm btn-r" onclick="clrD()">✕ Reset all data</button>
-    </div>
+  <div class="scard"><div class="stit">Notes backup</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px"><button class="btn btn-sm btn-g" onclick="expNotes()">↓ Export notes</button><button class="btn btn-sm" onclick="document.getElementById('imp-notes').click()">↑ Import notes</button><input type="file" id="imp-notes" accept=".json" style="display:none" onchange="impNotes(event)"><button class="btn btn-sm btn-r" onclick="clrNotes()">✕ Clear notes</button></div>
   </div>
-  <div class="scard">
-    <div class="stit">Deploy to phone 📱</div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.7">Use <strong style="color:var(--text)">GitHub Pages</strong> — free, permanent URL, works on any device including phone. Setup takes ~5 minutes.</p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Create a free account at <a href="https://github.com" target="_blank" style="color:var(--blue)">github.com</a></div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Create a new repository called <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--amber)">pmp-study</code></div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Upload this HTML file, rename it to <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--amber)">index.html</code></div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">4</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Go to <strong style="color:var(--text)">Settings → Pages</strong>, set source to <em>main branch</em>, click Save</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="background:var(--green);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">✓</span>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Your URL: <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--green)">yourusername.github.io/pmp-study</code><br>Open on phone, tap <strong style="color:var(--text)">Share → Add to Home Screen</strong> for an app icon.</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start;margin-top:2px">
-        <span style="background:var(--bg4);color:var(--text3);font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">!</span>
-        <div style="font-size:11px;color:var(--text3);line-height:1.6">When I send you an updated HTML, just replace the file in your GitHub repo — your notes stay safe because they're in the browser's localStorage, not in the file.</div>
-      </div>
-    </div>
-    <a href="https://pages.github.com" target="_blank" class="btn btn-sm" style="margin-top:12px;width:100%;justify-content:center;text-decoration:none">Open GitHub Pages guide ↗</a>
+  <div class="scard"><div class="stit">App data</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-sm" onclick="expD()">↓ Export all</button><button class="btn btn-sm" onclick="document.getElementById('imp').click()">↑ Import all</button><input type="file" id="imp" accept=".json" style="display:none" onchange="impD(event)"><button class="btn btn-sm btn-r" onclick="clrD()">✕ Reset</button></div>
   </div>
-  <div class="scard"><div class="stit">All sessions</div>
-    <div id="all-sessions" style="max-height:260px;overflow-y:auto"></div>
-  </div>
+  <div class="scard"><div class="stit">All sessions</div><div id="all-sessions" style="max-height:240px;overflow-y:auto"></div></div>
 </div>
 </div>
 </div>
-</main>
-</div>
+
+</main></div>
+
 <!-- LOG MODAL -->
 <div class="mov" id="log-modal">
   <div class="modal">
     <div class="mtit">Log study session <button class="mx" onclick="closeM('log-modal')">✕</button></div>
-    <div style="display:flex;gap:10px;background:var(--bg4);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2)" id="sess-summary"></div>
+    <div style="background:var(--paper2);border-radius:var(--r);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2)" id="sess-summary"></div>
     <div class="fld"><label class="fl">Score % (optional)</label><input type="number" id="ml-s" min="0" max="100" placeholder="leave blank if no quiz"></div>
     <div class="fld"><label class="fl">Topics covered</label><input type="text" id="ml-t" placeholder="e.g. Stakeholder management, EVM formulas"></div>
-    <div class="mact">
-      <button class="btn btn-p" style="flex:1" onclick="logMod()">Save session</button>
-      <button class="btn" onclick="closeM('log-modal')">Cancel</button>
-    </div>
+    <div class="mact"><button class="btn btn-p" style="flex:1" onclick="logMod()">Save session</button><button class="btn" onclick="closeM('log-modal')">Cancel</button></div>
   </div>
 </div>
-<div class="toast" id="toast"><span class="toast-dot"></span><span id="toast-msg"></span></div>
+<div class="toast" id="toast"><span class="tdot"></span><span id="toast-msg"></span></div>
 <nav class="mnav"><div class="mni-r">
   <div class="mni on" onclick="go('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dash</div>
   <div class="mni" onclick="go('train')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Train</div>
@@ -1079,6 +1152,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   <div class="mni" onclick="go('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</div>
 </div></nav>
 <script>
+
+
 // ── MOTIVATIONAL CONTENT ──────────────────────────────────────────────────
 const QUOTES=[
   {q:"The secret of getting ahead is getting started.",src:"Mark Twain"},
@@ -1092,6 +1167,114 @@ const QUOTES=[
   {q:"Compounding works in learning too. Each session builds on the last.",src:"Study Hub"},
   {q:"Discipline is choosing between what you want now and what you want most.",src:"Abraham Lincoln"},
 ];
+
+// ── CUSTOM QUESTIONS STORAGE ─────────────────────────────────────────────
+const CQ_KEY = 'pmp_custom_q_v1'; // permanent key for custom questions
+let CQ = []; // custom questions array
+
+function cqLoad(){
+  try{ const d=localStorage.getItem(CQ_KEY); if(d) CQ=JSON.parse(d); }catch(e){}
+}
+function cqSave(){
+  try{ localStorage.setItem(CQ_KEY, JSON.stringify(CQ)); }catch(e){}
+}
+
+// Track which answer index is selected in the add-question form
+let aqCorrectIdx = -1;
+
+function setCorrect(idx){
+  aqCorrectIdx = idx;
+  document.querySelectorAll('.opt-letter-badge').forEach((b,i)=>{
+    b.classList.toggle('selected', i===idx);
+  });
+}
+
+function toggleAddQ(el){
+  el.classList.toggle('open');
+  const form = document.getElementById('add-q-form');
+  form.classList.toggle('open');
+  if(form.classList.contains('open')) renderCustomQList();
+}
+
+function saveCustomQ(){
+  const domain = document.getElementById('aq-domain').value;
+  const sub    = document.getElementById('aq-sub').value.trim() || 'custom';
+  const q      = document.getElementById('aq-q').value.trim();
+  const opts   = [0,1,2,3].map(i=>document.getElementById('aq-o'+i).value.trim());
+  const exp    = document.getElementById('aq-exp').value.trim();
+
+  if(!q){ toast('Enter a question','err'); return; }
+  if(opts.filter(Boolean).length < 2){ toast('Enter at least 2 answer options','err'); return; }
+  if(aqCorrectIdx < 0){ toast('Click a letter to mark the correct answer','err'); return; }
+  if(!opts[aqCorrectIdx]){ toast('The correct answer option is empty','err'); return; }
+
+  const newQ = {
+    id: Date.now(),
+    d: domain,
+    s: sub,
+    q,
+    o: opts.filter(Boolean),
+    a: aqCorrectIdx < opts.filter(Boolean).length ? aqCorrectIdx : 0,
+    e: exp || 'This is a custom question.',
+    custom: true
+  };
+
+  CQ.push(newQ);
+  cqSave();
+  clearCustomQForm();
+  renderCustomQList();
+  updateCustomFilter();
+  toast('Question saved ✓','ok');
+}
+
+function clearCustomQForm(){
+  ['aq-q','aq-sub','aq-exp'].forEach(id=>document.getElementById(id).value='');
+  [0,1,2,3].forEach(i=>document.getElementById('aq-o'+i).value='');
+  aqCorrectIdx = -1;
+  document.querySelectorAll('.opt-letter-badge').forEach(b=>b.classList.remove('selected'));
+}
+
+function deleteCustomQ(id){
+  if(!confirm('Delete this question?')) return;
+  CQ = CQ.filter(q=>q.id!==id);
+  cqSave();
+  renderCustomQList();
+  updateCustomFilter();
+  toast('Question deleted');
+}
+
+function renderCustomQList(){
+  const el = document.getElementById('custom-q-list');
+  if(!el) return;
+  if(!CQ.length){
+    el.innerHTML='<p style="font-size:12px;color:var(--ink4);padding:4px 0">No custom questions yet. Fill in the form above.</p>';
+    return;
+  }
+  const L=['A','B','C','D'];
+  el.innerHTML = '<div style="font-family:var(--fm);font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Your '+CQ.length+' custom question'+(CQ.length===1?'':'s')+'</div>' +
+    CQ.map(q=>`
+      <div style="background:var(--paper2);border:1px solid var(--paper4);border-radius:var(--r);padding:11px 13px;margin-bottom:7px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px">
+          <div style="font-size:12px;color:var(--ink);font-weight:500;flex:1;line-height:1.4">${q.q}</div>
+          <span class="custom-q-badge">${q.d} · ${q.s}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:8px">
+          ${q.o.map((o,i)=>`<div style="font-size:11px;color:${i===q.a?'var(--forest-d)':'var(--ink4)'};font-family:${i===q.a?'var(--ff)':'var(--fm)'};font-weight:${i===q.a?'600':'400'}">${L[i]}: ${o}${i===q.a?' ✓':''}</div>`).join('')}
+        </div>
+        ${q.e?`<div style="font-size:11px;color:var(--ink3);font-style:italic;margin-bottom:7px">"${q.e}"</div>`:''}
+        <button class="btn btn-r btn-xs" style="background:transparent" onclick="deleteCustomQ(${q.id})">Delete</button>
+      </div>`).join('');
+}
+
+function updateCustomFilter(){
+  const btn = document.getElementById('fc-custom');
+  if(btn) btn.style.display = CQ.length > 0 ? '' : 'none';
+  const info = document.getElementById('q-pool-info');
+  if(info){
+    const total = Q.length + CQ.length;
+    info.textContent = total+' questions ('+Q.length+' built-in + '+CQ.length+' custom) · PMI ECO 2021';
+  }
+}
 const TIPS=[
   {icon:"⚡",t:"Today's focus",txt:"Before starting, write down ONE concept you want to understand better by the end of this session. Specific intent beats vague studying."},
   {icon:"🎯",t:"PMI thinking",txt:"On every question, ask: what would PMI's ideal PM do? Proactive, communicative, process-following, and stakeholder-centric — always."},
@@ -1219,7 +1402,7 @@ function setSyncStatus(state, msg, detail=''){
   const txt=document.getElementById('sync-status-text');
   const last=document.getElementById('sync-last');
   if(!dot)return;
-  const colors={ok:'var(--green)',err:'var(--red)',busy:'var(--amber)',off:'var(--text4)'};
+  const colors={ok:'var(--forest)',err:'var(--terra)',busy:'var(--marigold)',off:'var(--text4)'};
   dot.style.background=colors[state]||colors.off;
   dot.className=state==='busy'?'sync-pulse':'';
   txt.textContent=msg;
@@ -1414,7 +1597,7 @@ function go(p){
   if(p==='train'&&!S.curQ)loadQ();
   if(p==='settings')renderSet();
 }
-function refTab(t,el){
+function rTab(t,el){
   document.querySelectorAll('.ref-panel').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('.ref-tab').forEach(x=>x.classList.remove('on'));
   document.getElementById('ref-'+t).classList.add('on');
@@ -1422,14 +1605,14 @@ function refTab(t,el){
 }
 
 // ── TIMER (with session tracking) ─────────────────────────────────────────
-const CIRC=283;
+const CIRC=240;
 function tRender(){
   const totalSec=(S.tMode==='work'?S.timer.w:S.tMode==='short'?S.timer.s:S.timer.l)*60;
   const left=S.tLeft,m=Math.floor(left/60),sec=left%60;
   document.getElementById('t-disp').textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
-  const fill=document.getElementById('tr-main');
+  const fill=document.getElementById('tr-fill');
   fill.style.strokeDashoffset=CIRC-(((totalSec-left)/totalSec)*CIRC);
-  fill.className='tr-main'+(S.tMode!=='work'?' break':'');
+  fill.className='tr-fill'+(S.tMode!=='work'?' brk':'');
   const phases={work:'FOCUS',short:'BREAK',long:'LONG BREAK'};
   const names={work:'Work session',short:'Short break ☕',long:'Long break 🌿'};
   document.getElementById('t-phase').textContent=phases[S.tMode]||'FOCUS';
@@ -1556,7 +1739,7 @@ function renderDash(){
   document.getElementById('m-q').textContent=S.sessions.reduce((a,s)=>a+(s.qc||0),0);
   const ma=document.getElementById('m-a');
   ma.textContent=avg?avg+'%':'—';
-  ma.style.color=avg?(avg>=75?'var(--green)':avg>=60?'var(--amber)':'var(--red)'):'';
+  ma.style.color=avg?(avg>=75?'var(--forest)':avg>=60?'var(--marigold)':'var(--terra)'):'';
   document.getElementById('m-st').textContent=str;
   document.getElementById('sb-h').textContent=totalH.toFixed(1)+'h';
   document.getElementById('sb-q').textContent=S.sessions.reduce((a,s)=>a+(s.qc||0),0);
@@ -1586,7 +1769,7 @@ function renderLog(){
   }).join('');
 }
 function renderDomBars(){
-  const cfg=[{id:'people',n:'People (42%)',c:'var(--red)'},{id:'process',n:'Process (50%)',c:'var(--green)'},{id:'business',n:'Business env. (8%)',c:'var(--blue)'}];
+  const cfg=[{id:'people',n:'People (42%)',c:'var(--terra)'},{id:'process',n:'Process (50%)',c:'var(--forest)'},{id:'business',n:'Business env. (8%)',c:'var(--slate)'}];
   document.getElementById('doms').innerHTML=cfg.map(d=>{const p=S.domains[d.id]||0;return`<div class="dr"><span class="dn">${d.n}</span><div class="pb" style="flex:1"><div class="pf" style="width:${p}%;background:${d.c}"></div></div><span class="dp">${p}%</span></div>`;}).join('');
 }
 function renderActGrid(){
@@ -1598,15 +1781,18 @@ function renderActGrid(){
 // ── TRAIN ─────────────────────────────────────────────────────────────────
 function sf(f,el){S.filter=f;document.querySelectorAll('.fc').forEach(b=>b.classList.remove('on'));el.classList.add('on');loadQ();}
 function loadQ(){
-  let pool=Q;
-  if(S.filter==='people')pool=Q.filter(q=>q.d==='people');
-  else if(S.filter==='process')pool=Q.filter(q=>q.d==='process');
-  else if(S.filter==='business')pool=Q.filter(q=>q.d==='business');
-  else if(S.filter==='agile')pool=Q.filter(q=>q.s==='agile'||q.s==='hybrid');
-  if(!pool.length)pool=Q;
+  const ALL=[...Q,...CQ];
+  let pool=ALL;
+  if(S.filter==='people')pool=ALL.filter(q=>q.d==='people');
+  else if(S.filter==='process')pool=ALL.filter(q=>q.d==='process');
+  else if(S.filter==='business')pool=ALL.filter(q=>q.d==='business');
+  else if(S.filter==='agile')pool=ALL.filter(q=>q.s==='agile'||q.s==='hybrid');
+  else if(S.filter==='custom')pool=CQ.length?CQ:ALL;
+  if(!pool.length)pool=ALL;
   const q=pool[Math.floor(Math.random()*pool.length)];S.curQ=q;
   const L=['A','B','C','D'],dc={people:'qdb-p',process:'qdb-r',business:'qdb-b'};
-  document.getElementById('qa').innerHTML=`<div class="qcard"><div class="qmeta"><span class="qdb ${dc[q.d]||'qdb-r'}">${q.d.charAt(0).toUpperCase()+q.d.slice(1)}</span><span class="qsub">${q.s.charAt(0).toUpperCase()+q.s.slice(1)}</span><span class="qn">${pool.length} in filter</span></div><div class="qtext">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<div class="opt" id="o${i}" onclick="pick(${i})"><span class="ol">${L[i]}</span><span>${o}</span></div>`).join('')}</div></div>`;
+  const customBadge=q.custom?'<span class="custom-q-badge">★ Custom</span>':'';
+  document.getElementById('qa').innerHTML=`<div class="qcard"><div class="qmeta"><span class="qdb ${dc[q.d]||'qdb-r'}">${q.d.charAt(0).toUpperCase()+q.d.slice(1)}</span><span class="qsub">${q.s.charAt(0).toUpperCase()+q.s.slice(1)}</span><span class="qn">${pool.length} in filter</span>${customBadge}</div><div class="qtext">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<div class="opt" id="o${i}" onclick="pick(${i})"><span class="ol">${L[i]}</span><span>${o}</span></div>`).join('')}</div></div>`;
   document.getElementById('qact').style.display='none';lsSave();
 }
 function pick(i){
@@ -1622,7 +1808,7 @@ function updateSBar(){
   document.getElementById('ss-r').textContent=S.sR;document.getElementById('ss-t').textContent=S.sT;
   document.getElementById('ss-p').textContent=S.sT?p+'%':'—';
   const b=document.getElementById('ss-b');b.style.width=p+'%';
-  b.style.background=p>=75?'var(--green)':p>=60?'var(--amber)':'var(--red)';
+  b.style.background=p>=75?'var(--forest)':p>=60?'var(--marigold)':'var(--terra)';
 }
 function saveQNote(){
   if(!S.curQ)return;go('notes');
@@ -1667,7 +1853,7 @@ function mdToHtml(md){
     .replace(/`([^`]+)`/g,'<code>$1</code>')
     // Highlights (custom syntax ==text==colorname)
     .replace(/==(.+?)==(red|amber|green|blue|purple)/g,'<span class="hl-$2">$1</span>')
-    .replace(/==(.+?)==/g,'<span class="hl-amber">$1</span>')
+    .replace(/==(.+?)==/g,'<span class="hl-gold">$1</span>')
     // Links
     .replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank">$1</a>')
     // Bullet lists
@@ -1725,7 +1911,7 @@ function nodeToMd(node){
       if(t==='h1')out+=`# ${inner}\n`;
       else if(t==='h2')out+=`## ${inner}\n`;
       else if(t==='h3')out+=`### ${inner}\n`;
-      else if(t==='strong'||t==='b')out+=`**${inner}**`;
+      else if(t==='strong'||t==='sky')out+=`**${inner}**`;
       else if(t==='em'||t==='i')out+=`_${inner}_`;
       else if(t==='s')out+=`~~${inner}~~`;
       else if(t==='u')out+=`<u>${inner}</u>`;
@@ -1737,7 +1923,7 @@ function nodeToMd(node){
       else if(t==='br')out+='\n';
       else if(t==='p'||t==='div')out+=inner+(inner.endsWith('\n')?'':'\n');
       else if(t==='hr')out+='---\n';
-      else if(t==='a')out+=`[${inner}](${c.href})`;
+      else if(t==='gold')out+=`[${inner}](${c.href})`;
       else if(t==='span'){
         const cls=c.className;
         const color=cls.replace('hl-','');
@@ -1810,7 +1996,7 @@ function autoMdShortcut(ed){
 }
 function editorKeydown(e){
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();saveNote();}
-  if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();fmt('bold');}
+  if((e.ctrlKey||e.metaKey)&&e.key==='sky'){e.preventDefault();fmt('bold');}
   if((e.ctrlKey||e.metaKey)&&e.key==='i'){e.preventDefault();fmt('italic');}
   if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();fmt('underline');}
 }
@@ -1911,15 +2097,15 @@ function renderNotes(){
     // Flat accordion rows (no topic grouping)
     document.getElementById('nl').innerHTML=fl.map(n=>`
       <div style="border:1px solid var(--border);border-radius:var(--r2);margin-bottom:7px;background:var(--bg2);overflow:hidden">
-        <div class="note-row-header${openNotes.has(n.id)?' open':''}" onclick="toggleNoteRow(${n.id})" style="border-radius:var(--r2)">
-          <span class="note-row-chevron">▶</span>
+        <div class="nrow-hdr${openNotes.has(n.id)?' open':''}" onclick="toggleNoteRow(${n.id})" style="border-radius:var(--r2)">
+          <span class="nrow-chev">▶</span>
           <span class="ntag nt-${n.tag}">${n.tag}</span>
-          <span class="note-row-title">${n.title}</span>
-          <span class="note-row-date">${n.date}</span>
+          <span class="nrow-title">${n.title}</span>
+          <span class="nrow-date">${n.date}</span>
         </div>
-        <div class="note-row-body${openNotes.has(n.id)?' open':''}">
-          <div class="note-row-content">${mdToHtml(n.body)}</div>
-          <div class="note-row-actions">
+        <div class="nrow-body${openNotes.has(n.id)?' open':''}">
+          <div class="nrow-content">${mdToHtml(n.body)}</div>
+          <div class="nrow-actions">
             <button class="btn btn-sm" onclick="editNote(${n.id});event.stopPropagation()">Edit</button>
             <button class="btn btn-sm btn-r" style="background:transparent;border:none" onclick="delNote(${n.id});event.stopPropagation()">Delete</button>
           </div>
@@ -1939,24 +2125,24 @@ function renderNotes(){
     const notes=groups[tag];
     const isOpen=openTopics.has(tag);
     html+=`<div class="topic-group">
-      <div class="topic-header${isOpen?' open':''}" onclick="toggleTopic('${tag}')">
-        <span class="topic-chevron">▶</span>
+      <div class="topic-hdr${isOpen?' open':''}" onclick="toggleTopic('${tag}')">
+        <span class="topic-chev">▶</span>
         <span class="topic-tag nt-${tag}">${tag}</span>
-        <span class="topic-name">${tag}</span>
+        <span class="topic-lbl">${tag}</span>
         <span class="topic-count">${notes.length}</span>
       </div>
       <div class="topic-body${isOpen?' open':''}">
         ${notes.map(n=>{
           const isNoteOpen=openNotes.has(n.id);
           return`<div class="note-row">
-            <div class="note-row-header${isNoteOpen?' open':''}" onclick="toggleNoteRow(${n.id})">
-              <span class="note-row-chevron">▶</span>
-              <span class="note-row-title">${n.title}</span>
-              <span class="note-row-date">${n.date}</span>
+            <div class="nrow-hdr${isNoteOpen?' open':''}" onclick="toggleNoteRow(${n.id})">
+              <span class="nrow-chev">▶</span>
+              <span class="nrow-title">${n.title}</span>
+              <span class="nrow-date">${n.date}</span>
             </div>
-            <div class="note-row-body${isNoteOpen?' open':''}">
-              <div class="note-row-content">${mdToHtml(n.body)}</div>
-              <div class="note-row-actions">
+            <div class="nrow-body${isNoteOpen?' open':''}">
+              <div class="nrow-content">${mdToHtml(n.body)}</div>
+              <div class="nrow-actions">
                 <button class="btn btn-sm" onclick="editNote(${n.id});event.stopPropagation()">Edit</button>
                 <button class="btn btn-sm btn-r" style="background:transparent;border:none" onclick="delNote(${n.id});event.stopPropagation()">Delete</button>
               </div>
@@ -1985,7 +2171,7 @@ function renderSet(){
   if(S.examDate)document.getElementById('ex-d').value=S.examDate;
   document.getElementById('sl-d').value=new Date().toISOString().split('T')[0];
   document.getElementById('tw').value=S.timer.w;document.getElementById('tsb').value=S.timer.s;document.getElementById('tlb').value=S.timer.l;
-  const cfg=[{id:'people',n:'People domain (42%)',c:'var(--red)'},{id:'process',n:'Process domain (50%)',c:'var(--green)'},{id:'business',n:'Business environment (8%)',c:'var(--blue)'}];
+  const cfg=[{id:'people',n:'People domain (42%)',c:'var(--terra)'},{id:'process',n:'Process domain (50%)',c:'var(--forest)'},{id:'business',n:'Business environment (8%)',c:'var(--slate)'}];
   document.getElementById('dom-sl').innerHTML=cfg.map(d=>{const v=S.domains[d.id]||0;return`<div class="slf"><div class="slh"><span style="color:var(--text2)">${d.n}</span><span class="slv" id="sv-${d.id}">${v}%</span></div><input type="range" min="0" max="100" step="5" value="${v}" id="sl-${d.id}" oninput="document.getElementById('sv-${d.id}').textContent=this.value+'%'"></div>`;}).join('');
   // all sessions list
   const rows=[...S.sessions].reverse();
@@ -2031,7 +2217,7 @@ document.getElementById('log-modal').addEventListener('click',function(e){if(e.t
 // ── DATA ──────────────────────────────────────────────────────────────────
 function expD(){
   const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  const a=document.createElement('gold');a.href=URL.createObjectURL(b);
   a.download='pmp_all_'+new Date().toISOString().split('T')[0]+'.json';a.click();
   toast('All data exported ✓','ok');
 }
@@ -2058,7 +2244,7 @@ function clrD(){
 // Notes-specific export/import/clear
 function expNotes(){
   const b=new Blob([JSON.stringify(S.notes,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  const a=document.createElement('gold');a.href=URL.createObjectURL(b);
   a.download='pmp_notes_'+new Date().toISOString().split('T')[0]+'.json';a.click();
   toast('Notes exported ✓','ok');
 }
@@ -2088,10 +2274,12 @@ function clrNotes(){
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 lsLoad();
-document.getElementById('tr-main').style.strokeDasharray=CIRC;
+cqLoad();
+document.getElementById('tr-fill').style.strokeDasharray=CIRC;
 tRender();renderDash();loadQ();renderNotes();
 // Cloud: render UI state + auto-pull if configured
 renderSyncUI();
+updateCustomFilter();
 if(cloud.apiKey && cloud.binId){
   cloudPull(); // silently merge latest on every page open
 }
