@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PMP Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f13;--bg2:#14151a;--bg3:#1c1d24;--bg4:#24252f;--bg5:#2e303a;
+  --glass:rgba(255,255,255,.04);--glass2:rgba(255,255,255,.07);--glass3:rgba(255,255,255,.11);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--border3:rgba(255,255,255,.18);
+  --text:#eeeef0;--text2:#9a9ba8;--text3:#5e5f6e;--text4:#3a3b48;
+  --amber:#f5a623;--amber2:#fbbf5a;--amber3:rgba(245,166,35,.15);
+  --green:#22c98a;--green2:rgba(34,201,138,.15);
+  --red:#f25858;--red2:rgba(242,88,88,.15);
+  --blue:#5b9cf6;--blue2:rgba(91,156,246,.15);
+  --purple:#a78bfa;--purple2:rgba(167,139,250,.15);
+  --people:#f25858;--people2:rgba(242,88,88,.12);
+  --process:#22c98a;--process2:rgba(34,201,138,.12);
+  --biz:#5b9cf6;--biz2:rgba(91,156,246,.12);
+  --r:8px;--r2:14px;--r3:20px;--r4:28px;
+  --ff:'Plus Jakarta Sans',sans-serif;--fd:'Lora',serif;--fm:'JetBrains Mono',monospace;
+  --sh:0 0 0 1px var(--border),0 4px 24px rgba(0,0,0,.4);
+  --sh2:0 0 0 1px var(--border2),0 8px 40px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{background:var(--bg);color:var(--text);font-family:var(--ff);line-height:1.6;min-height:100vh;overflow-x:hidden}
+/* Background mesh */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(245,166,35,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(91,156,246,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+::selection{background:rgba(245,166,35,.3);color:var(--text)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px}
+
+/* ── SHELL ─────────────────────────────────────────────── */
+.app{display:grid;grid-template-columns:72px 220px 1fr;grid-template-rows:1fr;height:100vh;position:relative;z-index:1}
+
+/* ── ICON RAIL ─────────────────────────────────────────── */
+.rail{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;z-index:10}
+.rail-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--amber),#e8870a);display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0}
+.rail-logo svg{width:18px;height:18px;fill:#000}
+.ri{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;color:var(--text3);flex-shrink:0;position:relative}
+.ri svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.8;fill:none}
+.ri:hover{background:var(--glass2);color:var(--text2)}
+.ri.on{background:var(--amber3);color:var(--amber)}
+.ri-tip{position:absolute;left:52px;background:var(--bg4);color:var(--text);font-size:11px;padding:4px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid var(--border2);font-family:var(--ff)}
+.ri:hover .ri-tip{opacity:1}
+.rail-div{width:28px;height:1px;background:var(--border);margin:6px 0}
+
+/* ── SIDEBAR ───────────────────────────────────────────── */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.sb-top{padding:18px 16px 12px;border-bottom:1px solid var(--border)}
+.sb-title{font-family:var(--fd);font-size:15px;font-style:italic;color:var(--text);font-weight:500;line-height:1.2}
+.sb-sub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--fm)}
+
+/* TIMER ───────────────────────────── */
+.timer-section{padding:16px;border-bottom:1px solid var(--border)}
+.timer-ring-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px}
+.timer-ring-wrap svg{transform:rotate(-90deg);filter:drop-shadow(0 0 12px rgba(245,166,35,.3))}
+.tr-bg{fill:none;stroke:var(--bg4);stroke-width:6}
+.tr-main{fill:none;stroke:var(--amber);stroke-width:6;stroke-linecap:round;stroke-dasharray:283;stroke-dashoffset:0;transition:stroke-dashoffset .95s linear}
+.tr-main.break{stroke:var(--green)}
+.timer-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.timer-time{font-family:var(--fm);font-size:20px;font-weight:500;color:var(--text);letter-spacing:.02em;line-height:1}
+.timer-phase{font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.timer-mode-strip{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.timer-mode-name{font-size:12px;color:var(--text2);font-weight:500}
+.timer-session-info{font-family:var(--fm);font-size:10px;color:var(--text3)}
+.timer-dots{display:flex;gap:4px;justify-content:center;margin-bottom:10px}
+.td{width:8px;height:8px;border-radius:50%;background:var(--bg4);transition:all .3s}
+.td.done{background:var(--amber)}
+.td.cur{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.td.brk.done{background:var(--green)}
+.tbns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.tbn{padding:6px 0;border-radius:var(--r);border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:11px;font-family:var(--ff);cursor:pointer;transition:all .16s;text-align:center}
+.tbn:hover{background:var(--glass2);color:var(--text)}
+.tbn.go{background:var(--amber);border-color:var(--amber);color:#000;font-weight:600}
+.tbn.go:hover{background:#d9920a}
+.tbn.go.paused{background:var(--bg4);border-color:var(--border2);color:var(--text)}
+/* Active session banner */
+.session-active-banner{margin-top:10px;background:linear-gradient(135deg,rgba(34,201,138,.12),rgba(34,201,138,.06));border:1px solid rgba(34,201,138,.25);border-radius:var(--r);padding:8px 10px;display:none}
+.sab-title{font-size:11px;font-weight:600;color:var(--green);margin-bottom:3px}
+.sab-elapsed{font-family:var(--fm);font-size:13px;color:var(--text);font-weight:500}
+.sab-since{font-size:10px;color:var(--text3)}
+.sab-btns{display:flex;gap:5px;margin-top:8px}
+
+/* EXAM COUNTDOWN ──────────────────── */
+.exam-box{padding:14px 16px;border-bottom:1px solid var(--border)}
+.ex-days{font-family:var(--fm);font-size:32px;font-weight:500;color:var(--amber);line-height:1}
+.ex-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;font-family:var(--fm)}
+.ex-date{font-size:11px;color:var(--text3);margin-top:4px}
+.ex-progress{margin-top:10px}
+.ex-prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:var(--fm);margin-bottom:4px}
+.ex-prog-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.ex-prog-fill{height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:2px;transition:width .6s}
+
+/* QUICK STATS ─────────────────────── */
+.sb-stats{padding:12px 16px;display:flex;flex-direction:column;gap:7px}
+.sb-stat{display:flex;justify-content:space-between;align-items:center}
+.sb-stat-l{font-size:11px;color:var(--text3)}
+.sb-stat-v{font-family:var(--fm);font-size:12px;color:var(--text2);font-weight:500}
+
+/* ── MAIN ──────────────────────────────────────────────── */
+.main{overflow-y:auto;background:var(--bg);position:relative}
+.panel{display:none;padding:28px 32px;min-height:100%;animation:pi .2s ease}
+.panel.on{display:block}
+@keyframes pi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:24px}
+.pt{font-family:var(--fd);font-size:22px;font-weight:500;color:var(--text);line-height:1.25;letter-spacing:-.01em}
+.pt em{font-style:italic;color:var(--amber)}
+.ps{font-size:12px;color:var(--text3);margin-top:4px}
+
+/* METRICS ────────────────────── */
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.met{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px;position:relative;overflow:hidden;transition:border-color .2s}
+.met:hover{border-color:var(--border2)}
+.met::after{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;border-radius:50%;opacity:.08}
+.met.a::after{background:var(--amber)}
+.met.g::after{background:var(--green)}
+.met.r::after{background:var(--red)}
+.met.b::after{background:var(--blue)}
+.met-v{font-family:var(--fm);font-size:26px;font-weight:500;line-height:1;position:relative}
+.met.a .met-v{color:var(--amber)}
+.met.g .met-v{color:var(--green)}
+.met.r .met-v{color:var(--red)}
+.met.b .met-v{color:var(--blue)}
+.met-l{font-size:11px;color:var(--text3);margin-top:6px}
+.met-s{font-family:var(--fm);font-size:10px;color:var(--text4);margin-top:3px}
+
+/* CARDS ─────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);transition:border-color .2s}
+.card:hover{border-color:var(--border2)}
+.ch{font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* SCHEDULE ───────────────────── */
+.sg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px}
+.sd{border-radius:var(--r);padding:9px 3px;text-align:center;background:var(--bg3);border:1px solid transparent;transition:.18s}
+.sd.study{background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.2)}
+.sd.today{border-color:var(--amber)!important;box-shadow:0 0 0 1px var(--amber)}
+.sd.rest{opacity:.4}
+.sd-d{font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.sd-h{font-family:var(--fm);font-size:16px;font-weight:500;color:var(--amber);margin:2px 0;line-height:1}
+.sd.rest .sd-h{color:var(--text4);font-size:11px}
+.sd-t{font-size:9px;color:var(--text3)}
+
+/* LOG ────────────────────────── */
+.lr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.lr:last-child{border-bottom:none}
+.lr-dt{font-family:var(--fm);font-size:10px;color:var(--text3);width:68px;flex-shrink:0}
+.lr-sc{font-family:var(--fm);font-size:11px;font-weight:500;width:36px;flex-shrink:0}
+.lr-tp{font-size:12px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lr-h{font-family:var(--fm);font-size:10px;color:var(--text3)}
+.lr-dur{font-family:var(--fm);font-size:10px;color:var(--text4)}
+.sg{color:var(--green)}.sm{color:var(--amber)}.sb2{color:var(--red)}
+
+/* DOMAIN BARS ───────────────── */
+.dr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dn{font-size:12px;color:var(--text2);width:185px;flex-shrink:0}
+.dp{font-family:var(--fm);font-size:11px;color:var(--text3);width:32px;text-align:right;flex-shrink:0}
+.pb{background:var(--bg4);border-radius:100px;height:6px;flex:1;overflow:hidden}
+.pf{height:6px;border-radius:100px;transition:width .8s cubic-bezier(.34,1.2,.64,1)}
+
+/* ACTIVITY ───────────────────── */
+.agrid{display:flex;flex-wrap:wrap;gap:3px}
+.dot{width:13px;height:13px;border-radius:3px;background:var(--bg4);transition:.2s}
+.dot.on{background:var(--amber);opacity:.8}
+.dot.tod{background:var(--green);box-shadow:0 0 6px rgba(34,201,138,.4)}
+.dot.wk{background:var(--bg3);border:1px solid var(--bg4)}
+
+/* MOTIVATION CARD ────────────── */
+.motive-card{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.2);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+.motive-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,.12),transparent);pointer-events:none}
+.motive-q{font-family:var(--fd);font-size:14px;font-style:italic;color:var(--text);line-height:1.6;position:relative}
+.motive-src{font-size:11px;color:var(--text3);margin-top:8px;font-family:var(--fm)}
+.motive-tip{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:12px}
+.motive-tip-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.motive-tip-icon{font-size:16px}
+.motive-tip-label{font-size:11px;font-family:var(--fm);color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.motive-tip-text{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* BUTTONS ────────────────────── */
+.btn{font-family:var(--ff);font-size:12px;font-weight:500;padding:8px 16px;border-radius:var(--r);border:1px solid var(--border2);background:var(--glass);color:var(--text);cursor:pointer;transition:all .16s;display:inline-flex;align-items:center;gap:6px;line-height:1.2}
+.btn:hover{background:var(--glass2);border-color:var(--border3)}
+.btn-p{background:var(--amber);border-color:var(--amber);color:#000;font-weight:600}
+.btn-p:hover{background:#d9920a;border-color:#d9920a}
+.btn-g{background:rgba(34,201,138,.15);border-color:rgba(34,201,138,.35);color:var(--green)}
+.btn-g:hover{background:rgba(34,201,138,.22)}
+.btn-r{border-color:rgba(242,88,88,.4);color:var(--red)}
+.btn-r:hover{background:var(--red2)}
+.btn-sm{padding:5px 11px;font-size:11px}
+.btn-xs{padding:3px 9px;font-size:10px}
+
+/* FORMS ─────────────────────── */
+input,textarea,select{font-family:var(--ff);font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:8px 11px;outline:none;width:100%;transition:border .15s,background .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--amber);background:var(--bg4)}
+textarea{resize:vertical;min-height:85px;line-height:1.65}
+select option{background:var(--bg3)}
+.fl{display:block;font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.fld{margin-bottom:11px}
+
+/* FILTER CHIPS ──────────────── */
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.fc{font-size:11px;font-family:var(--fm);padding:4px 12px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:.16s}
+.fc:hover{color:var(--text);border-color:var(--border3)}
+.fc.on{font-weight:500}
+.fc.fall.on{background:rgba(255,255,255,.1);border-color:var(--border3);color:var(--text)}
+.fc.fp.on{background:var(--people2);border-color:rgba(242,88,88,.4);color:var(--red)}
+.fc.fr.on{background:var(--process2);border-color:rgba(34,201,138,.35);color:var(--green)}
+.fc.fb.on{background:var(--biz2);border-color:rgba(91,156,246,.35);color:var(--blue)}
+.fc.fa.on{background:var(--purple2);border-color:rgba(167,139,250,.35);color:var(--purple)}
+
+/* SESSION BAR ───────────────── */
+.sbar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.ss-v{font-family:var(--fm);font-size:20px;font-weight:500;line-height:1}
+.ss-l{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-top:2px}
+.ss-pbg{background:var(--bg4);border-radius:100px;height:6px;flex:1;overflow:hidden}
+.ss-pf{height:6px;border-radius:100px;transition:width .4s,background .4s;background:var(--green)}
+
+/* QUESTION ──────────────────── */
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:22px;margin-bottom:12px;transition:border-color .2s}
+.qmeta{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.qdb{font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:100px;font-weight:500}
+.qdb-p{background:var(--people2);color:var(--red);border:1px solid rgba(242,88,88,.25)}
+.qdb-r{background:var(--process2);color:var(--green);border:1px solid rgba(34,201,138,.25)}
+.qdb-b{background:var(--biz2);color:var(--blue);border:1px solid rgba(91,156,246,.25)}
+.qsub{font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:100px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.qn{font-family:var(--fm);font-size:10px;color:var(--text4);margin-left:auto}
+.qtext{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:18px;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;font-size:13px;color:var(--text2);line-height:1.55;transition:.16s;background:var(--bg3)}
+.opt:hover{border-color:var(--border3);background:var(--bg4);color:var(--text)}
+.opt.sel{border-color:var(--amber);background:rgba(245,166,35,.06);color:var(--text)}
+.opt.ok{border-color:rgba(34,201,138,.5);background:rgba(34,201,138,.07);color:var(--green)}
+.opt.bad{border-color:rgba(242,88,88,.5);background:rgba(242,88,88,.07);color:var(--red)}
+.opt.locked{cursor:default}
+.ol{width:21px;height:21px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fm);font-weight:500;flex-shrink:0;margin-top:1px}
+.opt.ok .ol,.opt.bad .ol{color:#fff;border:none}
+.opt.ok .ol{background:var(--green)}
+.opt.bad .ol{background:var(--red)}
+.expl{border-left:3px solid var(--green);background:rgba(34,201,138,.05);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-top:14px;font-size:12px;line-height:1.72;color:var(--text2)}
+.expl strong{color:var(--green);font-weight:600}
+.expl.ex-bad{border-left-color:var(--red);background:rgba(242,88,88,.05)}
+.expl.ex-bad strong{color:var(--red)}
+.qact{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+
+/* NOTES ─────────────────────── */
+.notes-layout{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+.nform{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:18px;position:sticky;top:16px;max-height:calc(100vh - 100px);overflow-y:auto}
+.nform-title{font-family:var(--fd);font-size:15px;font-style:italic;color:var(--text);margin-bottom:12px;font-weight:500}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+.tag-b{font-size:10px;font-family:var(--fm);padding:3px 10px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:.14s}
+.tag-b:hover{color:var(--text);border-color:var(--border3)}
+.tag-b.on{font-weight:500}
+.tag-b[data-t="People"].on{background:var(--people2);border-color:rgba(242,88,88,.35);color:var(--red)}
+.tag-b[data-t="Process"].on{background:var(--process2);border-color:rgba(34,201,138,.35);color:var(--green)}
+.tag-b[data-t="Business"].on{background:var(--biz2);border-color:rgba(91,156,246,.35);color:var(--blue)}
+.tag-b[data-t="Formula"].on{background:var(--amber3);border-color:rgba(245,166,35,.35);color:var(--amber)}
+.tag-b[data-t="Agile"].on{background:var(--purple2);border-color:rgba(167,139,250,.35);color:var(--purple)}
+.tag-b[data-t="Ethics"].on{background:rgba(34,201,138,.1);border-color:rgba(34,201,138,.3);color:var(--green)}
+/* Rich editor toolbar */
+.editor-wrap{border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:10px;background:var(--bg3)}
+.editor-wrap:focus-within{border-color:var(--amber)}
+.toolbar{display:flex;flex-wrap:wrap;gap:1px;padding:6px 8px;background:var(--bg4);border-bottom:1px solid var(--border)}
+.tb-group{display:flex;gap:1px;margin-right:4px}
+.tb-sep{width:1px;background:var(--border2);margin:0 3px;align-self:stretch}
+.tbtn2{width:26px;height:26px;border-radius:5px;border:none;background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--ff);transition:all .14s;flex-shrink:0;line-height:1}
+.tbtn2:hover{background:var(--glass2);color:var(--text)}
+.tbtn2.on{background:var(--amber3);color:var(--amber)}
+.tbtn2 svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;pointer-events:none}
+.color-dot{width:14px;height:14px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.14s;flex-shrink:0}
+.color-dot:hover,.color-dot.on{border-color:var(--text);transform:scale(1.15)}
+.hl-strip{display:flex;align-items:center;gap:3px}
+/* contenteditable editor area */
+#editor{min-height:160px;max-height:300px;overflow-y:auto;padding:10px 12px;font-size:13px;color:var(--text2);line-height:1.75;outline:none;font-family:var(--ff);word-break:break-word}
+#editor:empty::before{content:attr(data-placeholder);color:var(--text4);pointer-events:none}
+#editor h1{font-family:var(--fd);font-size:17px;font-weight:600;color:var(--text);margin:8px 0 4px;line-height:1.3}
+#editor h2{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--text);margin:7px 0 3px;line-height:1.3}
+#editor h3{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;text-transform:uppercase;letter-spacing:.05em}
+#editor b,#editor strong{font-weight:700;color:var(--text)}
+#editor i,#editor em{font-style:italic;color:var(--text)}
+#editor u{text-decoration:underline}
+#editor s{text-decoration:line-through;color:var(--text3)}
+#editor code{font-family:var(--fm);font-size:11.5px;background:var(--bg4);color:var(--amber);padding:1px 5px;border-radius:4px;border:1px solid var(--border)}
+#editor pre{font-family:var(--fm);font-size:11.5px;background:var(--bg4);color:var(--green);padding:10px 12px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:8px 0;line-height:1.6}
+#editor blockquote{border-left:3px solid var(--amber);padding-left:12px;color:var(--text3);font-style:italic;margin:8px 0}
+#editor ul{padding-left:20px;margin:6px 0}
+#editor ol{padding-left:20px;margin:6px 0}
+#editor li{margin:2px 0;color:var(--text2)}
+#editor a{color:var(--blue);text-decoration:underline}
+#editor hr{border:none;border-top:1px solid var(--border2);margin:10px 0}
+#editor mark{border-radius:3px;padding:1px 2px}
+#editor .hl-red{background:rgba(242,88,88,.25);color:var(--red)}
+#editor .hl-amber{background:rgba(245,166,35,.22);color:var(--amber)}
+#editor .hl-green{background:rgba(34,201,138,.2);color:var(--green)}
+#editor .hl-blue{background:rgba(91,156,246,.2);color:var(--blue)}
+#editor .hl-purple{background:rgba(167,139,250,.2);color:var(--purple)}
+.editor-footer{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-top:1px solid var(--border);background:var(--bg4)}
+.editor-count{font-family:var(--fm);font-size:10px;color:var(--text4)}
+.editor-hint{font-size:10px;color:var(--text4)}
+/* Markdown mode toggle */
+.mode-toggle{display:flex;gap:2px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px;margin-bottom:10px}
+.mode-btn{flex:1;padding:4px 8px;border-radius:4px;font-size:10px;font-family:var(--fm);border:none;background:transparent;color:var(--text3);cursor:pointer;transition:.14s;text-align:center}
+.mode-btn.on{background:var(--bg5);color:var(--text);font-weight:500}
+/* Note card list */
+.ncount{font-family:var(--fm);font-size:10px;color:var(--text4);margin-top:4px}
+.ntoolbar{display:flex;gap:7px;margin-bottom:12px;align-items:center}
+.sw{position:relative;flex:1}
+.sw input{padding-left:30px}
+.sw-ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;pointer-events:none}
+.view-toggle{display:flex;gap:2px}
+.vtb{width:26px;height:26px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:.14s}
+.vtb.on,.vtb:hover{background:var(--glass2);color:var(--text)}
+.ncard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:8px;transition:border-color .2s,transform .2s}
+.ncard:hover{border-color:var(--border2);transform:translateY(-1px)}
+.ncard.expanded .nbody-md{max-height:none}
+.nhead{display:flex;align-items:flex-start;gap:7px;margin-bottom:8px}
+.ntag{font-family:var(--fm);font-size:9px;padding:2px 7px;border-radius:100px;flex-shrink:0;font-weight:500;margin-top:2px}
+.nt-People{background:var(--people2);color:var(--red);border:1px solid rgba(242,88,88,.2)}
+.nt-Process{background:var(--process2);color:var(--green);border:1px solid rgba(34,201,138,.2)}
+.nt-Business{background:var(--biz2);color:var(--blue);border:1px solid rgba(91,156,246,.2)}
+.nt-Formula{background:var(--amber3);color:var(--amber);border:1px solid rgba(245,166,35,.2)}
+.nt-Agile{background:var(--purple2);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+.nt-Ethics{background:rgba(34,201,138,.1);color:var(--green);border:1px solid rgba(34,201,138,.2)}
+.ntit{font-size:13px;font-weight:500;color:var(--text);flex:1;line-height:1.3}
+.ndate{font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0;margin-top:1px}
+/* Rendered markdown in cards */
+.nbody-md{font-size:12.5px;color:var(--text2);line-height:1.75;max-height:180px;overflow:hidden;position:relative;transition:max-height .3s ease}
+.nbody-md.expanded{max-height:none}
+.nbody-md::after{content:'';position:absolute;bottom:0;left:0;right:0;height:32px;background:linear-gradient(transparent,var(--bg2));pointer-events:none;transition:opacity .2s}
+.nbody-md.expanded::after{opacity:0}
+.nbody-md h1{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--text);margin:6px 0 3px}
+.nbody-md h2{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.nbody-md h3{font-size:12px;font-weight:600;color:var(--text2);margin:4px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+.nbody-md strong{font-weight:700;color:var(--text)}
+.nbody-md em{font-style:italic;color:var(--text)}
+.nbody-md code{font-family:var(--fm);font-size:11px;background:var(--bg4);color:var(--amber);padding:1px 4px;border-radius:3px;border:1px solid var(--border)}
+.nbody-md pre{font-family:var(--fm);font-size:11px;background:var(--bg4);color:var(--green);padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:5px 0;line-height:1.5}
+.nbody-md blockquote{border-left:3px solid var(--amber);padding-left:10px;color:var(--text3);font-style:italic;margin:5px 0}
+.nbody-md ul{padding-left:16px;margin:4px 0}
+.nbody-md ol{padding-left:16px;margin:4px 0}
+.nbody-md li{margin:2px 0}
+.nbody-md a{color:var(--blue);text-decoration:underline}
+.nbody-md hr{border:none;border-top:1px solid var(--border);margin:7px 0}
+.nbody-md .hl-red{background:rgba(242,88,88,.25);color:var(--red);border-radius:3px;padding:1px 2px}
+.nbody-md .hl-amber{background:rgba(245,166,35,.22);color:var(--amber);border-radius:3px;padding:1px 2px}
+.nbody-md .hl-green{background:rgba(34,201,138,.2);color:var(--green);border-radius:3px;padding:1px 2px}
+.nbody-md .hl-blue{background:rgba(91,156,246,.2);color:var(--blue);border-radius:3px;padding:1px 2px}
+.nbody-md .hl-purple{background:rgba(167,139,250,.2);color:var(--purple);border-radius:3px;padding:1px 2px}
+.nbody-raw{font-size:11.5px;color:var(--text3);line-height:1.65;white-space:pre-wrap;font-family:var(--fm);max-height:120px;overflow:hidden;display:none}
+.nact{display:flex;gap:5px;margin-top:10px;opacity:0;transition:.16s;flex-wrap:wrap;align-items:center}
+.ncard:hover .nact{opacity:1}
+.expand-btn{font-size:10px;font-family:var(--fm);color:var(--text4);background:transparent;border:none;cursor:pointer;padding:0;margin-left:auto}
+.expand-btn:hover{color:var(--text2)}
+.empty{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty-i{font-size:32px;margin-bottom:10px;opacity:.3}
+/* Accordion topic groups */
+.topic-group{margin-bottom:8px;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--bg2)}
+.topic-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background .15s;user-select:none}
+.topic-header:hover{background:var(--bg3)}
+.topic-header.open{background:var(--bg3)}
+.topic-chevron{font-size:10px;color:var(--text3);transition:transform .2s;flex-shrink:0;font-family:var(--fm)}
+.topic-header.open .topic-chevron{transform:rotate(90deg)}
+.topic-tag{font-family:var(--fm);font-size:10px;padding:2px 8px;border-radius:100px;font-weight:500;flex-shrink:0}
+.topic-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.topic-count{font-family:var(--fm);font-size:10px;color:var(--text3);background:var(--bg4);padding:2px 7px;border-radius:100px}
+.topic-body{display:none;border-top:1px solid var(--border)}
+.topic-body.open{display:block}
+/* Individual note rows inside accordion */
+.note-row{border-bottom:1px solid var(--border);cursor:pointer;transition:background .14s}
+.note-row:last-child{border-bottom:none}
+.note-row:hover{background:var(--bg3)}
+.note-row-header{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.note-row-chevron{font-size:9px;color:var(--text3);transition:transform .2s;font-family:var(--fm);flex-shrink:0}
+.note-row-header.open .note-row-chevron{transform:rotate(90deg)}
+.note-row-title{font-size:13px;color:var(--text2);flex:1;line-height:1.3}
+.note-row-header.open .note-row-title{color:var(--text);font-weight:500}
+.note-row-date{font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0}
+.note-row-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
+.note-row-body.open{display:block}
+.note-row-content{padding:10px;background:var(--bg4);border-radius:var(--r);font-size:12.5px;color:var(--text2);line-height:1.75}
+.note-row-content h1{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--text);margin:6px 0 3px}
+.note-row-content h2{font-size:13px;font-weight:600;color:var(--text);margin:5px 0 2px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.note-row-content h3{font-size:12px;font-weight:600;color:var(--text2);margin:4px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+.note-row-content strong{font-weight:700;color:var(--text)}
+.note-row-content em{font-style:italic}
+.note-row-content code{font-family:var(--fm);font-size:11px;background:var(--bg2);color:var(--amber);padding:1px 4px;border-radius:3px;border:1px solid var(--border)}
+.note-row-content pre{font-family:var(--fm);font-size:11px;background:var(--bg2);color:var(--green);padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);overflow-x:auto;margin:5px 0}
+.note-row-content blockquote{border-left:3px solid var(--amber);padding-left:10px;color:var(--text3);font-style:italic;margin:5px 0}
+.note-row-content ul,.note-row-content ol{padding-left:16px;margin:4px 0}
+.note-row-content li{margin:2px 0}
+.note-row-content hr{border:none;border-top:1px solid var(--border);margin:7px 0}
+.note-row-content .hl-red{background:rgba(242,88,88,.25);color:var(--red);border-radius:3px;padding:1px 2px}
+.note-row-content .hl-amber{background:rgba(245,166,35,.22);color:var(--amber);border-radius:3px;padding:1px 2px}
+.note-row-content .hl-green{background:rgba(34,201,138,.2);color:var(--green);border-radius:3px;padding:1px 2px}
+.note-row-content .hl-blue{background:rgba(91,156,246,.2);color:var(--blue);border-radius:3px;padding:1px 2px}
+.note-row-content .hl-purple{background:rgba(167,139,250,.2);color:var(--purple);border-radius:3px;padding:1px 2px}
+.note-row-actions{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+
+/* REFS ─────────────────────── */
+.ref-tabs{display:flex;gap:2px;margin-bottom:18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:4px}
+.ref-tab{flex:1;padding:7px 10px;border-radius:var(--r);font-size:11px;font-family:var(--fm);color:var(--text3);cursor:pointer;text-align:center;transition:.16s;border:none;background:transparent}
+.ref-tab:hover{color:var(--text);background:var(--glass)}
+.ref-tab.on{background:var(--glass3);color:var(--text);font-weight:500}
+.ref-panel{display:none}.ref-panel.on{display:block}
+.rsect{margin-bottom:22px}
+.rtitle{font-family:var(--fm);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.ri-card{display:flex;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:8px;transition:all .18s;text-decoration:none;cursor:pointer}
+.ri-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-1px)}
+.ri-card a,.ri-card{color:inherit}
+.ric{width:34px;height:34px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.rtit{font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rbdg{font-family:var(--fm);font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(34,201,138,.12);color:var(--green);border:1px solid rgba(34,201,138,.25)}
+.rbdg-f{background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.25)}
+.rbdg-p{background:var(--purple2);color:var(--purple);border:1px solid rgba(167,139,250,.25)}
+.rdsc{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.6}
+.rlink{font-family:var(--fm);font-size:10px;color:var(--blue);margin-top:4px;display:flex;align-items:center;gap:4px;text-decoration:none}
+.rlink:hover{text-decoration:underline}
+.rlink::after{content:'↗';font-size:9px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
+.fcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;transition:.15s}
+.fcard:hover{background:var(--bg4);border-color:var(--border2)}
+.fn{font-size:10px;color:var(--text3);margin-bottom:4px;font-family:var(--fm)}
+.fv{font-family:var(--fm);font-size:12px;color:var(--blue);font-weight:500}
+
+/* SETTINGS ─────────────────── */
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:14px;transition:border-color .2s}
+.scard:hover{border-color:var(--border2)}
+.stit{font-family:var(--fd);font-size:15px;font-weight:500;font-style:italic;color:var(--text);margin-bottom:14px}
+.slf{margin-bottom:14px}
+.slh{display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px}
+.slv{font-family:var(--fm);font-size:11px;font-weight:500;color:var(--amber)}
+input[type=range]{-webkit-appearance:none;height:4px;background:var(--bg4);border-radius:2px;outline:none;border:none;padding:0;width:100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--amber);cursor:pointer;box-shadow:0 0 6px rgba(245,166,35,.4)}
+
+/* MODAL ─────────────────────── */
+.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center}
+.mov.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r3);padding:24px;width:420px;max-width:93vw;box-shadow:var(--sh2);animation:mi .22s ease}
+@keyframes mi{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.mtit{font-family:var(--fd);font-size:17px;font-weight:500;font-style:italic;color:var(--text);margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+.mx{background:transparent;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px}
+.mx:hover{background:var(--glass2);color:var(--text)}
+.mact{display:flex;gap:7px;margin-top:16px}
+
+/* TOAST ─────────────────────── */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);font-size:12px;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--sh2);z-index:2000;transform:translateY(18px);opacity:0;transition:all .28s cubic-bezier(.34,1.3,.64,1);pointer-events:none;display:flex;align-items:center;gap:8px;font-family:var(--ff)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:rgba(34,201,138,.4);background:rgba(34,201,138,.1)}
+.toast.err{border-color:rgba(242,88,88,.4);background:rgba(242,88,88,.1)}
+.toast-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.toast.ok .toast-dot{background:var(--green)}.toast.err .toast-dot{background:var(--red)}
+
+/* MOBILE ─────────────────────── */
+.mnav{display:none;background:var(--bg2);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;z-index:100;padding:6px 0 max(6px,env(safe-area-inset-bottom))}
+.mni-r{display:flex;justify-content:space-around}
+.mni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;cursor:pointer;color:var(--text4);font-family:var(--fm);font-size:9px;letter-spacing:.04em}
+.mni.on{color:var(--amber)}
+.mni svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .rail,.sidebar{display:none}
+  .mets{grid-template-columns:repeat(2,1fr)}
+  .g2,.g3,.notes-layout,.sg2{grid-template-columns:1fr}
+  .mnav{display:block}
+  .panel{padding:16px 14px 76px}
+}
+/* PROGRESS RING for exam pct */
+.ring-svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--bg4);stroke-width:4}
+.ring-fill{fill:none;stroke:var(--amber);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- ICON RAIL -->
+<nav class="rail">
+  <div class="rail-logo"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+  <div class="ri on" onclick="go('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="ri-tip">Dashboard</span></div>
+  <div class="ri" onclick="go('train')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="ri-tip">Train</span></div>
+  <div class="ri" onclick="go('notes')"><svg viewBox="0 0 24 24"><path d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg><span class="ri-tip">Notes</span></div>
+  <div class="rail-div"></div>
+  <div class="ri" onclick="go('refs')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="ri-tip">References</span></div>
+  <div class="ri" onclick="go('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ri-tip">Settings</span></div>
+</nav>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-title">PMP Study Hub</div>
+    <div class="sb-sub" id="sb-date-lbl">—</div>
+  </div>
+  <!-- TIMER -->
+  <div class="timer-section">
+    <div class="timer-mode-strip">
+      <span class="timer-mode-name" id="tm-name">Work session</span>
+      <span class="timer-session-info" id="tm-info">#1 of 8</span>
+    </div>
+    <div class="timer-ring-wrap">
+      <svg width="100" height="100" viewBox="0 0 100 100"><circle class="tr-bg" cx="50" cy="50" r="45"/><circle class="tr-main" id="tr-main" cx="50" cy="50" r="45"/></svg>
+      <div class="timer-inner"><div class="timer-time" id="t-disp">25:00</div><div class="timer-phase" id="t-phase">FOCUS</div></div>
+    </div>
+    <div class="timer-dots" id="t-dots"></div>
+    <div class="tbns">
+      <button class="tbn go" id="t-btn" onclick="tToggle()">Start</button>
+      <button class="tbn" onclick="tReset()">Reset</button>
+      <button class="tbn" onclick="tSkip()">Skip</button>
+    </div>
+    <!-- Active session tracker -->
+    <div class="session-active-banner" id="sab">
+      <div class="sab-title">Session in progress</div>
+      <div class="sab-elapsed" id="sab-elapsed">0:00</div>
+      <div class="sab-since" id="sab-since">started —</div>
+      <div class="sab-btns">
+        <button class="btn btn-g btn-xs" onclick="endSession(true)">End & Log</button>
+        <button class="btn btn-xs" onclick="endSession(false)">Discard</button>
+      </div>
+    </div>
+  </div>
+  <!-- EXAM COUNTDOWN -->
+  <div class="exam-box">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between">
+      <div>
+        <div class="ex-days" id="ex-days">—</div>
+        <div class="ex-lbl">days to exam</div>
+        <div class="ex-date" id="ex-date-lbl">Set date in Settings</div>
+      </div>
+      <svg width="44" height="44" viewBox="0 0 44 44" class="ring-svg">
+        <circle class="ring-bg" cx="22" cy="22" r="18"/>
+        <circle class="ring-fill" id="exam-ring" cx="22" cy="22" r="18" stroke-dasharray="113" stroke-dashoffset="113"/>
+      </svg>
+    </div>
+    <div class="ex-progress">
+      <div class="ex-prog-lbl"><span>Study progress</span><span id="ex-prog-pct">0%</span></div>
+      <div class="ex-prog-bar"><div class="ex-prog-fill" id="ex-prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <!-- QUICK STATS -->
+  <div class="sb-stats">
+    <div class="sb-stat"><span class="sb-stat-l">Hours total</span><span class="sb-stat-v" id="sb-h">0.0</span></div>
+    <div class="sb-stat"><span class="sb-stat-l">Questions</span><span class="sb-stat-v" id="sb-q">0</span></div>
+    <div class="sb-stat"><span class="sb-stat-l">Avg score</span><span class="sb-stat-v" id="sb-a">—</span></div>
+    <div class="sb-stat"><span class="sb-stat-l">Streak</span><span class="sb-stat-v" id="sb-s">0 days</span></div>
+    <div class="sb-stat"><span class="sb-stat-l">Pomodoros</span><span class="sb-stat-v" id="sb-p">0 today</span></div>
+  </div>
+</aside>
+<!-- MAIN CONTENT -->
+<main class="main">
+<!-- DASHBOARD -->
+<div id="panel-dashboard" class="panel on">
+<div class="ph"><div class="pt">Bonjour, <em>Heimoud</em></div><div class="ps" id="d-sub">PMP preparation at a glance</div></div>
+<div id="motive-wrap"></div>
+<div class="mets">
+  <div class="met a"><div class="met-v" id="m-h">0.0</div><div class="met-l">Hours studied</div><div class="met-s" id="m-hw">this week: 0h</div></div>
+  <div class="met g"><div class="met-v" id="m-q">0</div><div class="met-l">Questions answered</div><div class="met-s">practice sessions</div></div>
+  <div class="met r"><div class="met-v" id="m-a">—</div><div class="met-l">Average score</div><div class="met-s">last 10 sessions</div></div>
+  <div class="met b"><div class="met-v" id="m-st">0</div><div class="met-l">Day streak</div><div class="met-s">days in a row</div></div>
+</div>
+<div class="g2">
+  <div class="card" style="padding:16px">
+    <div class="ch">Weekly schedule</div>
+    <div class="sg" id="sched"></div>
+    <div style="font-size:11px;color:var(--text3);font-family:var(--fm)">10h/week · <span id="wl">—</span></div>
+  </div>
+  <div class="card" style="padding:16px">
+    <div class="ch">Recent sessions</div>
+    <div id="log-list"></div>
+    <button class="btn btn-p btn-sm" style="margin-top:10px;width:100%" onclick="openLog()">+ Log a session</button>
+  </div>
+</div>
+<div class="card" style="padding:16px;margin-bottom:12px">
+  <div class="ch">Domain coverage</div>
+  <div id="doms"></div>
+</div>
+<div class="card" style="padding:16px">
+  <div class="ch">Study activity — last 28 days</div>
+  <div class="agrid" id="agrid"></div>
+  <div style="display:flex;gap:14px;margin-top:8px;font-family:var(--fm);font-size:10px;color:var(--text3)">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--amber);opacity:.8;display:inline-block"></span>studied</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:9px;border-radius:2px;background:var(--green);display:inline-block"></span>today</span>
+  </div>
+</div>
+</div>
+<!-- TRAIN -->
+<div id="panel-train" class="panel">
+<div class="ph"><div class="pt">Practice <em>questions</em></div><div class="ps">80 real PMP exam-style questions · PMI ECO 2021 · answer to save as note</div></div>
+<div class="filters">
+  <button class="fc fall on" onclick="sf('all',this)">All domains</button>
+  <button class="fc fp" onclick="sf('people',this)">People 42%</button>
+  <button class="fc fr" onclick="sf('process',this)">Process 50%</button>
+  <button class="fc fb" onclick="sf('business',this)">Business 8%</button>
+  <button class="fc fa" onclick="sf('agile',this)">Agile/Hybrid</button>
+  <button class="btn btn-sm" style="margin-left:auto;background:var(--amber3);border-color:rgba(245,166,35,.3);color:var(--amber)" onclick="loadQ()">↺ New</button>
+</div>
+<div class="sbar">
+  <div style="min-width:36px;text-align:center"><div class="ss-v" id="ss-r" style="color:var(--green)">0</div><div class="ss-l">Correct</div></div>
+  <div style="min-width:36px;text-align:center"><div class="ss-v" id="ss-t" style="color:var(--text2)">0</div><div class="ss-l">Total</div></div>
+  <div style="flex:1">
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;color:var(--text3)"><span>Session score</span><span style="font-family:var(--fm);font-weight:500" id="ss-p">—</span></div>
+    <div class="ss-pbg"><div class="ss-pf" id="ss-b" style="width:0%"></div></div>
+  </div>
+  <button class="btn btn-sm" onclick="logQSess()" style="flex-shrink:0">Log session</button>
+</div>
+<div id="qa"></div>
+<div id="qact" style="display:none" class="qact">
+  <button class="btn btn-p" onclick="loadQ()">Next →</button>
+  <button class="btn btn-sm" onclick="saveQNote()">⊕ Save as note</button>
+</div>
+</div>
+<!-- NOTES -->
+<div id="panel-notes" class="panel">
+<div class="ph"><div class="pt">Your <em>notes</em></div><div class="ps">Rich editor with markdown, highlighting, bold, code blocks — rendered on save</div></div>
+<div class="notes-layout">
+  <!-- LEFT: EDITOR -->
+  <div class="nform">
+    <div class="nform-title">New note</div>
+    <!-- Tag selector -->
+    <div class="tag-row" id="tag-row">
+      <button class="tag-b on" data-t="People" onclick="selTag(this)">People</button>
+      <button class="tag-b" data-t="Process" onclick="selTag(this)">Process</button>
+      <button class="tag-b" data-t="Business" onclick="selTag(this)">Business</button>
+      <button class="tag-b" data-t="Formula" onclick="selTag(this)">Formula</button>
+      <button class="tag-b" data-t="Agile" onclick="selTag(this)">Agile</button>
+      <button class="tag-b" data-t="Ethics" onclick="selTag(this)">Ethics</button>
+    </div>
+    <!-- Title -->
+    <div class="fld"><label class="fl">Title (optional)</label><input type="text" id="nt" placeholder="e.g. EVM formulas, Risk response" autocomplete="off"></div>
+    <!-- Mode toggle -->
+    <div class="mode-toggle">
+      <button class="mode-btn on" id="mode-rich" onclick="setEditorMode('rich')">✦ Rich</button>
+      <button class="mode-btn" id="mode-md" onclick="setEditorMode('md')">⌨ Markdown</button>
+      <button class="mode-btn" id="mode-preview" onclick="setEditorMode('preview')">👁 Preview</button>
+    </div>
+    <!-- Rich editor -->
+    <div class="editor-wrap" id="editor-rich-wrap">
+      <div class="toolbar">
+        <!-- Text style -->
+        <div class="tb-group">
+          <button class="tbtn2" title="Bold (Ctrl+B)" onmousedown="e=>{e.preventDefault()}" onclick="fmt('bold')"><b>B</b></button>
+          <button class="tbtn2" title="Italic (Ctrl+I)" onclick="fmt('italic')"><i>I</i></button>
+          <button class="tbtn2" title="Underline (Ctrl+U)" onclick="fmt('underline')"><u>U</u></button>
+          <button class="tbtn2" title="Strikethrough" onclick="fmt('strikeThrough')"><s>S</s></button>
+        </div>
+        <div class="tb-sep"></div>
+        <!-- Headings -->
+        <div class="tb-group">
+          <button class="tbtn2" title="Heading 1" onclick="fmtBlock('h1')" style="font-size:11px;font-weight:700">H1</button>
+          <button class="tbtn2" title="Heading 2" onclick="fmtBlock('h2')" style="font-size:11px;font-weight:600">H2</button>
+          <button class="tbtn2" title="Heading 3" onclick="fmtBlock('h3')" style="font-size:10px;font-weight:600">H3</button>
+        </div>
+        <div class="tb-sep"></div>
+        <!-- Lists -->
+        <div class="tb-group">
+          <button class="tbtn2" title="Bullet list" onclick="fmt('insertUnorderedList')">
+            <svg viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </button>
+          <button class="tbtn2" title="Numbered list" onclick="fmt('insertOrderedList')">
+            <svg viewBox="0 0 24 24"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4" stroke-linecap="round"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" stroke-linecap="round"/></svg>
+          </button>
+          <button class="tbtn2" title="Blockquote" onclick="fmtBlock('blockquote')">
+            <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          </button>
+        </div>
+        <div class="tb-sep"></div>
+        <!-- Code -->
+        <div class="tb-group">
+          <button class="tbtn2" title="Inline code" onclick="insertCode()" style="font-family:var(--fm);font-size:10px">&lt;/&gt;</button>
+          <button class="tbtn2" title="Code block" onclick="insertCodeBlock()" style="font-family:var(--fm);font-size:9px">⌨</button>
+          <button class="tbtn2" title="Horizontal rule" onclick="fmt('insertHorizontalRule')">—</button>
+        </div>
+        <div class="tb-sep"></div>
+        <!-- Highlight colors -->
+        <div class="hl-strip">
+          <span style="font-size:9px;color:var(--text3);font-family:var(--fm);margin-right:3px">HL</span>
+          <div class="color-dot" style="background:#f25858" title="Red highlight" onclick="highlight('red')"></div>
+          <div class="color-dot" style="background:#f5a623" title="Amber highlight" onclick="highlight('amber')"></div>
+          <div class="color-dot" style="background:#22c98a" title="Green highlight" onclick="highlight('green')"></div>
+          <div class="color-dot" style="background:#5b9cf6" title="Blue highlight" onclick="highlight('blue')"></div>
+          <div class="color-dot" style="background:#a78bfa" title="Purple highlight" onclick="highlight('purple')"></div>
+          <div class="color-dot" style="background:transparent;border:1px solid var(--border2)" title="Clear highlight" onclick="clearHighlight()">✕</div>
+        </div>
+        <div class="tb-sep"></div>
+        <!-- Undo/redo -->
+        <div class="tb-group">
+          <button class="tbtn2" title="Undo (Ctrl+Z)" onclick="fmt('undo')">↩</button>
+          <button class="tbtn2" title="Redo (Ctrl+Y)" onclick="fmt('redo')">↪</button>
+        </div>
+      </div>
+      <div id="editor" contenteditable="true" data-placeholder="Start writing… use the toolbar or type markdown shortcuts: **bold**, _italic_, # Heading, - list, `code`" oninput="onEditorInput()" onkeydown="editorKeydown(event)"></div>
+      <div class="editor-footer">
+        <span class="editor-count" id="editor-count">0 words</span>
+        <span class="editor-hint">Ctrl+S to save · Ctrl+B bold · Ctrl+I italic</span>
+      </div>
+    </div>
+    <!-- Markdown textarea (mode: md) -->
+    <div id="editor-md-wrap" style="display:none">
+      <textarea id="editor-md" placeholder="Write markdown here…&#10;&#10;**bold** _italic_ `code`&#10;# Heading 1&#10;## Heading 2&#10;- bullet&#10;1. numbered&#10;&gt; blockquote&#10;---" rows="12" style="font-family:var(--fm);font-size:12px;line-height:1.7;border-radius:0 0 var(--r) var(--r)" oninput="syncMdPreview()"></textarea>
+    </div>
+    <!-- Preview (mode: preview) -->
+    <div id="editor-preview-wrap" style="display:none">
+      <div id="editor-preview" style="padding:10px 12px;min-height:120px;font-size:13px;line-height:1.75;color:var(--text2)"></div>
+    </div>
+    <button class="btn btn-p" style="width:100%;margin-top:8px" onclick="saveNote()">Save note</button>
+    <div class="ncount" id="nprev"></div>
+  </div>
+
+  <!-- RIGHT: LIST by topic -->
+  <div>
+    <div class="ntoolbar">
+      <div class="sw"><span class="sw-ic">⌕</span><input type="text" id="ns" placeholder="Search notes…" oninput="renderNotes()"></div>
+      <select id="nf" onchange="renderNotes()" style="width:115px">
+        <option value="all">All topics</option>
+        <option>People</option><option>Process</option><option>Business</option>
+        <option>Formula</option><option>Agile</option><option>Ethics</option>
+      </select>
+      <div class="view-toggle">
+        <button class="vtb on" id="vt-topic" onclick="setNoteView('topic',this)" title="Group by topic">⊞</button>
+        <button class="vtb" id="vt-list" onclick="setNoteView('list',this)" title="Flat list">☰</button>
+      </div>
+      <span style="font-family:var(--fm);font-size:10px;color:var(--text4);flex-shrink:0" id="nc">0 notes</span>
+    </div>
+    <div id="nl"></div>
+  </div>
+</div>
+</div>
+<!-- REFS -->
+<div id="panel-refs" class="panel">
+<div class="ph"><div class="pt">Study <em>references</em></div><div class="ps">Curated and verified resources — updated May 2026</div></div>
+<div class="ref-tabs">
+  <button class="ref-tab on" onclick="refTab('books',this)">📚 Books</button>
+  <button class="ref-tab" onclick="refTab('courses',this)">🎓 Courses</button>
+  <button class="ref-tab" onclick="refTab('simulators',this)">💻 Simulators</button>
+  <button class="ref-tab" onclick="refTab('community',this)">💬 Community</button>
+  <button class="ref-tab" onclick="refTab('formulas',this)">📐 Formulas</button>
+  <button class="ref-tab" onclick="refTab('tips',this)">💡 Tips</button>
+</div>
+<!-- BOOKS -->
+<div id="ref-books" class="ref-panel on">
+<div class="rsect"><div class="rtitle">Essential books</div>
+  <div class="ri-card" onclick="window.open('https://www.pmi.org/pmbok-guide-standards/foundational/pmbok','_blank')">
+    <div class="ric" style="background:rgba(245,166,35,.12)">📖</div>
+    <div><div class="rtit">PMBOK® Guide — 7th Edition <span class="rbdg">you own this</span></div><div class="rdsc">12 project management principles + 8 performance domains. Foundation since Jan 2021. Focus on outcomes over process groups. Free digital copy with PMI membership.</div><a class="rlink" href="https://www.pmi.org/pmbok-guide-standards/foundational/pmbok" target="_blank">pmi.org/pmbok-guide-standards</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.pmi.org/pmbok-guide-standards/practice-guides/agile','_blank')">
+    <div class="ric" style="background:rgba(34,201,138,.12)">📗</div>
+    <div><div class="rtit">Agile Practice Guide (PMI) <span class="rbdg">free with membership</span></div><div class="rdsc">~50% of exam questions use agile/hybrid thinking. Covers Scrum, Kanban, XP, and hybrid. Free with PMI membership ($139/yr saves $150 on exam fee too).</div><a class="rlink" href="https://www.pmi.org/pmbok-guide-standards/practice-guides/agile" target="_blank">pmi.org/agile-practice-guide</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.pmi.org/certifications/project-management-pmp/exam-prep','_blank')">
+    <div class="ric" style="background:rgba(91,156,246,.12)">📄</div>
+    <div><div class="rtit">Examination Content Outline (ECO) 2021 <span class="rbdg">free PDF</span></div><div class="rdsc">The official blueprint — 35 tasks across 3 domains with enabling knowledge areas. Read this before anything else. It is the exam.</div><a class="rlink" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep" target="_blank">pmi.org/pmp-exam-prep</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.amazon.com/PMP-Exam-Prep-Streamlined-Approach/dp/1932735658','_blank')">
+    <div class="ric" style="background:rgba(242,88,88,.12)">📕</div>
+    <div><div class="rtit">Rita Mulcahy — PMP Exam Prep (11th Ed.)</div><div class="rdsc">The classic PMP prep book. Excellent structured review of all process groups with practice questions and scoring. High alignment with PMI thinking. Widely recommended.</div><a class="rlink" href="https://www.amazon.com/s?k=Rita+Mulcahy+PMP+Exam+Prep+11th" target="_blank">Find on Amazon</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.velociteach.com/study-materials/the-pmp-exam/','_blank')">
+    <div class="ric" style="background:rgba(167,139,250,.12)">📘</div>
+    <div><div class="rtit">Andy Crowe — The PMP Exam: How to Pass on Your First Try</div><div class="rdsc">Comprehensive, very readable. Includes 475 practice questions + links to 60 explanation videos + simulated final exam. Strong reviews for first-time candidates.</div><a class="rlink" href="https://www.velociteach.com/study-materials/the-pmp-exam/" target="_blank">velociteach.com</a></div>
+  </div>
+</div>
+</div>
+<!-- COURSES -->
+<div id="ref-courses" class="ref-panel">
+<div class="rsect"><div class="rtitle">Best courses (35 contact hours)</div>
+  <div class="ri-card" onclick="window.open('https://www.udemy.com/course/pmp-certification-exam-prep-course-pmbok-6th-edition/','_blank')">
+    <div class="ric" style="background:rgba(245,166,35,.12)">▶</div>
+    <div><div class="rtit">Andrew Ramdayal — TIA PMP Prep (Udemy) <span class="rbdg">top rated</span></div><div class="rdsc">Best-rated course for the current exam. Focuses on PMI thinking and agile mindset, not rote memorization. 500K+ students. Counts for all 35 contact hours. Often on sale at ~$15.</div><a class="rlink" href="https://www.udemy.com/course/pmp-certification-exam-prep-course-pmbok-6th-edition/" target="_blank">udemy.com — Ramdayal TIA</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.udemy.com/course/pmp-certification-exam-prep/','_blank')">
+    <div class="ric" style="background:rgba(167,139,250,.12)">▶</div>
+    <div><div class="rtit">Joseph Phillips — PMP Certification (Udemy)</div><div class="rdsc">Thorough and methodical. Great for engineers — deep coverage of EVM, procurement, and risk calculations. 400K+ students. Pair with Ramdayal for full predictive + agile coverage.</div><a class="rlink" href="https://www.udemy.com/course/pmp-certification-exam-prep/" target="_blank">udemy.com — Joseph Phillips</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://masterofproject.com/p/pmp-how-to-apply-for-pmp','_blank')">
+    <div class="ric" style="background:rgba(34,201,138,.12)">▶</div>
+    <div><div class="rtit">Master of Project Academy — Free PMP Training <span class="rbdg">free</span></div><div class="rdsc">Free intro training covering all three domains. Good orientation before investing in a paid course. 300,000+ professionals trained across 180 countries.</div><a class="rlink" href="https://masterofproject.com/p/pmp-how-to-apply-for-pmp" target="_blank">masterofproject.com</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.youtube.com/c/AndrewRamdayal','_blank')">
+    <div class="ric" style="background:rgba(242,88,88,.12)">📺</div>
+    <div><div class="rtit">Andrew Ramdayal — YouTube Channel <span class="rbdg">free</span></div><div class="rdsc">Hundreds of free PMP lessons, question walkthroughs, and agile mindset training. The closest thing to a free full course. Invaluable for the PMI way of thinking.</div><a class="rlink" href="https://www.youtube.com/c/AndrewRamdayal" target="_blank">youtube.com/c/AndrewRamdayal</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.youtube.com/@DavidMcLachlan1','_blank')">
+    <div class="ric" style="background:rgba(91,156,246,.12)">📺</div>
+    <div><div class="rtit">David McLachlan — PMP YouTube <span class="rbdg">free</span></div><div class="rdsc">Clear concept explanations, scenario-based question walkthroughs, and PMBOK 7 breakdowns. Excellent complement to any course. Highly praised on r/pmp.</div><a class="rlink" href="https://www.youtube.com/@DavidMcLachlan1" target="_blank">youtube.com/@DavidMcLachlan1</a></div>
+  </div>
+</div>
+</div>
+<!-- SIMULATORS -->
+<div id="ref-simulators" class="ref-panel">
+<div class="rsect"><div class="rtitle">Practice exam simulators — target 75%+ before booking</div>
+  <div class="ri-card" onclick="window.open('https://www.pmi.org/certifications/project-management-pmp/exam-prep/practice-exam','_blank')">
+    <div class="ric" style="background:rgba(245,166,35,.12)">🏆</div>
+    <div><div class="rtit">PMI Official Practice Exam <span class="rbdg">free with membership</span></div><div class="rdsc">40 questions. Closest to real exam style and difficulty. Your final benchmark. If you score 75%+ consistently here, you are ready.</div><a class="rlink" href="https://www.pmi.org/certifications/project-management-pmp/exam-prep/practice-exam" target="_blank">pmi.org/practice-exam</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.pm-exam-simulator.com/','_blank')">
+    <div class="ric" style="background:rgba(34,201,138,.12)">💻</div>
+    <div><div class="rtit">PM PrepCast Simulator (Cornelius Fichtner) <span class="rbdg-p rbdg">~$89</span></div><div class="rdsc">2,000+ questions with detailed analytics by domain and knowledge area. Most popular third-party simulator. Granular performance tracking. Strong r/pmp endorsements.</div><a class="rlink" href="https://www.pm-exam-simulator.com/" target="_blank">pm-exam-simulator.com</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.whizlabs.com/pmp-certification/','_blank')">
+    <div class="ric" style="background:rgba(91,156,246,.12)">💻</div>
+    <div><div class="rtit">Whizlabs PMP Practice Tests</div><div class="rdsc">Adaptive learning dashboard, performance tracking, timed simulations. Good value with frequent discounts. Cited in multiple 2025 prep guides alongside PrepCast.</div><a class="rlink" href="https://www.whizlabs.com/pmp-certification/" target="_blank">whizlabs.com/pmp</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://prepsaret.com/pmp','_blank')">
+    <div class="ric" style="background:rgba(167,139,250,.12)">💻</div>
+    <div><div class="rtit">Prepsaret PMP Practice Tests <span class="rbdg">free tier available</span></div><div class="rdsc">Free sample questions matching real exam format. Scenario-based questions across all domains. Instant feedback and unlimited attempts on the free tier.</div><a class="rlink" href="https://prepsaret.com/pmp" target="_blank">prepsaret.com/pmp</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://pmaspirant.com/pmp-resources','_blank')">
+    <div class="ric" style="background:rgba(242,88,88,.12)">🔗</div>
+    <div><div class="rtit">PMAspirant — Free PMP Resources Hub <span class="rbdg">free</span></div><div class="rdsc">All-in-one collection: free exam simulator, ITTO game, process game, study guide. Excellent supplement for process-heavy areas. Actively maintained.</div><a class="rlink" href="https://pmaspirant.com/pmp-resources" target="_blank">pmaspirant.com/pmp-resources</a></div>
+  </div>
+</div>
+</div>
+<!-- COMMUNITY -->
+<div id="ref-community" class="ref-panel">
+<div class="rsect"><div class="rtitle">Communities & podcasts</div>
+  <div class="ri-card" onclick="window.open('https://www.reddit.com/r/pmp/','_blank')">
+    <div class="ric" style="background:rgba(242,88,88,.12)">💬</div>
+    <div><div class="rtit">r/pmp — Reddit Community <span class="rbdg">free</span></div><div class="rdsc">330K+ members. Hundreds of "I passed!" posts with detailed study strategies. Search by score level to find approaches matching your background. Invaluable for motivation and tips.</div><a class="rlink" href="https://www.reddit.com/r/pmp/" target="_blank">reddit.com/r/pmp</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.pmi.org/membership/chapters','_blank')">
+    <div class="ric" style="background:rgba(245,166,35,.12)">🏛</div>
+    <div><div class="rtit">Local PMI Chapters</div><div class="rdsc">Free or low-cost study groups, workshops, and networking. Local chapters often host exam prep events. Connect with PMs who can mentor you through the process.</div><a class="rlink" href="https://www.pmi.org/membership/chapters" target="_blank">pmi.org/membership/chapters</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.linkedin.com/groups/105469/','_blank')">
+    <div class="ric" style="background:rgba(91,156,246,.12)">💼</div>
+    <div><div class="rtit">PMI LinkedIn Group (300K+ members)</div><div class="rdsc">Active discussion of exam prep, project management trends, and career advice. Follow PMI's official account and connect with PMP holders in your region.</div><a class="rlink" href="https://www.linkedin.com/groups/105469/" target="_blank">LinkedIn PMI Group</a></div>
+  </div>
+  <div class="ri-card" onclick="window.open('https://www.project-management-podcast.com/','_blank')">
+    <div class="ric" style="background:rgba(167,139,250,.12)">🎙</div>
+    <div><div class="rtit">The Project Management Podcast (Cornelius Fichtner)</div><div class="rdsc">Hundreds of episodes on PMP exam prep, project management concepts, and interviews with PMPs. Free. Great for commute study during your Mon/Wed sessions.</div><a class="rlink" href="https://www.project-management-podcast.com/" target="_blank">project-management-podcast.com</a></div>
+  </div>
+</div>
+</div>
+<!-- FORMULAS -->
+<div id="ref-formulas" class="ref-panel">
+<div class="rsect"><div class="rtitle">EVM formulas — master all 16</div>
+  <div class="fg">
+    <div class="fcard"><div class="fn">Earned Value (EV)</div><div class="fv">% complete × BAC</div></div>
+    <div class="fcard"><div class="fn">CPI (cost efficiency)</div><div class="fv">EV / AC</div></div>
+    <div class="fcard"><div class="fn">SPI (schedule efficiency)</div><div class="fv">EV / PV</div></div>
+    <div class="fcard"><div class="fn">CV (cost variance)</div><div class="fv">EV − AC</div></div>
+    <div class="fcard"><div class="fn">SV (schedule variance)</div><div class="fv">EV − PV</div></div>
+    <div class="fcard"><div class="fn">EAC (at current CPI)</div><div class="fv">BAC / CPI</div></div>
+    <div class="fcard"><div class="fn">EAC (optimistic)</div><div class="fv">AC + (BAC−EV)</div></div>
+    <div class="fcard"><div class="fn">EAC (new estimate)</div><div class="fv">AC + ETC</div></div>
+    <div class="fcard"><div class="fn">ETC (remaining work)</div><div class="fv">EAC − AC</div></div>
+    <div class="fcard"><div class="fn">VAC (variance at completion)</div><div class="fv">BAC − EAC</div></div>
+    <div class="fcard"><div class="fn">TCPI (required efficiency)</div><div class="fv">(BAC−EV) / (BAC−AC)</div></div>
+    <div class="fcard"><div class="fn">PERT estimate</div><div class="fv">(O + 4M + P) / 6</div></div>
+    <div class="fcard"><div class="fn">Std deviation (PERT)</div><div class="fv">(P − O) / 6</div></div>
+    <div class="fcard"><div class="fn">Communication channels</div><div class="fv">n(n−1) / 2</div></div>
+    <div class="fcard"><div class="fn">Total Float</div><div class="fv">LF−EF or LS−ES</div></div>
+    <div class="fcard"><div class="fn">BCR</div><div class="fv">Benefits / Costs</div></div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:var(--text3);line-height:1.7">
+    <strong style="color:var(--text2)">Key rules to memorise:</strong><br>
+    CPI &gt; 1.0 = under budget · CPI &lt; 1.0 = over budget · SPI &gt; 1.0 = ahead of schedule · SPI &lt; 1.0 = behind schedule<br>
+    TCPI &gt; 1.10 is generally considered unachievable without scope reduction<br>
+    Negative CV = cost overrun · Negative SV = behind schedule
+  </div>
+</div>
+</div>
+<!-- TIPS -->
+<div id="ref-tips" class="ref-panel">
+<div class="rsect"><div class="rtitle">Proven strategies from r/pmp and PMP holders</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🧠</span><span class="motive-tip-label">Think like PMI, not like yourself</span></div><div class="motive-tip-text">The #1 insight from PMP holders: the exam tests what PMI wants you to do, not what you actually do at work. Always ask "what would PMI's ideal PM do?" — proactive, communicative, process-following, and stakeholder-centric. Your field experience can mislead you.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📊</span><span class="motive-tip-label">Score at 75% before booking</span></div><div class="motive-tip-text">Community consensus: do NOT book your exam until you are scoring 75%+ consistently across multiple full simulators (PrepCast, PMI official). One good day is not enough — three consecutive 75%+ sessions is the real green light.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">⚡</span><span class="motive-tip-label">Active recall beats re-reading</span></div><div class="motive-tip-text">Don't reread PMBOK passively. Instead: do a question, get it wrong, look it up, write a note, revisit the topic. Active recall with spaced repetition (Anki-style) is 2–3x more effective than reading. Use this app's notes tab for this.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🎯</span><span class="motive-tip-label">Agile mindset is the differentiator</span></div><div class="motive-tip-text">~50% of questions test agile/hybrid thinking. Most candidates over-prepare the predictive side (they know PMBOK) and under-prepare agile. Spend proportional time: 2 weeks on agile practice guide + Ramdayal's agile videos before your exam month.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📅</span><span class="motive-tip-label">Your schedule (10h/week) is realistic</span></div><div class="motive-tip-text">With 10h/week and focused study, most candidates with engineering/PM backgrounds need 10–14 weeks. You have Mon/Wed evenings (2h each) and Sat/Sun (3h each). That's disciplined — follow the pomodoro blocks and log every session to track momentum.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">📝</span><span class="motive-tip-label">The exam logistics</span></div><div class="motive-tip-text">180 questions · 230 minutes · two optional 10-min breaks. Question types: multiple choice, multiple responses, matching, hotspot, fill-in. Pace: ~1.3 min/question. Don't spend more than 2 min on any single question — flag and return. Budget time for breaks.</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">🏅</span><span class="motive-tip-label">Application requirements</span></div><div class="motive-tip-text">You need 35 contact hours (Udemy courses qualify) + 36 months leading projects (with a 4-year degree) OR 60 months (without). Your systems engineering background at Alstom/Continental/Stellantis almost certainly qualifies. Apply early — audit takes 2–4 weeks.</div></div>
+  </div>
+</div>
+</div>
+</div>
+<!-- SETTINGS -->
+<div id="panel-settings" class="panel">
+<div class="ph"><div class="pt">Settings & <em>data</em></div><div class="ps">Exam date, study progress, timer, data management</div></div>
+<div class="sg2">
+<div>
+  <div class="scard"><div class="stit">Exam target date</div>
+    <div class="fld"><label class="fl">Target date</label><input type="date" id="ex-d"></div>
+    <button class="btn btn-p btn-sm" onclick="saveDate()">Save date</button>
+  </div>
+  <div class="scard"><div class="stit">Domain coverage</div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Update after each study block.</p>
+    <div id="dom-sl"></div>
+    <button class="btn btn-p btn-sm" onclick="saveDoms()">Save progress</button>
+  </div>
+  <div class="scard"><div class="stit">Timer durations</div>
+    <div class="fld"><label class="fl">Work session (min)</label><input type="number" id="tw" value="25" min="5" max="90"></div>
+    <div class="fld"><label class="fl">Short break (min)</label><input type="number" id="tsb" value="5" min="1" max="30"></div>
+    <div class="fld"><label class="fl">Long break (min)</label><input type="number" id="tlb" value="20" min="5" max="60"></div>
+    <button class="btn btn-p btn-sm" onclick="saveTimer()">Save timer</button>
+  </div>
+</div>
+<div>
+  <div class="scard"><div class="stit">Manual session log</div>
+    <div class="g3">
+      <div class="fld"><label class="fl">Date</label><input type="date" id="sl-d"></div>
+      <div class="fld"><label class="fl">Hours</label><input type="number" id="sl-h" min="0.5" max="8" step="0.5" value="2"></div>
+      <div class="fld"><label class="fl">Score %</label><input type="number" id="sl-s" min="0" max="100" placeholder="opt."></div>
+    </div>
+    <div class="fld"><label class="fl">Topics studied</label><input type="text" id="sl-t" placeholder="e.g. Risk management, EVM, Sprint ceremonies"></div>
+    <button class="btn btn-p btn-sm" onclick="logSet()">Log session</button>
+  </div>
+  <div class="scard">
+    <div class="stit">Notes backup</div>
+    <div style="background:rgba(34,201,138,.06);border:1px solid rgba(34,201,138,.2);border-radius:var(--r);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6">
+      <span style="color:var(--green);font-weight:600">Your notes are stored independently</span> from the app version. Updating the HTML never erases them. Export below as an extra backup.
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-sm btn-g" onclick="expNotes()">↓ Export notes</button>
+      <button class="btn btn-sm" onclick="document.getElementById('imp-notes').click()">↑ Import notes</button>
+      <input type="file" id="imp-notes" accept=".json" style="display:none" onchange="impNotes(event)">
+      <button class="btn btn-sm btn-r" onclick="clrNotes()">✕ Clear notes</button>
+    </div>
+  </div>
+  <div class="scard">
+    <div class="stit">App data</div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Sessions, exam date, domains, timer settings.</p>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-sm" onclick="expD()">↓ Export all</button>
+      <button class="btn btn-sm" onclick="document.getElementById('imp').click()">↑ Import all</button>
+      <input type="file" id="imp" accept=".json" style="display:none" onchange="impD(event)">
+      <button class="btn btn-sm btn-r" onclick="clrD()">✕ Reset all data</button>
+    </div>
+  </div>
+  <div class="scard">
+    <div class="stit">Deploy to phone 📱</div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.7">Use <strong style="color:var(--text)">GitHub Pages</strong> — free, permanent URL, works on any device including phone. Setup takes ~5 minutes.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Create a free account at <a href="https://github.com" target="_blank" style="color:var(--blue)">github.com</a></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Create a new repository called <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--amber)">pmp-study</code></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Upload this HTML file, rename it to <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--amber)">index.html</code></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="background:var(--amber);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">4</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Go to <strong style="color:var(--text)">Settings → Pages</strong>, set source to <em>main branch</em>, click Save</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="background:var(--green);color:#000;font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">✓</span>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Your URL: <code style="font-family:var(--fm);font-size:11px;background:var(--bg4);padding:1px 5px;border-radius:3px;color:var(--green)">yourusername.github.io/pmp-study</code><br>Open on phone, tap <strong style="color:var(--text)">Share → Add to Home Screen</strong> for an app icon.</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;margin-top:2px">
+        <span style="background:var(--bg4);color:var(--text3);font-family:var(--fm);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">!</span>
+        <div style="font-size:11px;color:var(--text3);line-height:1.6">When I send you an updated HTML, just replace the file in your GitHub repo — your notes stay safe because they're in the browser's localStorage, not in the file.</div>
+      </div>
+    </div>
+    <a href="https://pages.github.com" target="_blank" class="btn btn-sm" style="margin-top:12px;width:100%;justify-content:center;text-decoration:none">Open GitHub Pages guide ↗</a>
+  </div>
+  <div class="scard"><div class="stit">All sessions</div>
+    <div id="all-sessions" style="max-height:260px;overflow-y:auto"></div>
+  </div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- LOG MODAL -->
+<div class="mov" id="log-modal">
+  <div class="modal">
+    <div class="mtit">Log study session <button class="mx" onclick="closeM('log-modal')">✕</button></div>
+    <div style="display:flex;gap:10px;background:var(--bg4);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:12px;color:var(--text2)" id="sess-summary"></div>
+    <div class="fld"><label class="fl">Score % (optional)</label><input type="number" id="ml-s" min="0" max="100" placeholder="leave blank if no quiz"></div>
+    <div class="fld"><label class="fl">Topics covered</label><input type="text" id="ml-t" placeholder="e.g. Stakeholder management, EVM formulas"></div>
+    <div class="mact">
+      <button class="btn btn-p" style="flex:1" onclick="logMod()">Save session</button>
+      <button class="btn" onclick="closeM('log-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><span class="toast-dot"></span><span id="toast-msg"></span></div>
+<nav class="mnav"><div class="mni-r">
+  <div class="mni on" onclick="go('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dash</div>
+  <div class="mni" onclick="go('train')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Train</div>
+  <div class="mni" onclick="go('notes')"><svg viewBox="0 0 24 24"><path d="M11 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>Notes</div>
+  <div class="mni" onclick="go('refs')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Refs</div>
+  <div class="mni" onclick="go('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</div>
+</div></nav>
+<script>
+// ── MOTIVATIONAL CONTENT ──────────────────────────────────────────────────
+const QUOTES=[
+  {q:"The secret of getting ahead is getting started.",src:"Mark Twain"},
+  {q:"It always seems impossible until it's done.",src:"Nelson Mandela"},
+  {q:"Don't watch the clock; do what it does. Keep going.",src:"Sam Levenson"},
+  {q:"Success is the sum of small efforts, repeated day in and day out.",src:"Robert Collier"},
+  {q:"The expert in anything was once a beginner.",src:"Helen Hayes"},
+  {q:"With 10 hours a week and your engineering mind, the PMP is absolutely within reach.",src:"Study Hub"},
+  {q:"Every question you get wrong today is one fewer surprise on exam day.",src:"PMP Community wisdom"},
+  {q:"Your systems engineering background is a superpower. Trust your structured thinking.",src:"Study Hub"},
+  {q:"Compounding works in learning too. Each session builds on the last.",src:"Study Hub"},
+  {q:"Discipline is choosing between what you want now and what you want most.",src:"Abraham Lincoln"},
+];
+const TIPS=[
+  {icon:"⚡",t:"Today's focus",txt:"Before starting, write down ONE concept you want to understand better by the end of this session. Specific intent beats vague studying."},
+  {icon:"🎯",t:"PMI thinking",txt:"On every question, ask: what would PMI's ideal PM do? Proactive, communicative, process-following, and stakeholder-centric — always."},
+  {icon:"📊",t:"Track your weak spots",txt:"When you get a question wrong, save it as a note. Review your wrong-answer notes before each weekend session."},
+  {icon:"🔄",t:"Spaced repetition",txt:"Don't re-read. Do questions, fail, look it up, write a note, come back to that topic next session. Active recall is 3x more effective."},
+  {icon:"⏱",t:"Timer-driven sessions",txt:"Use the pomodoro timer. Start a session, focus for 25 min, break for 5. The timer logging tracks exactly when you studied."},
+  {icon:"🌱",t:"Agile mindset first",txt:"~50% of the exam is agile/hybrid. If your background is waterfall-heavy, prioritise the Agile Practice Guide and Ramdayal's agile videos."},
+];
+
+// ── QUESTIONS ─────────────────────────────────────────────────────────────
+const Q=[
+{d:'people',s:'conflict',q:'Two team members have been in conflict for weeks on technical approach, damaging morale. Best first step?',o:['Escalate to sponsor','Force a decision','Facilitate a problem-solving session where both present views and the team reaches consensus','Document as a risk'],a:2,e:'PMI ranks problem-solving (confronting) highest for conflict resolution — it addresses root causes and builds trust. Forcing produces compliance without resolution; escalation is a last resort.'},
+{d:'people',s:'motivation',q:'Herzberg\'s Two-Factor Theory: which action TRULY motivates a team member who already has good pay and job security?',o:['Salary bonus','Challenging work with more responsibility and recognition','Better physical conditions','Guaranteed job security another year'],a:1,e:'Herzberg separates hygiene factors (salary, security — prevent dissatisfaction but do not motivate) from true motivators (achievement, recognition, growth). Only motivators drive genuine performance improvement.'},
+{d:'people',s:'leadership',q:'New team member is highly skilled but lacks confidence in the new environment. Which situational leadership style fits best?',o:['Delegating — full autonomy','Directing — detailed instructions','Coaching — guidance plus active encouragement of their input','Laissez-faire'],a:2,e:'Coaching suits high competence/low commitment (Hersey & Blanchard). The person has the skill but needs confidence. Coaching provides direction while valuing input, unlike pure directing which ignores capability.'},
+{d:'people',s:'team',q:'A team establishing norms and working cohesively after initial conflict is in which Tuckman stage?',o:['Forming','Storming','Norming','Performing'],a:2,e:'Norming follows Storming. The team resolved interpersonal conflict and is now establishing working agreements and trust. Performing is peak productivity that follows norming.'},
+{d:'people',s:'ethics',q:'Vendor offers sports tickets worth $600. Company policy allows gifts up to $75. What do you do?',o:['Accept — common practice','Accept and donate them','Decline and inform the vendor of your company policy','Report vendor to procurement'],a:2,e:'PMI Code of Ethics: gifts exceeding policy limits create real or perceived conflicts of interest. A polite decline referencing policy is correct — accepting regardless of disposition violates integrity standards.'},
+{d:'people',s:'ethics',q:'Sponsor pressures you to cut estimate by 25% for budget approval. You believe the estimate is accurate. Most ethical response?',o:['Reduce it to preserve the relationship','Submit lower estimate and manage the gap','Present original estimate with supporting analysis and explain the risks of underestimating','Submit both and let sponsor choose'],a:2,e:'PMI Code of Ethics requires honesty and accuracy. Knowingly submitting an inaccurate estimate harms the organization. Presenting facts and consequences is the professional obligation.'},
+{d:'people',s:'ethics',q:'A team member tells you privately a colleague is falsifying status reports. Your FIRST action?',o:['Report immediately to sponsor','Confront in team meeting','Verify the facts independently first','Ignore it'],a:2,e:'PMI requires verification before reporting. Acting on unverified information could be unfair to the accused. Confirm facts first, then report through appropriate channels.'},
+{d:'people',s:'leadership',q:'A PM removes obstacles, seeks team input before deciding, and prioritizes team growth. Which approach?',o:['Autocratic','Transactional','Servant leadership','Laissez-faire'],a:2,e:'Servant leadership is the PMI-preferred and agile-aligned model: the PM serves the team by enabling, coaching, protecting, and empowering rather than directing and controlling.'},
+{d:'people',s:'stakeholder',q:'An executive has high power and low interest. Best engagement strategy?',o:['Involve in all decisions','Send detailed weekly reports','Keep satisfied with concise high-level updates; monitor for interest changes','Assign them a team role'],a:2,e:'Power/Interest grid: High Power, Low Interest = "Keep Satisfied." These stakeholders need to feel informed and comfortable but do not want operational detail.'},
+{d:'people',s:'negotiation',q:'Sponsor wants 20% budget cut with no scope or deadline change. Not feasible. Best response?',o:['Accept and manage shortfall','Refuse and escalate','Present impact analysis and propose options: reduce scope, extend timeline, or phase delivery','Ask team to find savings secretly'],a:2,e:'PMI expects the PM to present facts and trade-off options. Showing alternatives respects the sponsor\'s authority while providing a realistic picture — the core of principled negotiation.'},
+{d:'people',s:'diversity',q:'HQ colleagues dominate virtual meetings; remote members rarely speak up. Best structural fix?',o:['Require all to attend HQ monthly','Run all meetings fully virtual so no one is "in the room"','Send remote members written summaries','Create a separate remote sub-team'],a:1,e:'Leveling the playing field — everyone virtual — removes the social dynamic that silences remote participants. This is the standard distributed team inclusion technique.'},
+{d:'people',s:'team',q:'High-performing team member resigns citing lack of growth. Project is in a critical phase. Do FIRST?',o:['Offer salary increase','Honest conversation to understand concerns and explore options','Ask HR to block resignation','Reassign their work'],a:1,e:'Understanding root cause is essential before acting. Non-financial solutions — challenging work, mentoring, recognition — may address the real concern. Acting without understanding typically misses the point.'},
+{d:'people',s:'agile',q:'Product owner is frequently unavailable, causing sprint delays. Scrum Master should?',o:['Answer questions on PO\'s behalf','Replace the PO immediately','Coach PO on their accountability and arrange better collaboration windows','Let team decide without PO input'],a:2,e:'The Scrum Master serves the PO by coaching them in Scrum. PO unavailability is an impediment. Coaching — addressing root cause — is correct. Bypassing the PO removes accountability from the right role.'},
+{d:'people',s:'agile',q:'Scrum impediment the Scrum Master cannot resolve alone. What should happen?',o:['Remove it from sprint backlog','Extend the sprint','Escalate to someone with authority to remove it','Let the team work around it'],a:2,e:'The Scrum Master escalates impediments beyond their authority to resolve. Leaving the team blocked violates the Scrum Master\'s accountability to protect the team\'s delivery ability.'},
+{d:'process',s:'risk',q:'Risk has 30% probability and $90,000 impact. Mitigation costs $20,000. Should you mitigate?',o:['No — too expensive','Yes — EMV analysis supports it','Only if sponsor approves','Transfer instead'],a:1,e:'EMV = 0.30 × $90,000 = $27,000. Since mitigation cost ($20,000) < EMV ($27,000), mitigation is cost-justified. This is the core quantitative risk decision framework.'},
+{d:'process',s:'evm',q:'BAC=$400K, EV=$200K, AC=$240K, PV=$220K. What is the CPI?',o:['0.83 — project is over budget','0.91 — project is ahead of schedule','1.10 — project is under budget','0.83 — project will finish on time'],a:0,e:'CPI = EV/AC = $200K/$240K = 0.833. CPI < 1 means cost overrun — for every $1 spent, only $0.83 of value is delivered. SPI = EV/PV = 0.91, also behind schedule.'},
+{d:'process',s:'evm',q:'Same project (BAC=$400K, EV=$200K, AC=$240K). EAC assuming future work continues at current CPI?',o:['$400,000','$440,000','$480,000','$360,000'],a:2,e:'EAC = BAC/CPI = $400K / 0.833 ≈ $480,000. The most common EAC formula — assumes cost efficiency experienced so far continues for remaining work.'},
+{d:'process',s:'evm',q:'TCPI (based on BAC) is 1.18. What does this mean?',o:['Project is 18% ahead of schedule','Remaining work must be done at 18% higher efficiency than planned — likely unachievable','CPI is 1.18','Project will finish 18% under budget'],a:1,e:'TCPI = (BAC−EV)/(BAC−AC). Value > 1.0 means the team must work more efficiently on remaining work. Values above 1.10 are generally considered unrealistic without scope or schedule changes.'},
+{d:'process',s:'evm',q:'PV=$600K, EV=$500K, AC=$560K. What are CV and SV?',o:['CV=−$60K (over budget), SV=−$100K (behind schedule)','CV=$60K (under budget), SV=$100K (ahead)','CV=−$100K, SV=−$60K','CV=$40K, SV=−$100K'],a:0,e:'CV = EV−AC = −$60K (over budget). SV = EV−PV = −$100K (behind schedule). Both negative — simultaneously over budget and behind schedule. Immediate corrective action required.'},
+{d:'process',s:'evm',q:'EAC=$850K and BAC=$750K. VAC and what does it mean?',o:['$100K — will finish under budget','−$100K — forecast overrun of $100K','$850K — total project value','0 — on track'],a:1,e:'VAC = BAC−EAC = −$100K. Negative VAC means the project is forecast to overrun the original budget by $100K. Requires corrective action or scope negotiation.'},
+{d:'process',s:'schedule',q:'Activity A finishes Day 15. Activity B has FS dependency with 4-day lag. Earliest B can start?',o:['Day 15','Day 16','Day 19','Day 20'],a:2,e:'Finish-to-Start with lag: B can start 4 days after A finishes. Day 15 + 4 lag = Day 19. Lags add waiting time between dependent activities.'},
+{d:'process',s:'schedule',q:'Which schedule compression preserves scope and quality but increases coordination risk?',o:['Crashing','Resource leveling','Fast tracking','Schedule baseline update'],a:2,e:'Fast tracking overlaps activities planned sequentially — no extra cost but increased risk and potential rework. Crashing adds resources (adds cost). Fast tracking trades risk for time without changing scope.'},
+{d:'process',s:'schedule',q:'Activity: O=4 days, M=7, P=16. PERT estimate and standard deviation?',o:['PERT=8.0, SD=2','PERT=7.67, SD=2','PERT=8.0, SD=3','PERT=9.0, SD=3'],a:0,e:'PERT = (4+28+16)/6 = 8.0 days. SD = (P−O)/6 = (16−4)/6 = 2.0 days. ±1 SD (6–10 days) gives ~68% confidence range.'},
+{d:'process',s:'schedule',q:'Activity A has zero total float. Activity B has 5 days total float. Which is on the critical path?',o:['B only','A only','Both','Neither'],a:1,e:'Zero total float = critical path. Any delay to A directly delays project completion. B has 5 days of slack before impacting the end date.'},
+{d:'process',s:'quality',q:'Control chart: 8 consecutive points on one side of the mean, all within control limits. Action needed?',o:['None — points are within limits','Investigate — non-random pattern signals special cause even within limits','Expand the control limits','Replace the operator'],a:1,e:'Rule of Seven/Eight: consecutive points on the same side signal non-random (special cause) variation even within limits. The process is out of statistical control and must be investigated.'},
+{d:'process',s:'quality',q:'Cost of non-conformance ($200K) exceeds conformance ($120K). What to recommend?',o:['Reduce quality spending','Invest more in prevention — non-conformance costs exceed prevention cost','Outsource quality','Accept current profile'],a:1,e:'Cost of Quality: when non-conformance (rework, warranty, failure) > conformance (prevention, appraisal), increasing prevention investment is economically justified.'},
+{d:'process',s:'scope',q:'Customer calls your team directly requesting a "small" change, bypassing change control. What do you do?',o:['Allow it — minor change','Do it informally, document afterward','All changes must go through integrated change control regardless of size','Ask sponsor to decide'],a:2,e:'All changes, regardless of perceived size, must go through integrated change control. "Minor" changes often have unforeseen cost, schedule, or quality impacts. Bypassing the process is scope creep by definition.'},
+{d:'process',s:'scope',q:'The 100% rule in WBS means:',o:['Work packages each take 100 hours','All nodes must have 100% resource allocation','WBS captures 100% of project scope — nothing more, nothing less','WBS must have exactly 100 work packages'],a:2,e:'The 100% rule: the WBS captures ALL deliverables and work required — no more, no less. Work outside the WBS is unauthorized; all planned work must be represented.'},
+{d:'process',s:'procurement',q:'Cost-Plus-Fixed-Fee (CPFF) contract. Vendor\'s material costs increase significantly. What happens to the fee?',o:['Fee increases proportionally','Fee stays fixed — only actual costs change','Contract auto-renegotiates','Buyer and vendor share the increase'],a:1,e:'CPFF: the fee is fixed regardless of actual costs. The buyer pays all actual costs plus the fixed fee. Cost risk lies entirely with the buyer — costs can rise, but the fee does not change.'},
+{d:'process',s:'risk',q:'Monte Carlo shows 65% probability of completing by Day 200. Contractual deadline is Day 185. What to do?',o:['Project will definitely miss — escalate immediately','Significant probability of missing Day 185 — schedule risk response needed','Fine — 65% is passing','Reduce scope immediately'],a:1,e:'Monte Carlo quantifies uncertainty. 65% confidence at Day 200 means much less probability of hitting Day 185. This triggers risk response: schedule compression, scope review, or expectation management.'},
+{d:'process',s:'risk',q:'Risk register: A=40%/$50K, B=25%/$80K, C=60%/$30K. Which has highest EMV?',o:['C ($18K)','B ($20K)','A ($20K)','A and B tied at $20K'],a:3,e:'EMV: A = 0.40×$50K = $20K. B = 0.25×$80K = $20K. C = 0.60×$30K = $18K. A and B are tied at $20K — both should be prioritized for response planning.'},
+{d:'process',s:'change',q:'Change approved by CCB. PM\'s NEXT action?',o:['Implement immediately','Communicate the decision and update all affected plan components and baselines','Archive the change request','Ask team to re-estimate'],a:1,e:'After CCB approval: communicate, update all affected documents and baselines, THEN implement. Skipping baseline updates creates misaligned records and undermines future performance measurement.'},
+{d:'process',s:'integration',q:'Taking over a project mid-execution. Review FIRST?',o:['Budget spreadsheet','Project charter','Team performance reviews','Latest customer emails'],a:1,e:'The project charter is foundational — authorizes the project, names the PM, and states high-level scope and constraints. It is the starting point for understanding any project.'},
+{d:'process',s:'close',q:'All deliverables accepted. Most important activity before formal closure?',o:['Archive all documents','Release team members','Capture lessons learned and update organizational process assets','Transfer operational responsibility'],a:2,e:'Lessons learned are the mechanism for organizational improvement. They feed into OPAs and must be documented before archiving and team release — a strategic, not administrative, obligation.'},
+{d:'process',s:'agile',q:'PO wants a major feature added after sprint planning. Team is mid-sprint at full capacity. Correct response?',o:['Add it — PO decides sprint content','Reject it permanently','Add to product backlog; PO prioritizes for a future sprint','Stop sprint and re-plan'],a:2,e:'The sprint backlog is protected once the sprint starts. New scope goes to the product backlog where the PO prioritizes it. This protects the team\'s sprint commitment while keeping the backlog current.'},
+{d:'process',s:'agile',q:'Agile team velocity has been 45 story points/sprint for 5 sprints. 225 story points remain. Forecast?',o:['4 sprints','5 sprints','6 sprints','Cannot be determined'],a:1,e:'225 ÷ 45 = 5 sprints. Velocity-based forecasting uses historical throughput to project remaining work, assuming stable team and consistent story sizing.'},
+{d:'process',s:'agile',q:'Kanban board: work piling in "Code Review" for 2 weeks. First action?',o:['Add more developers','Increase WIP limit for Code Review','Investigate and address the bottleneck constraint','Switch to Scrum'],a:2,e:'A visible bottleneck means that stage has insufficient capacity or a systemic issue. Increasing WIP limits worsens the pile-up. Addressing the constraint (more reviewers, clearer criteria, automation) is the lean/Kanban approach.'},
+{d:'process',s:'hybrid',q:'Software project uses sprints for development but requires regulatory sign-off at milestones. Best describes:',o:['Pure Scrum','Pure waterfall','Hybrid lifecycle — agile delivery with predictive governance gates','Iterative without milestones'],a:2,e:'Regulated industries use hybrid approaches: agile delivery within phases combined with formal stage-gate approvals required by compliance. This is the most common real-world lifecycle.'},
+{d:'process',s:'agile',q:'Retrospective: team members hesitate to raise issues for fear of judgment. Root cause?',o:['Team lacks agile experience','Wrong retrospective format','Psychological safety is absent — members fear reprisal','Scrum Master not facilitating'],a:2,e:'Psychological safety — the belief one can speak up without punishment — is the foundational condition for effective retrospectives. Its absence is the most common reason retrospectives fail to surface real issues.'},
+{d:'process',s:'wbs',q:'After completing the WBS, next step before scheduling?',o:['Assign resources to work packages','Develop WBS dictionary','Begin work on first deliverable','Submit to sponsor'],a:1,e:'The WBS dictionary defines each work package: scope, deliverables, acceptance criteria, responsible party. Essential context before scheduling — without it the schedule lacks definition.'},
+{d:'process',s:'communication',q:'Executive says "I feel like I\'m always the last to know about problems." Best PM response?',o:['Apologize and send more emails','Conduct communications review, identify gap, update communication plan','Tell them it was in the status reports','Add them to all project emails'],a:1,e:'This signals a communications management failure. Root cause may be wrong format, frequency, channel, or detail level. Systematic review and plan revision — not volume increase — is the correct response.'},
+{d:'business',s:'benefits',q:'Project NPV drops from $300K to $85K due to market changes after 18 months. What should the PM do?',o:['Continue — too far along to stop','Update business case, present revised financials, recommend go/no-go decision','Reduce costs to compensate','Ask team to increase scope'],a:1,e:'Projects exist to deliver business value. When the business case no longer justifies the investment, the PM must present this to decision-makers. Continuing blindly ignores strategic interests.'},
+{d:'business',s:'governance',q:'Who is MOST accountable for benefits realization six months after project delivery?',o:['The project manager','The project team','The business owner / sponsor','The PMO director'],a:2,e:'Benefits realization occurs in operations after project closure. The business owner/sponsor is accountable — they own the outcome in the operating environment. The PM delivers the capability; the business owns results.'},
+{d:'business',s:'compliance',q:'Mid-project, deliverable found non-compliant with a new regulation enacted during execution. Do FIRST?',o:['Complete as planned and note the gap','Notify sponsor, assess impact, initiate change request','Submit deliverable and let regulator flag it','Apply for exemption before informing sponsor'],a:1,e:'Regulatory compliance is non-negotiable. Immediate notification, impact assessment, and a formal change request are required. Attempting to bypass violates both legal and PMI ethical standards.'},
+{d:'business',s:'strategy',q:'PMO asks you to release two team members to a higher-priority project. Best response?',o:['Refuse — deadline cannot be met','Accept without analysis','Analyze impact and present to portfolio decision-makers for informed choice','Negotiate informally'],a:2,e:'Portfolio trade-off decisions belong to portfolio level, not individual PMs. The PM\'s role is to provide accurate, honest impact analysis so decision-makers can make informed choices.'},
+{d:'business',s:'org',q:'In a weak matrix, a team member frequently prioritizes functional work over your project. Structural reason?',o:['Member lacks professionalism','Your project is not a portfolio priority','Functional managers retain primary authority in weak matrix — PMs have limited formal power','You are not communicating clearly'],a:2,e:'In a weak matrix, functional authority dominates. PMs rely on influence, negotiation, and sponsorship rather than formal authority. This is a structural reality, not a personal failure.'},
+{d:'business',s:'value',q:'Total benefits $720K, total costs $300K. BCR and what it indicates?',o:['BCR=0.42 — costs exceed benefits','BCR=2.4 — benefits exceed costs; project is financially viable','BCR=420,000 — net benefit only','BCR=1.0 — break even'],a:1,e:'BCR = Benefits/Costs = $720K/$300K = 2.4. BCR > 1 means benefits exceed costs. A BCR of 2.4 means each $1 invested returns $2.40.'},
+{d:'business',s:'lifecycle',q:'Product meets all documented requirements but customer says it "doesn\'t feel right." Root cause?',o:['Poor execution','Requirements elicitation was inadequate — actual needs were not fully captured','Scope creep occurred','Customer changed their mind'],a:1,e:'When a product meets requirements but fails to satisfy, requirements were incomplete or incorrect. This is an elicitation failure — the gap between stated and actual needs.'},
+{d:'business',s:'change',q:'Significant employee resistance emerged during an ERP rollout. Most effective change management approach?',o:['Mandate adoption through policy','Involve key resistors in solution design and create change champions','Accelerate rollout to shorten resistance','Replace resistant employees'],a:1,e:'Involving resistors in solution design converts critics into advocates, addressing the root cause (lack of voice and ownership). Supported by Kotter\'s 8-step model and Prosci ADKAR.'},
+{d:'people',s:'agile',q:'Management demands a fixed 12-month plan before the agile project starts. Best approach?',o:['Refuse and educate on agile','Produce full waterfall plan and abandon agile','Provide high-level roadmap with release milestones and cost ranges while educating on rolling wave planning','Ignore request'],a:2,e:'Skilled PMs bridge agile and organizational governance needs. A roadmap with milestones and budget ranges satisfies management\'s predictability needs while preserving adaptive planning at sprint level.'},
+{d:'process',s:'agile',q:'Product backlog item not estimated or refined. PO wants it in next sprint. What must happen first?',o:['PO can override — straight to sprint','Must be estimated and refined before sprint planning','Team votes on inclusion','Scrum Master decides'],a:1,e:'Backlog refinement is a prerequisite for sprint planning. Items must be well-defined, estimated, and have clear acceptance criteria before the team can commit to delivering them.'},
+{d:'process',s:'agile',q:'Retrospective finds unclear acceptance criteria are the main cause of rework. Best corrective action?',o:['Add more testing phases','PO writes all criteria alone','Implement Definition of Done and involve team in writing criteria during refinement','Hire a business analyst'],a:2,e:'Unclear criteria during refinement is a common rework source. The DoD and team involvement in writing criteria ensures shared understanding before development begins.'},
+{d:'people',s:'stakeholder',q:'Powerful stakeholder group not identified during planning. Project is 60% complete. What to do?',o:['Continue — too late','Identify and engage them immediately, assess impact, update stakeholder management plan','Document as lessons learned only','Inform sponsor and wait'],a:1,e:'It is never too late to identify and engage stakeholders. Unengaged powerful stakeholders can derail near-complete projects. Immediate identification, impact assessment, and structured engagement is always correct.'},
+{d:'people',s:'stakeholder',q:'A resistant stakeholder starts raising valid technical concerns at steering committee meetings. What to do?',o:['Limit their access','Escalate resistance to sponsor','Engage directly, incorporate valid feedback, leverage their expertise','Document resistance as a project risk'],a:2,e:'Resistant stakeholders raising valid points should be engaged, not suppressed. Converting a critic into a contributor improves the project outcome — the highest-value stakeholder engagement outcome.'},
+{d:'process',s:'lessons',q:'Team considers lessons learned a formality. Best argument for doing it thoroughly?',o:['Required by project charter','PMI requires for certification','Lessons learned feed OPAs — they directly improve future project performance and reduce repeated mistakes','Sponsor requested it'],a:2,e:'Lessons learned enable organizational learning — the mechanism by which organizations improve. OPAs built from lessons are a competitive advantage, not a compliance checkbox.'},
+{d:'people',s:'influence',q:'No formal authority over a matrix team member who misses project meetings. Most effective approach?',o:['Report to HR','Send written warning','Understand constraints, align with functional manager, make participation more valuable','Remove from team'],a:2,e:'Matrix PMs rely on influence, not authority. Understanding barriers, aligning with the functional manager, and making involvement valuable addresses root causes. Coercive approaches damage relationships.'},
+{d:'process',s:'risk',q:'A known risk occurs. Response plan was prepared. First action?',o:['Update risk register','Notify project sponsor','Implement the pre-planned response','Convene emergency risk review'],a:2,e:'When a known risk occurs, you execute the pre-planned response immediately — that is the entire point of proactive risk management. Documentation and communication follow implementation.'},
+{d:'process',s:'evm',q:'BAC=$500K, EV=$300K, AC=$320K, PV=$350K. What is the SPI?',o:['0.86 — behind schedule','0.94 — slightly behind','1.17 — ahead of schedule','0.86 — over budget'],a:0,e:'SPI = EV/PV = $300K/$350K = 0.857 ≈ 0.86. SPI < 1 means behind schedule — only $0.86 of planned progress achieved per $1 of schedule.'},
+{d:'process',s:'cost',q:'In a fixed-price contract with well-defined scope, cost risk primarily falls on?',o:['The buyer','The vendor — they absorb cost overruns','Neither — risk is equal','The PM'],a:1,e:'Fixed-price contracts transfer cost risk to the vendor. If costs exceed the fixed price, the vendor absorbs the overrun. The buyer has cost certainty. Poor scope definition reverses this advantage.'},
+{d:'people',s:'team',q:'Team successfully completes a challenging phase. Most appropriate PM action?',o:['Brief them immediately on next phase','Acknowledge and celebrate the achievement before moving on','Document success in lessons learned only','Send summary email to sponsor'],a:1,e:'Recognition is a proven motivator (Herzberg, Maslow). Acknowledging achievement builds morale, reinforces high performance, and prepares the team for the next challenge.'},
+{d:'business',s:'strategy',q:'Project is 70% complete but its strategic objective is now irrelevant due to a market shift. PM should recommend?',o:['Continue — 70% spent','Reduce scope to finish faster','Recommend termination or re-scoping to align with current strategy','Transfer to another team'],a:2,e:'Sunk cost fallacy: resources already spent are irrelevant. The decision is based on future value vs. future cost. If the strategic objective no longer exists, continuing wastes resources.'},
+{d:'process',s:'quality',q:'Quality audit: a process has been consistently skipped. No visible defects yet. What to do?',o:['Approve the shortcut — results justify it','Accept for now','Address and document the deviation — skipped processes are systemic risks regardless of current quality','Replace the responsible person'],a:2,e:'Quality management focuses on conformance to process, not just results. A skipped process is a systemic risk — defects may be latent. "No defects yet" is not the same as "no risk."'},
+{d:'process',s:'integration',q:'Conflicting status data from different tools. Sponsor needs a report today. What to do?',o:['Send most favorable data','Delay until all data reconciled','Quickly reconcile, identify most reliable source, provide honest report noting the discrepancy','Ask IT to fix the PMIS first'],a:2,e:'Timely, honest reporting is the PM\'s obligation. The sponsor needs accurate data. Reconcile quickly, report transparently, flag discrepancies — do not delay or cherry-pick data.'},
+{d:'process',s:'communication',q:'Stakeholder requests detailed technical reports they never read. What to do?',o:['Continue — they requested it','Stop without consulting them','Review actual communication needs and adjust format, frequency, or detail with their agreement','Escalate to their manager'],a:2,e:'Communication management is about effectiveness, not compliance with stated preferences. If reports are unused, format or content may be wrong. A collaborative review prevents wasted effort.'},
+{d:'people',s:'coaching',q:'Technically brilliant team member considered for lead role struggles with interpersonal skills. Best developmental approach?',o:['Assign full role and let them learn','Assign to someone else','Provide coaching, a mentor, graduated leadership opportunities, and clear interpersonal expectations','Keep them in technical role permanently'],a:2,e:'Development plans for high-potential members must be structured and supported. Coaching + mentoring + graduated responsibility builds capability safely.'},
+{d:'process',s:'hybrid',q:'Hybrid project: sprints for software, predictive for hardware. Hardware delay impacts a planned sprint. Do FIRST?',o:['Stop all sprints until hardware arrives','Resequence sprints to avoid hardware-dependent work and raise dependency as a project risk','Crash hardware procurement','Cancel hardware component'],a:1,e:'Adaptive sequencing is a core hybrid PM skill. Sprint work not dependent on delayed hardware can continue. The dependency should be tracked as a risk to prevent future surprises.'},
+{d:'people',s:'ethics',q:'Competitor filed a patent on a technical approach your team is developing. What to do?',o:['Continue — patents hard to enforce','Implement and let legal handle future claims','Immediately involve legal counsel, assess IP risk, identify alternatives or licensing options','Remove feature without notifying stakeholders'],a:2,e:'IP risk requires immediate expert involvement. The PM should not make IP judgments but must escalate promptly so legal and business stakeholders can make informed decisions.'},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let S={examDate:null,sessions:[],notes:[],domains:{people:0,process:0,business:0},curQ:null,sR:0,sT:0,filter:'all',timer:{w:25,s:5,l:20},tState:'idle',tMode:'work',tLeft:25*60,pCount:0,todayPomCount:0,noteTag:'People',activeSession:null};
+let tInterval=null,sabInterval=null;
+// ── SPLIT STORAGE: notes use a PERMANENT key that never changes ──────────
+// When you update the HTML with new features, only pmp_settings_* changes.
+// Your notes live in pmp_notes_v1 FOREVER, independent of any version bump.
+const NOTES_KEY = 'pmp_notes_v1';   // PERMANENT — never rename this
+const SETTINGS_KEY = 'pmp_settings_v1'; // bump only when schema changes
+
+function lsLoad(){
+  // Load settings (exam date, sessions, domains, timer, etc.)
+  try{const d=localStorage.getItem(SETTINGS_KEY);if(d){const p=JSON.parse(d);const {notes,...rest}=p;Object.assign(S,rest);}}catch(e){}
+  // Load notes separately — independent of settings version
+  try{const d=localStorage.getItem(NOTES_KEY);if(d){S.notes=JSON.parse(d);}}catch(e){}
+  S.tState='idle';S.activeSession=null;
+}
+function lsSave(){
+  // Save settings WITHOUT notes
+  try{const c={...S};delete c.activeSession;delete c.notes;localStorage.setItem(SETTINGS_KEY,JSON.stringify(c));}catch(e){}
+  // Save notes separately
+  try{localStorage.setItem(NOTES_KEY,JSON.stringify(S.notes));}catch(e){}
+}
+function lsSaveNotesOnly(){
+  try{localStorage.setItem(NOTES_KEY,JSON.stringify(S.notes));}catch(e){}
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────
+function toast(msg,type=''){
+  const t=document.getElementById('toast'),m=document.getElementById('toast-msg');
+  m.textContent=msg;t.className='toast '+(type||'');
+  t.classList.add('show');clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),2900);
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+const PNS=['dashboard','train','notes','refs','settings'];
+function go(p){
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));
+  document.getElementById('panel-'+p).classList.add('on');
+  document.querySelectorAll('.ri').forEach((n,i)=>{if(i>0&&i<6)n.classList.toggle('on',PNS[i-1]===p);});
+  document.querySelectorAll('.mni').forEach((n,i)=>n.classList.toggle('on',PNS[i]===p));
+  if(p==='dashboard')renderDash();
+  if(p==='notes')renderNotes();
+  if(p==='train'&&!S.curQ)loadQ();
+  if(p==='settings')renderSet();
+}
+function refTab(t,el){
+  document.querySelectorAll('.ref-panel').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.ref-tab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('ref-'+t).classList.add('on');
+  el.classList.add('on');
+}
+
+// ── TIMER (with session tracking) ─────────────────────────────────────────
+const CIRC=283;
+function tRender(){
+  const totalSec=(S.tMode==='work'?S.timer.w:S.tMode==='short'?S.timer.s:S.timer.l)*60;
+  const left=S.tLeft,m=Math.floor(left/60),sec=left%60;
+  document.getElementById('t-disp').textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+  const fill=document.getElementById('tr-main');
+  fill.style.strokeDashoffset=CIRC-(((totalSec-left)/totalSec)*CIRC);
+  fill.className='tr-main'+(S.tMode!=='work'?' break':'');
+  const phases={work:'FOCUS',short:'BREAK',long:'LONG BREAK'};
+  const names={work:'Work session',short:'Short break ☕',long:'Long break 🌿'};
+  document.getElementById('t-phase').textContent=phases[S.tMode]||'FOCUS';
+  document.getElementById('tm-name').textContent=names[S.tMode]||'Work session';
+  document.getElementById('tm-info').textContent='#'+(S.pCount+1)+' of 8';
+  const btn=document.getElementById('t-btn');
+  btn.textContent=S.tState==='running'?'Pause':S.tState==='paused'?'Resume':'Start';
+  btn.className='tbn go'+(S.tState==='running'?' paused':'');
+  let dots='';
+  for(let i=0;i<8;i++){
+    const c=i<S.pCount?'td done'+(i%4===3?' brk done':''):(i===S.pCount&&S.tMode==='work'&&S.tState==='running'?'td cur':'td');
+    dots+=`<div class="${c}"></div>`;
+  }
+  document.getElementById('t-dots').innerHTML=dots;
+  // sidebar stats
+  document.getElementById('sb-p').textContent=S.todayPomCount+' today';
+}
+function tToggle(){
+  if(S.tState==='idle'){
+    // start a new work session → create active session
+    if(S.tMode==='work'){
+      S.activeSession={start:Date.now(),startStr:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})};
+      showSAB();
+    }
+    S.tState='running';
+    tInterval=setInterval(tTick,1000);
+  } else if(S.tState==='paused'){
+    S.tState='running';
+    tInterval=setInterval(tTick,1000);
+  } else {
+    S.tState='paused';
+    clearInterval(tInterval);
+  }
+  tRender();lsSave();
+}
+function tTick(){
+  if(S.tLeft>0){S.tLeft--;tRender();updateSAB();}
+  else tComplete();
+}
+function tComplete(){
+  clearInterval(tInterval);S.tState='idle';
+  if(S.tMode==='work'){
+    S.pCount++;S.todayPomCount++;
+    toast('Focus session complete! 🎉 Time for a break.','ok');
+    S.tMode=S.pCount%4===0?'long':'short';
+    // auto-open log modal
+    if(S.activeSession){openLog();}
+  } else {
+    toast('Break over — let\'s focus!');
+    S.tMode='work';
+  }
+  S.tLeft=(S.tMode==='work'?S.timer.w:S.tMode==='short'?S.timer.s:S.timer.l)*60;
+  tRender();lsSave();
+}
+function tReset(){
+  clearInterval(tInterval);S.tState='idle';S.tLeft=S.timer.w*60;S.tMode='work';
+  if(S.activeSession){endSession(false);}
+  tRender();lsSave();
+}
+function tSkip(){
+  clearInterval(tInterval);S.tState='idle';
+  S.tMode=S.tMode==='work'?(S.pCount%4===0?'long':'short'):'work';
+  S.tLeft=(S.tMode==='work'?S.timer.w:S.tMode==='short'?S.timer.s:S.timer.l)*60;
+  tRender();lsSave();
+}
+function saveTimer(){
+  S.timer.w=parseInt(document.getElementById('tw').value)||25;
+  S.timer.s=parseInt(document.getElementById('tsb').value)||5;
+  S.timer.l=parseInt(document.getElementById('tlb').value)||20;
+  tReset();lsSave();toast('Timer saved','ok');
+}
+// Active session banner
+function showSAB(){
+  const b=document.getElementById('sab');b.style.display='block';
+  sabInterval=setInterval(updateSAB,1000);updateSAB();
+}
+function updateSAB(){
+  if(!S.activeSession)return;
+  const elapsed=Math.floor((Date.now()-S.activeSession.start)/1000);
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  document.getElementById('sab-elapsed').textContent=m+':'+String(s).padStart(2,'0');
+  document.getElementById('sab-since').textContent='started at '+S.activeSession.startStr;
+}
+function hideSAB(){clearInterval(sabInterval);document.getElementById('sab').style.display='none';}
+function endSession(shouldLog){
+  if(shouldLog&&S.activeSession){openLog();}
+  hideSAB();S.activeSession=null;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────
+function renderDash(){
+  const now=new Date();
+  document.getElementById('sb-date-lbl').textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});
+  // motivation
+  const q=QUOTES[Math.floor(now.getDate()+now.getMonth()*5)%QUOTES.length];
+  const tip=TIPS[Math.floor(now.getDate()/3)%TIPS.length];
+  document.getElementById('motive-wrap').innerHTML=`
+    <div class="motive-card"><div class="motive-q">"${q.q}"</div><div class="motive-src">— ${q.src}</div></div>
+    <div class="motive-tip"><div class="motive-tip-head"><span class="motive-tip-icon">${tip.icon}</span><span class="motive-tip-label">${tip.t}</span></div><div class="motive-tip-text">${tip.txt}</div></div>`;
+  if(S.examDate){
+    const diff=Math.ceil((new Date(S.examDate)-now)/86400000);
+    document.getElementById('days-chip')&&(document.getElementById('days-chip').textContent=diff>0?diff+' days':diff===0?'Today!':'Past');
+    document.getElementById('ex-days').textContent=diff>0?diff:'—';
+    document.getElementById('ex-date-lbl').textContent=new Date(S.examDate).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    document.getElementById('wl').textContent=Math.max(0,Math.ceil(diff/7))+' weeks remaining';
+    // exam ring — show % of typical 12-week prep consumed
+    const totalPrep=84;// 12 weeks
+    const elapsed=Math.max(0,totalPrep-Math.max(0,diff));
+    const pct=Math.min(100,Math.round(elapsed/totalPrep*100));
+    document.getElementById('exam-ring').style.strokeDashoffset=113-(pct/100*113);
+  }
+  // study progress bar
+  const domAvg=Math.round(Object.values(S.domains).reduce((a,b)=>a+b,0)/3);
+  document.getElementById('ex-prog-fill').style.width=domAvg+'%';
+  document.getElementById('ex-prog-pct').textContent=domAvg+'%';
+  const totalH=S.sessions.reduce((a,s)=>a+(parseFloat(s.h)||0),0);
+  const ws=new Date();ws.setDate(ws.getDate()-(ws.getDay()+6)%7);ws.setHours(0,0,0,0);
+  const wH=S.sessions.filter(s=>new Date(s.date)>=ws).reduce((a,s)=>a+(parseFloat(s.h)||0),0);
+  const scores=S.sessions.filter(x=>x.sc!=null).map(x=>x.sc).slice(-10);
+  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b)/scores.length):null;
+  const str=calcStreak();
+  document.getElementById('m-h').textContent=totalH.toFixed(1);
+  document.getElementById('m-hw').textContent='this week: '+wH.toFixed(1)+'h';
+  document.getElementById('m-q').textContent=S.sessions.reduce((a,s)=>a+(s.qc||0),0);
+  const ma=document.getElementById('m-a');
+  ma.textContent=avg?avg+'%':'—';
+  ma.style.color=avg?(avg>=75?'var(--green)':avg>=60?'var(--amber)':'var(--red)'):'';
+  document.getElementById('m-st').textContent=str;
+  document.getElementById('sb-h').textContent=totalH.toFixed(1)+'h';
+  document.getElementById('sb-q').textContent=S.sessions.reduce((a,s)=>a+(s.qc||0),0);
+  document.getElementById('sb-a').textContent=avg?avg+'%':'—';
+  document.getElementById('sb-s').textContent=str+' days';
+  renderSched();renderLog();renderDomBars();renderActGrid();
+}
+function calcStreak(){
+  if(!S.sessions.length)return 0;
+  const dates=[...new Set(S.sessions.map(s=>s.date))].sort().reverse();
+  let n=0;const t=new Date();t.setHours(0,0,0,0);let c=new Date(t);
+  for(const d of dates){const sd=new Date(d);const diff=Math.round((c-sd)/86400000);if(diff<=1){n++;c=sd;}else break;}
+  return n;
+}
+function renderSched(){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],hrs=[2,0,2,0,0,3,3];
+  const ti=(new Date().getDay()+6)%7;
+  document.getElementById('sched').innerHTML=days.map((d,i)=>`<div class="sd ${hrs[i]>0?'study':'rest'}${i===ti?' today':''}"><div class="sd-d">${d}</div><div class="sd-h">${hrs[i]>0?hrs[i]+'h':'—'}</div><div class="sd-t">${hrs[i]>0?(i>=5?'wknd':'study'):'rest'}</div></div>`).join('');
+}
+function renderLog(){
+  const rows=[...S.sessions].reverse().slice(0,5);
+  if(!rows.length){document.getElementById('log-list').innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0">No sessions yet — use the timer or log manually.</div>';return;}
+  document.getElementById('log-list').innerHTML=rows.map(s=>{
+    const cl=s.sc!=null?(s.sc>=75?'sg':s.sc>=60?'sm':'sb2'):'';
+    const dur=s.dur?` <span class="lr-dur">(${s.dur})</span>`:'';
+    return`<div class="lr"><span class="lr-dt">${s.date}</span><span class="lr-sc ${cl}">${s.sc!=null?s.sc+'%':'—'}</span><span class="lr-tp">${s.tp||'Study session'}${dur}</span><span class="lr-h">${s.h}h</span></div>`;
+  }).join('');
+}
+function renderDomBars(){
+  const cfg=[{id:'people',n:'People (42%)',c:'var(--red)'},{id:'process',n:'Process (50%)',c:'var(--green)'},{id:'business',n:'Business env. (8%)',c:'var(--blue)'}];
+  document.getElementById('doms').innerHTML=cfg.map(d=>{const p=S.domains[d.id]||0;return`<div class="dr"><span class="dn">${d.n}</span><div class="pb" style="flex:1"><div class="pf" style="width:${p}%;background:${d.c}"></div></div><span class="dp">${p}%</span></div>`;}).join('');
+}
+function renderActGrid(){
+  const t=new Date();t.setHours(0,0,0,0);const sd=new Set(S.sessions.map(s=>s.date));let h='';
+  for(let i=27;i>=0;i--){const d=new Date(t);d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];const iw=[0,6].includes(d.getDay());h+=`<div class="dot${i===0?' tod':sd.has(ds)?' on':iw?' wk':''}" title="${ds}"></div>`;}
+  document.getElementById('agrid').innerHTML=h;
+}
+
+// ── TRAIN ─────────────────────────────────────────────────────────────────
+function sf(f,el){S.filter=f;document.querySelectorAll('.fc').forEach(b=>b.classList.remove('on'));el.classList.add('on');loadQ();}
+function loadQ(){
+  let pool=Q;
+  if(S.filter==='people')pool=Q.filter(q=>q.d==='people');
+  else if(S.filter==='process')pool=Q.filter(q=>q.d==='process');
+  else if(S.filter==='business')pool=Q.filter(q=>q.d==='business');
+  else if(S.filter==='agile')pool=Q.filter(q=>q.s==='agile'||q.s==='hybrid');
+  if(!pool.length)pool=Q;
+  const q=pool[Math.floor(Math.random()*pool.length)];S.curQ=q;
+  const L=['A','B','C','D'],dc={people:'qdb-p',process:'qdb-r',business:'qdb-b'};
+  document.getElementById('qa').innerHTML=`<div class="qcard"><div class="qmeta"><span class="qdb ${dc[q.d]||'qdb-r'}">${q.d.charAt(0).toUpperCase()+q.d.slice(1)}</span><span class="qsub">${q.s.charAt(0).toUpperCase()+q.s.slice(1)}</span><span class="qn">${pool.length} in filter</span></div><div class="qtext">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<div class="opt" id="o${i}" onclick="pick(${i})"><span class="ol">${L[i]}</span><span>${o}</span></div>`).join('')}</div></div>`;
+  document.getElementById('qact').style.display='none';lsSave();
+}
+function pick(i){
+  const q=S.curQ;if(!q)return;
+  document.querySelectorAll('.opt').forEach(x=>{x.onclick=null;x.classList.add('locked');});
+  q.o.forEach((_,j)=>{const el=document.getElementById('o'+j);if(j===q.a)el.classList.add('ok');else if(j===i)el.classList.add('bad');});
+  const ok=i===q.a;if(ok)S.sR++;S.sT++;updateSBar();
+  document.querySelector('.qcard').insertAdjacentHTML('beforeend',`<div class="expl${ok?'':' ex-bad'}"><strong>${ok?'✓ Correct — ':'✗ Incorrect — '}</strong>${q.e}</div>`);
+  document.getElementById('qact').style.display='flex';lsSave();
+}
+function updateSBar(){
+  const p=S.sT?Math.round(S.sR/S.sT*100):0;
+  document.getElementById('ss-r').textContent=S.sR;document.getElementById('ss-t').textContent=S.sT;
+  document.getElementById('ss-p').textContent=S.sT?p+'%':'—';
+  const b=document.getElementById('ss-b');b.style.width=p+'%';
+  b.style.background=p>=75?'var(--green)':p>=60?'var(--amber)':'var(--red)';
+}
+function saveQNote(){
+  if(!S.curQ)return;go('notes');
+  const body=`## ${S.curQ.q}\n\n**Answer:** ${S.curQ.o[S.curQ.a]}\n\n**Reasoning:** ${S.curQ.e}`;
+  loadNoteContent('Q: '+S.curQ.q.substring(0,55)+'…',body);
+  document.querySelector('.tag-b[data-t="Process"]').click();
+  toast('Question loaded into notes','ok');
+}
+function logQSess(){
+  if(S.sT===0){toast('Answer some questions first','err');return;}
+  openLog();
+  document.getElementById('ml-s').value=Math.round(S.sR/S.sT*100);
+  document.getElementById('ml-t').value='Practice questions ('+S.sT+' answered)';
+}
+
+// ── NOTES — RICH EDITOR ───────────────────────────────────────────────────
+let editorMode='rich'; // 'rich' | 'md' | 'preview'
+let noteView='cards';
+
+// ── Markdown parser (no dependencies) ─────────────────────────────────────
+function mdToHtml(md){
+  if(!md)return '';
+  let h=md
+    // Code blocks first (before inline)
+    .replace(/```([\s\S]*?)```/g,(_,c)=>`<pre>${esc(c.trim())}</pre>`)
+    // Headings
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    // HR
+    .replace(/^---$/gm,'<hr>')
+    // Blockquote
+    .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+    // Bold + italic
+    .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/__(.+?)__/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/_(.+?)_/g,'<em>$1</em>')
+    // Strikethrough
+    .replace(/~~(.+?)~~/g,'<s>$1</s>')
+    // Inline code
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    // Highlights (custom syntax ==text==colorname)
+    .replace(/==(.+?)==(red|amber|green|blue|purple)/g,'<span class="hl-$2">$1</span>')
+    .replace(/==(.+?)==/g,'<span class="hl-amber">$1</span>')
+    // Links
+    .replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank">$1</a>')
+    // Bullet lists
+    .replace(/^[\-\*] (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs,m=>`<ul>${m}</ul>`)
+    // Numbered lists
+    .replace(/^\d+\. (.+)$/gm,'<li>$1</li>')
+    // Paragraphs (blank lines)
+    .replace(/\n\n/g,'</p><p>')
+    .replace(/\n/g,'<br>');
+  return h;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── Editor mode toggle ─────────────────────────────────────────────────────
+function setEditorMode(m){
+  editorMode=m;
+  ['rich','md','preview'].forEach(x=>{
+    document.getElementById('mode-'+x).classList.toggle('on',x===m);
+  });
+  const richWrap=document.getElementById('editor-rich-wrap');
+  const mdWrap=document.getElementById('editor-md-wrap');
+  const preWrap=document.getElementById('editor-preview-wrap');
+  if(m==='rich'){
+    richWrap.style.display='';mdWrap.style.display='none';preWrap.style.display='none';
+    // sync from MD textarea if it has content
+    const mdVal=document.getElementById('editor-md').value;
+    if(mdVal.trim()){document.getElementById('editor').innerHTML=mdToHtml(mdVal);}
+  } else if(m==='md'){
+    richWrap.style.display='none';mdWrap.style.display='';preWrap.style.display='none';
+    // sync from rich editor
+    const richHtml=document.getElementById('editor').innerHTML;
+    if(richHtml.trim())document.getElementById('editor-md').value=htmlToMd(richHtml);
+  } else {
+    richWrap.style.display='none';mdWrap.style.display='none';preWrap.style.display='';
+    // render preview
+    const src=editorMode==='preview'?(document.getElementById('editor-md').value||htmlToMd(document.getElementById('editor').innerHTML)):htmlToMd(document.getElementById('editor').innerHTML);
+    document.getElementById('editor-preview').innerHTML=mdToHtml(document.getElementById('editor-md').value||htmlToMd(document.getElementById('editor').innerHTML));
+  }
+}
+function syncMdPreview(){}
+
+// ── HTML → Markdown (for saving) ──────────────────────────────────────────
+function htmlToMd(html){
+  const d=document.createElement('div');d.innerHTML=html;
+  return nodeToMd(d).trim();
+}
+function nodeToMd(node){
+  let out='';
+  for(const c of node.childNodes){
+    if(c.nodeType===3){out+=c.textContent;}
+    else if(c.nodeType===1){
+      const t=c.tagName.toLowerCase();
+      const inner=nodeToMd(c);
+      if(t==='h1')out+=`# ${inner}\n`;
+      else if(t==='h2')out+=`## ${inner}\n`;
+      else if(t==='h3')out+=`### ${inner}\n`;
+      else if(t==='strong'||t==='b')out+=`**${inner}**`;
+      else if(t==='em'||t==='i')out+=`_${inner}_`;
+      else if(t==='s')out+=`~~${inner}~~`;
+      else if(t==='u')out+=`<u>${inner}</u>`;
+      else if(t==='code')out+='`'+inner+'`';
+      else if(t==='pre')out+='```\n'+c.textContent+'\n```\n';
+      else if(t==='blockquote')out+=`> ${inner}\n`;
+      else if(t==='li')out+=`- ${inner}\n`;
+      else if(t==='ul'||t==='ol')out+=inner;
+      else if(t==='br')out+='\n';
+      else if(t==='p'||t==='div')out+=inner+(inner.endsWith('\n')?'':'\n');
+      else if(t==='hr')out+='---\n';
+      else if(t==='a')out+=`[${inner}](${c.href})`;
+      else if(t==='span'){
+        const cls=c.className;
+        const color=cls.replace('hl-','');
+        if(cls.startsWith('hl-'))out+=`==${inner}==${color}`;
+        else out+=inner;
+      }
+      else out+=inner;
+    }
+  }
+  return out;
+}
+
+// ── Rich editor toolbar actions ────────────────────────────────────────────
+function fmt(cmd){document.getElementById('editor').focus();document.execCommand(cmd,false,null);}
+function fmtBlock(tag){
+  document.getElementById('editor').focus();
+  document.execCommand('formatBlock',false,tag);
+}
+function insertCode(){
+  document.getElementById('editor').focus();
+  const sel=window.getSelection();
+  if(sel&&sel.toString()){
+    document.execCommand('insertHTML',false,`<code>${esc(sel.toString())}</code>`);
+  } else {
+    document.execCommand('insertHTML',false,'<code>code here</code>');
+  }
+}
+function insertCodeBlock(){
+  document.getElementById('editor').focus();
+  document.execCommand('insertHTML',false,'<pre>code block here</pre><p></p>');
+}
+function highlight(color){
+  document.getElementById('editor').focus();
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed){toast('Select text first to highlight','err');return;}
+  document.execCommand('insertHTML',false,`<span class="hl-${color}">${sel.toString()}</span>`);
+}
+function clearHighlight(){
+  document.getElementById('editor').focus();
+  const sel=window.getSelection();
+  if(sel&&!sel.isCollapsed)document.execCommand('removeFormat',false,null);
+}
+function onEditorInput(){
+  const ed=document.getElementById('editor');
+  const txt=ed.innerText||'';
+  const wc=txt.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('editor-count').textContent=wc+' word'+(wc===1?'':'s');
+  // Auto markdown shortcuts in rich mode
+  autoMdShortcut(ed);
+}
+function autoMdShortcut(ed){
+  // Try to detect typed markdown-like patterns on current line
+  const sel=window.getSelection();if(!sel.rangeCount)return;
+  const range=sel.getRangeAt(0);
+  const node=range.startContainer;
+  if(node.nodeType!==3)return;
+  const txt=node.textContent;
+  const pos=range.startOffset;
+  const line=txt.substring(0,pos);
+  // **text** auto bold
+  const bbMatch=line.match(/\*\*(.+?)\*\*$/);
+  if(bbMatch){
+    const full=bbMatch[0],inner=bbMatch[1];
+    const start=txt.lastIndexOf(full);
+    if(start>=0){
+      node.textContent=txt.slice(0,start)+txt.slice(start+full.length);
+      document.execCommand('insertHTML',false,`<strong>${inner}</strong>`);
+    }
+  }
+}
+function editorKeydown(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();saveNote();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();fmt('bold');}
+  if((e.ctrlKey||e.metaKey)&&e.key==='i'){e.preventDefault();fmt('italic');}
+  if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();fmt('underline');}
+}
+
+// ── Get note body from active editor ──────────────────────────────────────
+function getNoteBody(){
+  if(editorMode==='md'){return document.getElementById('editor-md').value.trim();}
+  // from rich editor: convert to markdown for storage
+  const html=document.getElementById('editor').innerHTML;
+  return htmlToMd(html).trim();
+}
+function clearEditor(){
+  document.getElementById('editor').innerHTML='';
+  document.getElementById('editor-md').value='';
+  document.getElementById('editor-preview').innerHTML='';
+  document.getElementById('editor-count').textContent='0 words';
+  document.getElementById('nprev').textContent='';
+}
+
+// ── Tag + view ─────────────────────────────────────────────────────────────
+function selTag(el){document.querySelectorAll('.tag-b').forEach(b=>b.classList.remove('on'));el.classList.add('on');S.noteTag=el.dataset.t;}
+function updPrev(){}// legacy, no-op
+
+let noteView='topic';
+let openTopics=new Set(['People','Process','Business','Formula','Agile','Ethics']);
+let openNotes=new Set();
+
+function setNoteView(v,el){
+  noteView=v;
+  document.querySelectorAll('.vtb').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderNotes();
+}
+function toggleTopic(tag){
+  if(openTopics.has(tag))openTopics.delete(tag);else openTopics.add(tag);
+  renderNotes();
+}
+function toggleNoteRow(id){
+  if(openNotes.has(id))openNotes.delete(id);else openNotes.add(id);
+  renderNotes();
+}
+
+// ── Save note ──────────────────────────────────────────────────────────────
+function saveNote(){
+  const t=document.getElementById('nt').value.trim();
+  const b=getNoteBody();
+  if(!b){toast('Write something first','err');return;}
+  const newNote={id:Date.now(),tag:S.noteTag,title:t||S.noteTag,body:b,date:new Date().toISOString().split('T')[0]};
+  S.notes.unshift(newNote);
+  // Auto-open this topic and this note
+  openTopics.add(S.noteTag);
+  openNotes.add(newNote.id);
+  lsSaveNotesOnly();
+  clearEditor();
+  document.getElementById('nt').value='';
+  renderNotes();toast('Note saved ✓','ok');
+}
+function delNote(id){
+  if(!confirm('Delete this note?'))return;
+  S.notes=S.notes.filter(n=>n.id!==id);
+  openNotes.delete(id);
+  lsSaveNotesOnly();renderNotes();toast('Note deleted');
+}
+function editNote(id){
+  const n=S.notes.find(x=>x.id===id);if(!n)return;
+  document.getElementById('nt').value=n.title;
+  if(editorMode==='md'){
+    document.getElementById('editor-md').value=n.body;
+  } else {
+    setEditorMode('rich');
+    document.getElementById('editor').innerHTML=mdToHtml(n.body);
+  }
+  S.noteTag=n.tag;
+  document.querySelectorAll('.tag-b').forEach(b=>b.classList.toggle('on',b.dataset.t===n.tag));
+  S.notes=S.notes.filter(x=>x.id!==id);
+  openNotes.delete(id);
+  lsSaveNotesOnly();renderNotes();
+  // scroll editor into view
+  document.querySelector('.nform').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('nt').focus();
+  toast('Note loaded for editing');
+}
+function toggleExpand(){}// legacy, no-op
+
+// ── Render notes list ──────────────────────────────────────────────────────
+function renderNotes(){
+  const f=document.getElementById('nf').value;
+  const srch=(document.getElementById('ns').value||'').toLowerCase();
+  const fl=S.notes.filter(n=>(f==='all'||n.tag===f)&&(!srch||(n.body+n.title).toLowerCase().includes(srch)));
+  document.getElementById('nc').textContent=fl.length+' note'+(fl.length===1?'':'s');
+
+  if(!fl.length){
+    document.getElementById('nl').innerHTML='<div class="empty"><div class="empty-i">📝</div><div style="font-size:13px">No notes yet.<br>Start writing on the left.</div></div>';
+    return;
+  }
+
+  if(noteView==='list'){
+    // Flat accordion rows (no topic grouping)
+    document.getElementById('nl').innerHTML=fl.map(n=>`
+      <div style="border:1px solid var(--border);border-radius:var(--r2);margin-bottom:7px;background:var(--bg2);overflow:hidden">
+        <div class="note-row-header${openNotes.has(n.id)?' open':''}" onclick="toggleNoteRow(${n.id})" style="border-radius:var(--r2)">
+          <span class="note-row-chevron">▶</span>
+          <span class="ntag nt-${n.tag}">${n.tag}</span>
+          <span class="note-row-title">${n.title}</span>
+          <span class="note-row-date">${n.date}</span>
+        </div>
+        <div class="note-row-body${openNotes.has(n.id)?' open':''}">
+          <div class="note-row-content">${mdToHtml(n.body)}</div>
+          <div class="note-row-actions">
+            <button class="btn btn-sm" onclick="editNote(${n.id});event.stopPropagation()">Edit</button>
+            <button class="btn btn-sm btn-r" style="background:transparent;border:none" onclick="delNote(${n.id});event.stopPropagation()">Delete</button>
+          </div>
+        </div>
+      </div>`).join('');
+    return;
+  }
+
+  // ── Topic accordion view ────────────────────────────────────────────────
+  const TOPIC_ORDER=['People','Process','Business','Formula','Agile','Ethics'];
+  const groups={};
+  fl.forEach(n=>{if(!groups[n.tag])groups[n.tag]=[];groups[n.tag].push(n);});
+  const sortedTopics=TOPIC_ORDER.filter(t=>groups[t]).concat(Object.keys(groups).filter(t=>!TOPIC_ORDER.includes(t)));
+
+  let html='';
+  sortedTopics.forEach(tag=>{
+    const notes=groups[tag];
+    const isOpen=openTopics.has(tag);
+    html+=`<div class="topic-group">
+      <div class="topic-header${isOpen?' open':''}" onclick="toggleTopic('${tag}')">
+        <span class="topic-chevron">▶</span>
+        <span class="topic-tag nt-${tag}">${tag}</span>
+        <span class="topic-name">${tag}</span>
+        <span class="topic-count">${notes.length}</span>
+      </div>
+      <div class="topic-body${isOpen?' open':''}">
+        ${notes.map(n=>{
+          const isNoteOpen=openNotes.has(n.id);
+          return`<div class="note-row">
+            <div class="note-row-header${isNoteOpen?' open':''}" onclick="toggleNoteRow(${n.id})">
+              <span class="note-row-chevron">▶</span>
+              <span class="note-row-title">${n.title}</span>
+              <span class="note-row-date">${n.date}</span>
+            </div>
+            <div class="note-row-body${isNoteOpen?' open':''}">
+              <div class="note-row-content">${mdToHtml(n.body)}</div>
+              <div class="note-row-actions">
+                <button class="btn btn-sm" onclick="editNote(${n.id});event.stopPropagation()">Edit</button>
+                <button class="btn btn-sm btn-r" style="background:transparent;border:none" onclick="delNote(${n.id});event.stopPropagation()">Delete</button>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  document.getElementById('nl').innerHTML=html;
+}
+
+// ── Populate editor when saving Q as note ─────────────────────────────────
+function loadNoteContent(t,body){
+  document.getElementById('nt').value=t;
+  if(editorMode==='md'){
+    document.getElementById('editor-md').value=body;
+  } else {
+    setEditorMode('rich');
+    document.getElementById('editor').innerHTML=mdToHtml(body);
+  }
+}
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────
+function renderSet(){
+  if(S.examDate)document.getElementById('ex-d').value=S.examDate;
+  document.getElementById('sl-d').value=new Date().toISOString().split('T')[0];
+  document.getElementById('tw').value=S.timer.w;document.getElementById('tsb').value=S.timer.s;document.getElementById('tlb').value=S.timer.l;
+  const cfg=[{id:'people',n:'People domain (42%)',c:'var(--red)'},{id:'process',n:'Process domain (50%)',c:'var(--green)'},{id:'business',n:'Business environment (8%)',c:'var(--blue)'}];
+  document.getElementById('dom-sl').innerHTML=cfg.map(d=>{const v=S.domains[d.id]||0;return`<div class="slf"><div class="slh"><span style="color:var(--text2)">${d.n}</span><span class="slv" id="sv-${d.id}">${v}%</span></div><input type="range" min="0" max="100" step="5" value="${v}" id="sl-${d.id}" oninput="document.getElementById('sv-${d.id}').textContent=this.value+'%'"></div>`;}).join('');
+  // all sessions list
+  const rows=[...S.sessions].reverse();
+  document.getElementById('all-sessions').innerHTML=rows.length?rows.map(s=>{const cl=s.sc!=null?(s.sc>=75?'sg':s.sc>=60?'sm':'sb2'):'';return`<div class="lr"><span class="lr-dt">${s.date}</span><span class="lr-sc ${cl}">${s.sc!=null?s.sc+'%':'—'}</span><span class="lr-tp">${s.tp||'Study session'}</span><span class="lr-h">${s.h}h</span></div>`;}).join(''):'<div style="font-size:12px;color:var(--text3)">No sessions logged yet.</div>';
+}
+function saveDate(){S.examDate=document.getElementById('ex-d').value;lsSave();renderDash();go('dashboard');toast('Exam date saved','ok');}
+function saveDoms(){['people','process','business'].forEach(id=>{S.domains[id]=parseInt(document.getElementById('sl-'+id).value)||0;});lsSave();renderDash();toast('Domain progress saved','ok');}
+function logSet(){
+  const dt=document.getElementById('sl-d').value,h=parseFloat(document.getElementById('sl-h').value)||0,sc=document.getElementById('sl-s').value,tp=document.getElementById('sl-t').value.trim();
+  if(!dt||!h){toast('Fill in date and hours','err');return;}
+  S.sessions.push({date:dt,h,sc:sc?parseInt(sc):null,tp,qc:S.sT,dur:null});S.sR=0;S.sT=0;updateSBar();lsSave();renderDash();toast('Session logged ✓','ok');
+}
+
+// ── MODAL (timer-driven logging) ───────────────────────────────────────────
+function openLog(){
+  document.getElementById('log-modal').classList.add('open');
+  document.getElementById('ml-s').value='';
+  if(!document.getElementById('ml-t').value)document.getElementById('ml-t').value='';
+  // fill summary from active session or defaults
+  const h=S.activeSession?((Date.now()-S.activeSession.start)/3600000).toFixed(2):(S.timer.w/60).toFixed(2);
+  const start=S.activeSession?S.activeSession.startStr:'—';
+  const end=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  const elapsed=S.activeSession?formatElapsed(Math.floor((Date.now()-S.activeSession.start)/1000)):`${S.timer.w}:00`;
+  document.getElementById('sess-summary').innerHTML=`<div style="display:flex;gap:16px;flex-wrap:wrap"><span>🕐 ${start} → ${end}</span><span>⏱ ${elapsed}</span><span>📚 ${parseFloat(h).toFixed(2)}h</span></div>`;
+  document.getElementById('log-modal')._h=parseFloat(h);
+}
+function formatElapsed(secs){const m=Math.floor(secs/60),s=secs%60;return m+':'+String(s).padStart(2,'0');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function logMod(){
+  const sc=document.getElementById('ml-s').value,tp=document.getElementById('ml-t').value.trim();
+  const h=document.getElementById('log-modal')._h||S.timer.w/60;
+  const dt=new Date().toISOString().split('T')[0];
+  const start=S.activeSession?S.activeSession.startStr:null;
+  const end=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  const dur=start?start+'–'+end:null;
+  S.sessions.push({date:dt,h:parseFloat(h.toFixed(2)),sc:sc?parseInt(sc):null,tp,qc:S.sT,dur});
+  S.sR=0;S.sT=0;updateSBar();S.activeSession=null;hideSAB();
+  lsSave();closeM('log-modal');renderDash();toast('Session logged ✓','ok');
+}
+document.getElementById('log-modal').addEventListener('click',function(e){if(e.target===this)closeM('log-modal');});
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+function expD(){
+  const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='pmp_all_'+new Date().toISOString().split('T')[0]+'.json';a.click();
+  toast('All data exported ✓','ok');
+}
+function impD(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const p=JSON.parse(ev.target.result);
+      Object.assign(S,p);
+      lsSave();renderDash();renderNotes();tRender();
+      toast('All data imported ✓','ok');
+    }catch(x){toast('Invalid file','err');}
+  };r.readAsText(f);
+}
+function clrD(){
+  if(confirm('Reset sessions, settings and exam data?\n\nYour notes will NOT be deleted (they have separate storage).')){
+    const savedNotes=S.notes;
+    S={examDate:null,sessions:[],notes:savedNotes,domains:{people:0,process:0,business:0},curQ:null,sR:0,sT:0,filter:'all',timer:{w:25,s:5,l:20},tState:'idle',tMode:'work',tLeft:25*60,pCount:0,todayPomCount:0,noteTag:'People',activeSession:null};
+    lsSave();renderDash();renderNotes();updateSBar();tRender();
+    toast('Settings reset — notes kept safe');
+  }
+}
+// Notes-specific export/import/clear
+function expNotes(){
+  const b=new Blob([JSON.stringify(S.notes,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='pmp_notes_'+new Date().toISOString().split('T')[0]+'.json';a.click();
+  toast('Notes exported ✓','ok');
+}
+function impNotes(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const notes=JSON.parse(ev.target.result);
+      if(!Array.isArray(notes))throw new Error('Not an array');
+      // Merge: avoid duplicates by id
+      const existingIds=new Set(S.notes.map(n=>n.id));
+      const newNotes=notes.filter(n=>!existingIds.has(n.id));
+      S.notes=[...S.notes,...newNotes];
+      lsSaveNotesOnly();renderNotes();
+      toast(`Imported ${newNotes.length} note${newNotes.length===1?'':'s'} ✓`,'ok');
+    }catch(x){toast('Invalid notes file','err');}
+  };r.readAsText(f);
+}
+function clrNotes(){
+  if(confirm('Delete ALL notes? This cannot be undone.\n\nExport them first if you want a backup.')){
+    S.notes=[];openNotes.clear();
+    lsSaveNotesOnly();renderNotes();
+    toast('All notes cleared');
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+lsLoad();
+document.getElementById('tr-main').style.strokeDasharray=CIRC;
+tRender();renderDash();loadQ();renderNotes();
+</script></body></html>
