@@ -971,18 +971,30 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
         <label class="fl">JSONbin Master Key</label>
         <input type="password" id="jb-key" placeholder="$2a$10$..." autocomplete="off" style="font-family:var(--fm);font-size:12px">
       </div>
-      <button class="btn btn-p btn-sm" style="width:100%" onclick="cloudConnect()">Connect & create storage bin</button>
+      <div class="fld" style="margin-top:-4px">
+        <label class="fl">Bin ID <span style="color:var(--text4);text-transform:none;font-family:var(--ff)">(optional — leave blank on first device)</span></label>
+        <input type="text" id="jb-binid" placeholder="paste from your first device" autocomplete="off" style="font-family:var(--fm);font-size:12px">
+      </div>
+      <button class="btn btn-p btn-sm" style="width:100%" onclick="cloudConnect()">Connect</button>
     </div>
     <!-- CONNECTED panel (shown when configured) -->
     <div id="sync-connected" style="display:none">
-      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
-        <button class="btn btn-sm btn-g" onclick="cloudPush()">↑ Push notes to cloud</button>
-        <button class="btn btn-sm" onclick="cloudPull()">↓ Pull notes from cloud</button>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-sm btn-g" onclick="cloudPush()">↑ Push</button>
+        <button class="btn btn-sm" onclick="cloudPull()">↓ Pull</button>
         <button class="btn btn-sm btn-r" onclick="cloudDisconnect()">Disconnect</button>
       </div>
-      <p style="font-size:11px;color:var(--text3);line-height:1.6">
-        Notes auto-sync on save and on app open. You can also push/pull manually.<br>
-        Bin ID: <span id="sync-bin-id" style="font-family:var(--fm);color:var(--text4)">—</span>
+      <!-- Bin ID box — copy to use on second device -->
+      <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;margin-bottom:8px">
+        <div style="font-family:var(--fm);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Your Bin ID — copy this to connect on a second device</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span id="sync-bin-id" style="font-family:var(--fm);font-size:11px;color:var(--amber);flex:1;word-break:break-all">—</span>
+          <button class="btn btn-xs" onclick="copyBinId()" style="flex-shrink:0">Copy</button>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text3);line-height:1.7">
+        Auto-syncs on every note save and on app open.<br>
+        On a new device: enter your API key + paste the Bin ID above.
       </p>
     </div>
   </div>
@@ -1216,10 +1228,67 @@ function setSyncStatus(state, msg, detail=''){
 
 async function cloudConnect(){
   const key=document.getElementById('jb-key').value.trim();
+  const manualBinId=document.getElementById('jb-binid').value.trim();
   if(!key){toast('Paste your Master Key first','err');return;}
+
+  setSyncStatus('busy','Connecting…');
+
+  // Case 1: User pasted a Bin ID manually (second device scenario)
+  if(manualBinId){
+    try{
+      // Verify the bin is reachable
+      const test=await fetch(JB+'/'+manualBinId+'/latest',{headers:{'X-Master-Key':key}});
+      if(!test.ok)throw new Error('Bin not found — check the ID');
+      const data=await test.json();
+      const remoteNotes=data.record.notes||[];
+      // Merge remote notes into local
+      const existingIds=new Set(S.notes.map(n=>n.id));
+      const merged=[...S.notes,...remoteNotes.filter(n=>!existingIds.has(n.id))];
+      S.notes=merged.sort((a,b)=>b.id-a.id);
+      lsSaveNotesOnly();renderNotes();
+      cloud={apiKey:key,binId:manualBinId,lastSync:new Date().toISOString()};
+      lsSaveCloud();renderSyncUI();
+      setSyncStatus('ok','Connected — notes merged from cloud',syncTimeLabel());
+      toast('Connected to existing bin ✓','ok');
+    }catch(e){
+      setSyncStatus('err','Failed: '+e.message);
+      toast('Connection failed: '+e.message,'err');
+    }
+    return;
+  }
+
+  // Case 2: No Bin ID — try to find existing 'pmp-notes' bin first
+  setSyncStatus('busy','Looking for existing bin…');
+  try{
+    const listRes=await fetch('https://api.jsonbin.io/v3/b',{headers:{'X-Master-Key':key}});
+    if(listRes.ok){
+      const bins=await listRes.json();
+      // Look for a bin named pmp-notes
+      const existing=Array.isArray(bins)?bins.find(b=>b.snippetMeta&&b.snippetMeta.name==='pmp-notes'):null;
+      if(existing){
+        // Found existing bin — pull notes from it
+        setSyncStatus('busy','Found existing bin, pulling notes…');
+        const binRes=await fetch(JB+'/'+existing.record+'/latest',{headers:{'X-Master-Key':key}});
+        if(binRes.ok){
+          const data=await binRes.json();
+          const remoteNotes=data.record.notes||[];
+          const existingIds=new Set(S.notes.map(n=>n.id));
+          const merged=[...S.notes,...remoteNotes.filter(n=>!existingIds.has(n.id))];
+          S.notes=merged.sort((a,b)=>b.id-a.id);
+          lsSaveNotesOnly();renderNotes();
+          cloud={apiKey:key,binId:existing.record,lastSync:new Date().toISOString()};
+          lsSaveCloud();renderSyncUI();
+          setSyncStatus('ok','Reconnected — notes merged',syncTimeLabel());
+          toast('Reconnected to existing bin ✓','ok');
+          return;
+        }
+      }
+    }
+  }catch(e){/* list API failed, fall through to create */}
+
+  // Case 3: No existing bin found — create a new one
   setSyncStatus('busy','Creating your notes bin…');
   try{
-    // Create a private bin with current notes
     const res=await fetch(JB,{
       method:'POST',
       headers:{'Content-Type':'application/json','X-Master-Key':key,'X-Bin-Name':'pmp-notes','X-Bin-Private':'true'},
@@ -1227,10 +1296,9 @@ async function cloudConnect(){
     });
     if(!res.ok)throw new Error('HTTP '+res.status);
     const data=await res.json();
-    cloud={apiKey:key, binId:data.metadata.id, lastSync:new Date().toISOString()};
-    lsSaveCloud();
-    renderSyncUI();
-    setSyncStatus('ok','Connected — notes saved to cloud',syncTimeLabel());
+    cloud={apiKey:key,binId:data.metadata.id,lastSync:new Date().toISOString()};
+    lsSaveCloud();renderSyncUI();
+    setSyncStatus('ok','Connected — bin created',syncTimeLabel());
     toast('Cloud sync connected ✓','ok');
   }catch(e){
     setSyncStatus('err','Connection failed — check your API key');
@@ -1291,6 +1359,16 @@ function cloudDisconnect(){
   lsSaveCloud();
   renderSyncUI();
   toast('Cloud sync disconnected');
+}
+function copyBinId(){
+  if(!cloud.binId)return;
+  navigator.clipboard.writeText(cloud.binId).then(()=>toast('Bin ID copied ✓','ok')).catch(()=>{
+    // Fallback for browsers without clipboard API
+    const el=document.createElement('textarea');
+    el.value=cloud.binId;document.body.appendChild(el);el.select();
+    document.execCommand('copy');document.body.removeChild(el);
+    toast('Bin ID copied ✓','ok');
+  });
 }
 
 function syncTimeLabel(){
